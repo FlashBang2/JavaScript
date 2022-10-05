@@ -127,11 +127,14 @@ window.addEventListener('DOMContentLoaded', () =>{
                 tiles.appendChild(div);
             }
         }
+        addClickEventForTiles();
     } 
 
-    /* tiles.forEach((tile,index) =>{
-        tile.addEventListener('click', ()=>userAction(tile,index));
-    }); */
+    const addClickEventForTiles = () => {
+        Array.from(document.querySelectorAll('.tile')).forEach((tile,index) =>{
+            tile.addEventListener('click', ()=>userAction(tile,index));
+        }); 
+    }     
 
     resetButton.addEventListener('click', resetBoard);
     selectButton.addEventListener("click", () => generateBoard(select.value));
