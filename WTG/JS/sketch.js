@@ -1,6 +1,7 @@
 window.addEventListener('DOMContentLoaded', () =>{
     const form = document.querySelector(".form");
     const tiles = document.querySelector('.container');
+    const display = document.querySelector('.display')
     const playerDisplay = document.querySelector('.display-player');
     const resetButton = document.querySelector('#reset');
     const select = form.querySelector("#boardSize");
@@ -115,6 +116,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     const generateBoard = (dimension) =>{
         selectButton.style.display = "none";
         select.style.display = "none";
+        display.style.display = "block";
+        resetButton.style.display = "block";
         tiles.style.maxWidth = `${100*dimension}px`
         for (var x = 0; x < dimension; x++)
         {
