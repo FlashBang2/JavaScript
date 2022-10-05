@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () =>{
     const form = document.querySelector(".form");
-    const titles = Array.from(document.querySelectorAll('.tile'));
+    const tiles = Array.from(document.querySelectorAll('.tile'));
     const playerDisplay = document.querySelector('.display-player');
     const resetButton = document.querySelector('#reset');
     const select = form.querySelector("select[name=boardSize]");
@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         [0, 4, 8],
         [2, 4, 6]
     ];
-    function handleResultValidation(){
+    const handleResultValidation = () => {
         let roundWon = false;
         for (let  i = 0; i <= 7; i++){
             const winCondition = winningConditions[i];
@@ -103,7 +103,7 @@ window.addEventListener('DOMContentLoaded', () =>{
             changePlayer();
         }
 
-        titles.forEach(tile =>{
+        tiles.forEach(tile =>{
             tile.innerText = '';
             tile.classList.remove('playerX');
             tile.classList.remove('playerO');
@@ -114,7 +114,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         let boardSize=value;
     } 
 
-    titles.forEach((tile,index) =>{
+    tiles.forEach((tile,index) =>{
         tile.addEventListener('click', ()=>userAction(tile,index));
     });
 
