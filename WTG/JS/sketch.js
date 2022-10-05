@@ -115,9 +115,13 @@ window.addEventListener('DOMContentLoaded', () =>{
     const generateBoard = (dimension) =>{
         selectButton.style.display = "none";
         select.style.display = "none";
-        tiles.style.gridTemplateColumns = `${100/dimension}% ${100/dimension}% ${100/dimension}%`;
-        tiles.style.gridTemplateRows = `${100/dimension}% ${100/dimension}% ${100/dimension}`;
-        tiles.style.maxWidth = `300px`
+        tiles.style.gridTemplateColumns = `${100/dimension}% `;
+        tiles.style.gridTemplateRows = `${100/dimension}%`;
+        for (let i =1  ; i < dimension; i++) {
+            tiles.style.gridTemplateColumns += `${100/dimension}% `;
+            tiles.style.gridTemplateRows += `${100/dimension}%`;
+        }
+        tiles.style.maxWidth = `${100*dimension}px`
         for (var x = 0; x < dimension; x++)
         {
             for (var y = 0; y < dimension; y++)
