@@ -8,9 +8,9 @@ window.addEventListener('DOMContentLoaded', () =>{
     const announcer = document.querySelector('.announcer');
 
 
-    let boardSize=3;
-    let board=[];
-    board.length =boardSize*boardSize;
+    let boardSize = 3;
+    let board = [];
+    board.length = boardSize * boardSize;
     board.fill("");
     let currentPlayer = 'X';
     let isGameActive = true;
@@ -63,7 +63,7 @@ window.addEventListener('DOMContentLoaded', () =>{
                 announcer.innerHTML = 'Player <span class="playerX">X</span> Won';
                 break;
             case TIE:
-                announcer.innerText ='Tie';
+                announcer.innerText = 'Tie';
                 break;
         }
         announcer.classList.remove('hide');
