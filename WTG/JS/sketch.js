@@ -7,7 +7,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
-
     let boardSize = 3;
     let board = [];
     board.length = boardSize * boardSize;
