@@ -64,8 +64,35 @@
     margin-top: 1em;
 }
 
+.form{
+    margin: 0 auto;
+    text-align: center;
+}
+
 #reset{
     background-color: red;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    font-size: 20px;
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+#confirm{
+    background-color: green;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    font-size: 20px;
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+#boardSize{
+    background-color: green;
     color: white;
     padding: 8px;
     border-radius: 8px;

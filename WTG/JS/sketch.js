@@ -1,10 +1,15 @@
 window.addEventListener('DOMContentLoaded', () =>{
+    const form = document.querySelector(".form");
     const tiles = Array.from(document.querySelectorAll('.tile'));
     const playerDisplay = document.querySelector('.display-player');
     const resetButton = document.querySelector('#reset');
+    const select = form.querySelector("select[name=boardSize]");
+    const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
-    let board = ['','','','','','','','',''];
+
+    let boardSize=3;
+    let board=['','','','','','','','',''];
     let currentPlayer = 'X';
     let isGameActive = true;
 
@@ -103,11 +108,16 @@ window.addEventListener('DOMContentLoaded', () =>{
             tile.classList.remove('playerX');
             tile.classList.remove('playerO');
         });
-    }   
+    } 
+    
+    const newSize = (value) =>{
+        let boardSize=value;
+    } 
 
     tiles.forEach((tile,index) =>{
         tile.addEventListener('click', ()=>userAction(tile,index));
     });
 
     resetButton.addEventListener('click', resetBoard);
+    selectButton.addEventListener("click", ()=>newSize(select.value));
 });
