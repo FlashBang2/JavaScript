@@ -8,8 +8,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     const announcer = document.querySelector('.announcer');
 
 
-    let boardSize=3;
-    let board=['','','','','','','','',''];
+    let boardSize = 3;
+    let board = ['','','','','','','','',''];
     let currentPlayer = 'X';
     let isGameActive = true;
 
