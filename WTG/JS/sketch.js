@@ -42,7 +42,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     };
 
     const updateBoard = (index) => {
-        
+
     }
 
     const changePlayer = () =>{
@@ -63,18 +63,15 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const resetBoard = () =>{
-        isGameActive = true;
-        announcer.classList.add('hide');
-
-        if (currentPlayer === 'O'){
-            changePlayer();
-        }
-
-        tiles.forEach(tile =>{
-            tile.innerText = '';
-            tile.classList.remove('playerX');
-            tile.classList.remove('playerO');
-        });
+       Array.from(document.querySelectorAll('.tile')).forEach((tile) =>{
+        tile.remove();
+        tiles.style.gridTemplateColumns = "";
+        tiles.style.gridTemplateRows = "";
+        selectButton.style.display = "inline";
+        select.style.display = "inline";
+        display.style.display = "none";
+        resetButton.style.display = "none";
+       });
     } 
     
     const generateBoard = (dimension) =>{
