@@ -1,10 +1,10 @@
 window.addEventListener('DOMContentLoaded', () =>{
-    const titles = Array.from(document.querySelectorAll('.tile'));
+    const tiles = Array.from(document.querySelectorAll('.tile'));
     const playerDisplay = document.querySelector('.display-player');
     const resetButton = document.querySelector('#reset');
     const announcer = document.querySelector('.announcer');
 
-    let board=['','','','','','','','',''];
+    let board = ['','','','','','','','',''];
     let currentPlayer = 'X';
     let isGameActive = true;
 
@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         [0, 4, 8],
         [2, 4, 6]
     ];
-    function handleResultValidation(){
+    const handleResultValidation = () => {
         let roundWon = false;
         for (let  i = 0; i <= 7; i++){
             const winCondition = winningConditions[i];
@@ -98,14 +98,14 @@ window.addEventListener('DOMContentLoaded', () =>{
             changePlayer();
         }
 
-        titles.forEach(tile =>{
+        tiles.forEach(tile =>{
             tile.innerText = '';
             tile.classList.remove('playerX');
             tile.classList.remove('playerO');
         });
     }   
 
-    titles.forEach((tile,index) =>{
+    tiles.forEach((tile,index) =>{
         tile.addEventListener('click', ()=>userAction(tile,index));
     });
 
