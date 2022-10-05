@@ -112,7 +112,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         });
     } 
     
-    const newSize = (dimension) =>{
+    const generateBoard = (dimension) =>{
         selectButton.style.display = "none";
         select.style.display = "none";
         tiles.style.gridTemplateColumns = `${100/dimension}% ${100/dimension}% ${100/dimension}%`;
@@ -134,5 +134,5 @@ window.addEventListener('DOMContentLoaded', () =>{
     }); */
 
     resetButton.addEventListener('click', resetBoard);
-    selectButton.addEventListener("click", () => newSize(select.value));
+    selectButton.addEventListener("click", () => generateBoard(select.value));
 });
