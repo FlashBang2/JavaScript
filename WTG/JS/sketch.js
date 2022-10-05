@@ -62,7 +62,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     };
 
     const isValidAction = (title) =>{
-        if(title.innerText === 'X' || tile.innerText === 'O'){
+        if(title.innerText === 'X' || title.innerText === 'O'){
             return false;
         }
         return true;
