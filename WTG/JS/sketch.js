@@ -3,13 +3,15 @@ window.addEventListener('DOMContentLoaded', () =>{
     const tiles = Array.from(document.querySelectorAll('.tile'));
     const playerDisplay = document.querySelector('.display-player');
     const resetButton = document.querySelector('#reset');
-    const select = form.querySelector("select[name=boardSize]");
+    const select = form.querySelector("#boardSize");
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
 
     let boardSize=3;
-    let board=['','','','','','','','',''];
+    let board=[];
+    board.length =boardSize*boardSize;
+    board.fill("");
     let currentPlayer = 'X';
     let isGameActive = true;
 
@@ -112,6 +114,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     
     const newSize = (value) =>{
         let boardSize=value;
+        console.log(boardSize);
+
     } 
 
     tiles.forEach((tile,index) =>{
