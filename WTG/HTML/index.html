@@ -7,6 +7,7 @@
         <title> Tic-Tac-Toe</title>
     </head>
     <body>
+        
         <main class="background">
             <section class="title">
                 <h1>Tic Tac Toe</h1>
@@ -14,6 +15,14 @@
             <section class="display">
                 Player <span class="display-player playerX">X</span>'s turn
             </section>
+            <form class="form">
+                <select name="boardSize" id="boardSize">
+                    <option value="3"> 3x3 </option>
+                    <option value="4"> 4x4 </option>
+                    <option value="5"> 5x5 </option>
+                </select>
+                <button id="confirm">Confirme</button>
+            </form>
             <section class="container">
                 <div class="tile"></div>
                 <div class="tile"></div>
