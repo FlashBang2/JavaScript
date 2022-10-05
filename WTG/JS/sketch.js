@@ -61,8 +61,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         announcer.classList.remove('hide');
     };
 
-    const isValidAction = (title) =>{
-        if(title.innerText === 'X' || title.innerText === 'O'){
+    const isValidAction = (tile) =>{
+        if(tile.innerText === 'X' || tile.innerText === 'O'){
             return false;
         }
         return true;
