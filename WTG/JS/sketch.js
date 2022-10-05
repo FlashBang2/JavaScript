@@ -7,7 +7,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
-
     let boardSize = 3;
     let board = ['','','','','','','','',''];
     let currentPlayer = 'X';
@@ -27,6 +26,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         [0, 4, 8],
         [2, 4, 6]
     ];
+
     const handleResultValidation = () => {
         let roundWon = false;
         for (let  i = 0; i <= 7; i++){
