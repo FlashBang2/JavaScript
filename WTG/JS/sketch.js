@@ -8,10 +8,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
-    let boardSize = 3;
-    let board = [];
-    board.length = boardSize * boardSize;
-    board.fill("");
     let currentPlayer = 'X';
     let isGameActive = true;
 
@@ -19,39 +15,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     const PlayerO_WON = 'PLAYERO_WON';
     const TIE = 'TIE';
 
-    const winningConditions = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
-
     const handleResultValidation = () => {
-        let roundWon = false;
-        for (let  i = 0; i <= 7; i++){
-            const winCondition = winningConditions[i];
-            const a = board[winCondition[0]];
-            const b = board[winCondition[1]];
-            const c = board[winCondition[2]];
-            if (a === '' || b === '' || c === ''){
-                continue;
-            }
-            if (a === b && b === c){
-                roundWon = true;
-                break;
-            }
-        }
-        if (roundWon){
-            announce(currentPlayer === 'X' ? PlayerX_WON : PlayerO_WON);
-            isGameActive = false;
-            return;
-        }
-        if (!board.includes(''))
-            announce(TIE);    
+        
     }
 
     const announce = (type) =>{
@@ -77,7 +42,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     };
 
     const updateBoard = (index) => {
-        board[index] = currentPlayer;
+        
     }
 
     const changePlayer = () =>{
@@ -98,7 +63,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const resetBoard = () =>{
-        board = ['', '', '', '', '', '', '', '', ''];
         isGameActive = true;
         announcer.classList.add('hide');
 
