@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () =>{
-    const titles = Array.from(document.querySelectorAll('.title'));
+    const titles = Array.from(document.querySelectorAll('.tile'));
     const playerDisplay = document.querySelector('.display-player');
     const resetButton = document.querySelector('#reset');
     const announcer = document.querySelector('.announcer');
