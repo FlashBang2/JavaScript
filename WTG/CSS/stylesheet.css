@@ -23,6 +23,7 @@
     text-align: center;
     margin-top: 1em;
     margin-bottom: 1em;
+    display: none;
 }
 
 .hide{
@@ -78,6 +79,7 @@
     font-size: 20px;
     margin-left: 1em;
     cursor: pointer;
+    display: none;
 }
 
 #confirm{

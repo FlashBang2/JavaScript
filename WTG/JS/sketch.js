@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () =>{
     const form = document.querySelector(".form");
-    const tiles = Array.from(document.querySelectorAll('.tile'));
+    const tiles = document.querySelector('.container');
     const playerDisplay = document.querySelector('.display-player');
     const resetButton = document.querySelector('#reset');
     const select = form.querySelector("#boardSize");
@@ -112,14 +112,26 @@ window.addEventListener('DOMContentLoaded', () =>{
         });
     } 
     
-    const newSize = (value) =>{
-        let boardSize = value;
-        console.log(boardSize);
+    const newSize = (dimension) =>{
+        selectButton.style.display = "none";
+        select.style.display = "none";
+        tiles.style.gridTemplateColumns = `${100/dimension}% ${100/dimension}% ${100/dimension}%`;
+        tiles.style.gridTemplateRows = `${100/dimension}% ${100/dimension}% ${100/dimension}`;
+        tiles.style.maxWidth = `300px`
+        for (var x = 0; x < dimension; x++)
+        {
+            for (var y = 0; y < dimension; y++)
+            {
+                var div = document.createElement('div');
+                div.setAttribute("class", "tile");
+                tiles.appendChild(div);
+            }
+        }
     } 
 
-    tiles.forEach((tile,index) =>{
+    /* tiles.forEach((tile,index) =>{
         tile.addEventListener('click', ()=>userAction(tile,index));
-    });
+    }); */
 
     resetButton.addEventListener('click', resetBoard);
     selectButton.addEventListener("click", () => newSize(select.value));
