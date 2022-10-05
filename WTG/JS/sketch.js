@@ -114,9 +114,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     } 
     
     const newSize = (value) =>{
-        let boardSize=value;
+        let boardSize = value;
         console.log(boardSize);
-
     } 
 
     tiles.forEach((tile,index) =>{
@@ -124,5 +123,5 @@ window.addEventListener('DOMContentLoaded', () =>{
     });
 
     resetButton.addEventListener('click', resetBoard);
-    selectButton.addEventListener("click", ()=>newSize(select.value));
+    selectButton.addEventListener("click", () => newSize(select.value));
 });
