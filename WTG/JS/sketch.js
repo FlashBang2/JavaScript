@@ -148,7 +148,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         select.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
-        tiles.style.maxWidth = `${100*currentBoardSize}px`
+        tiles.style.maxWidth = `${100*currentBoardSize}px`;
         for (var x = 0; x < currentBoardSize; x++)
         {
             tiles.style.gridTemplateColumns += `${100/currentBoardSize}% `;
