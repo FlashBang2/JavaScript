@@ -11,6 +11,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     let currentPlayer = 'O';
     let isGameActive = true;
+    let isAgainstAI = false;
     let board;
     let currentBoardSize;
     let counter = 0;
@@ -168,7 +169,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const addClickEventForTiles = () => {
         board = Array.from(document.querySelectorAll('.tile'));
         board.forEach((tile) =>{
-            tile.addEventListener('click',userAction(tile));
+            tile.addEventListener('click',() =>userAction(tile));
             tile.style.minWidth = `${(300*(100/currentBoardSize))/(100)}px`;
             tile.style.minHeight = `${(300*(100/currentBoardSize))/(100)}px`;
             tile.style.fontSize = `${(150*(100/currentBoardSize))/(100)}px`;
@@ -176,8 +177,10 @@ window.addEventListener('DOMContentLoaded', () =>{
     }     
 
     const gameHandler = () => {
-        if (gameModeTool.value == "PlayerVSAI")
-
+        /*if (gameModeTool.value == "PlayerVSAI")
+            isAgainstAI = true;
+        else
+            isAgainstAI = false;*/
         generateBoard(boardSizeTool.value);
     }
 
