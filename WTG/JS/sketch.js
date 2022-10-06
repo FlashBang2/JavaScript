@@ -11,17 +11,34 @@ window.addEventListener('DOMContentLoaded', () =>{
     let currentPlayer = 'X';
     let isGameActive = true;
     let board;
+    let currentBoardSize;
+    let counter = 0;
 
-    const PlayerX_WON = 'PLAYERX_WON';
-    const PlayerO_WON = 'PLAYERO_WON';
     const TIE = 'TIE';
 
     const handleResultValidation = () =>{
-        
+       if (validateResultRows())
+        {
+            isGameActive = false;
+            announce(currentPlayer);
+        }
     }
 
     const validateResultRows = () =>{
-        
+        for (var y = 0;y < currentBoardSize;y++)
+        {
+            counter = 0;
+            for (var x = currentBoardSize * y;x < currentBoardSize * (y + 1);x++)
+            {
+                if (board[x].classList.contains(`player${currentPlayer}`))
+                    counter++
+                else
+                    break
+            }
+            if (counter == currentBoardSize)
+                return true;
+            return false;    
+        }
     }
 
     const validateResultColumns = () =>{
@@ -34,17 +51,17 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     const announce = (type) =>{
         switch(type){
-            case PlayerO_WON:
+            case 'O':
                 announcer.innerHTML = 'Player <span class="playerO">O</span> Won';
                 break;
-            case PlayerX_WON:
+            case 'X':
                 announcer.innerHTML = 'Player <span class="playerX">X</span> Won';
                 break;
             case TIE:
                 announcer.innerText = 'Tie';
                 break;
         }
-        announcer.classList.remove('hide');
+        announcer.style.display = "block";
     };
 
     const isValidAction = (tile) =>{
@@ -84,20 +101,23 @@ window.addEventListener('DOMContentLoaded', () =>{
         select.style.display = "inline";
         display.style.display = "none";
         resetButton.style.display = "none";
+        announcer.style.display = "none";
        });
     } 
     
     const generateBoard = (dimension) =>{
+        isGameActive = true;
+        currentBoardSize = dimension;
         selectButton.style.display = "none";
         select.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
-        tiles.style.maxWidth = `${100*dimension}px`
-        for (var x = 0; x < dimension; x++)
+        tiles.style.maxWidth = `${100*currentBoardSize}px`
+        for (var x = 0; x < currentBoardSize; x++)
         {
-            tiles.style.gridTemplateColumns += `${100/dimension}% `;
-            tiles.style.gridTemplateRows += `${100/dimension}%`;
-            for (var y = 0; y < dimension; y++)
+            tiles.style.gridTemplateColumns += `${100/currentBoardSize}% `;
+            tiles.style.gridTemplateRows += `${100/currentBoardSize}%`;
+            for (var y = 0; y < currentBoardSize; y++)
             {
                 var div = document.createElement('div');
                 div.setAttribute("class", "tile");
