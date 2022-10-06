@@ -4,7 +4,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     const display = document.querySelector('.display')
     const playerDisplay = document.querySelector('.display-player');
     const resetButton = document.querySelector('#reset');
-    const select = form.querySelector("#boardSize");
+    const boardSizeTool = form.querySelector("#boardSize");
+    const gameModeTool = form.querySelector("#gameMode");
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
@@ -119,7 +120,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         playerDisplay.classList.add(`player${currentPlayer}`);
     }
 
-    const userAction = (tile,index) =>{
+    const userAction = (tile) =>{
         if(isValidAction(tile) && isGameActive){
             tile.innerText = currentPlayer;
             tile.classList.add(`player${currentPlayer}`);
@@ -134,7 +135,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         tiles.style.gridTemplateColumns = "";
         tiles.style.gridTemplateRows = "";
         selectButton.style.display = "inline";
-        select.style.display = "inline";
+        boardSizeTool.style.display = "inline";
+        gameModeTool.style.display = "inline";
         display.style.display = "none";
         resetButton.style.display = "none";
         announcer.style.display = "none";
@@ -145,7 +147,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         isGameActive = true;
         currentBoardSize = dimension;
         selectButton.style.display = "none";
-        select.style.display = "none";
+        boardSizeTool.style.display = "none";
+        gameModeTool.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
         tiles.style.maxWidth = `${100*currentBoardSize}px`;
@@ -171,5 +174,5 @@ window.addEventListener('DOMContentLoaded', () =>{
     }     
 
     resetButton.addEventListener('click', resetBoard);
-    selectButton.addEventListener("click", () => generateBoard(select.value));
+    selectButton.addEventListener("click", () => generateBoard(boardSizeTool.value));
 });
