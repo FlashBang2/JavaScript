@@ -49,8 +49,8 @@ window.addEventListener('DOMContentLoaded', () =>{
             }
             if (counter == currentBoardSize)
                 return true;
-            return false;    
         }
+        return false; 
     }
 
     const validateResultColumns = () =>{
