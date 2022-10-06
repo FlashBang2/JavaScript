@@ -71,7 +71,23 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const validateDiagonalLines = () =>{
-
+        counter = 0;
+        for (var x = 0;x < Math.pow(currentBoardSize,2);x+=parseInt(currentBoardSize,10) + 1)
+        {
+            if(board[x].classList.contains(`player${currentPlayer}`))
+                counter++
+        }
+        if (counter == currentBoardSize)
+            return true
+        counter = 0;
+        for (var x = parseInt(currentBoardSize)-1;x < Math.pow(currentBoardSize,2);x+=parseInt(currentBoardSize,10) - 1)
+        {
+            if (board[x].classList.contains(`player${currentPlayer}`))
+                counter++
+        }
+        if (counter == currentBoardSize)
+            return true
+        return false
     }
 
     const announce = (type) =>{
