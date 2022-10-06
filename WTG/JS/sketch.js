@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const TIE = 'TIE';
 
     const handleResultValidation = () =>{
-       if (validateResultRows())
+       if (validateResultRows() || validateResultColumns())
         {
             isGameActive = false;
             announce(currentPlayer);
@@ -42,7 +42,20 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const validateResultColumns = () =>{
-        
+        for (var y = 0; y < currentBoardSize;y++)
+        {
+            counter = 0
+            for (var x = y; x < Math.pow(currentBoardSize,2); x+=3)
+            {
+                if (board[x].classList.contains(`player${currentPlayer}`))
+                    counter++
+                else
+                    break;
+            }
+            if (counter == currentBoardSize)
+                return true;
+        }
+        return false;
     }
 
     const validateDiagonalLines = () =>{
@@ -71,10 +84,6 @@ window.addEventListener('DOMContentLoaded', () =>{
         return true;
     };
 
-    const updateBoard = (index) => {
-
-    }
-
     const changePlayer = () =>{
         playerDisplay.classList.remove(`player${currentPlayer}`);
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
@@ -86,7 +95,6 @@ window.addEventListener('DOMContentLoaded', () =>{
         if(isValidAction(tile) && isGameActive){
             tile.innerText = currentPlayer;
             tile.classList.add(`player${currentPlayer}`);
-            updateBoard(index);
             handleResultValidation();
             changePlayer();
         }
