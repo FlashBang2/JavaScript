@@ -1,4 +1,7 @@
-//Implement AI/Player Turn Order (needs Implementation)
+export const turnAI = () =>{
+    
+}
+
 let scores = {
     X:1,
     O:-1,
@@ -6,7 +9,6 @@ let scores = {
 }
 
 const minimax = (board, depth, isMaximizing) =>{
-    //Check If Someone already Won (needs Implementation)
     if (result !== null) {
         return scores[result];
     }

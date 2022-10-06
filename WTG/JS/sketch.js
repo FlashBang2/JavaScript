@@ -1,3 +1,5 @@
+import {turnAI} from '../JS/MiniMax.js';
+
 window.addEventListener('DOMContentLoaded', () =>{
     const form = document.querySelector(".form");
     const tiles = document.querySelector('.container');
@@ -122,11 +124,17 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const userAction = (tile) =>{
-        if(isValidAction(tile) && isGameActive){
+        if(isValidAction(tile) && isGameActive && !isAgainstAI){
             tile.innerText = currentPlayer;
             tile.classList.add(`player${currentPlayer}`);
             handleResultValidation();
             changePlayer();
+        }
+        if (isValidAction(tile) && isGameActive && isAgainstAI)
+        {
+            tile.innerText = currentPlayer;
+            tile.classList.add(`player${currentPlayer}`);
+            turnAI();
         }
     }
 
@@ -177,10 +185,10 @@ window.addEventListener('DOMContentLoaded', () =>{
     }     
 
     const gameHandler = () => {
-        /*if (gameModeTool.value == "PlayerVSAI")
+        if (gameModeTool.value == "PlayerVSAI")
             isAgainstAI = true;
         else
-            isAgainstAI = false;*/
+            isAgainstAI = false;
         generateBoard(boardSizeTool.value);
     }
 
