@@ -1,4 +1,4 @@
-import {handleResultValidation,changePlayer} from './sketch.js'
+import {handleResultValidation,changePlayer} from './shared.js'
 
 export const turnAI = (board, currentPlayer) =>{
     var availabeMoves = [];
