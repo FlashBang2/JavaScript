@@ -1,4 +1,4 @@
-export const turnAI = () =>{
+export const turnAI = (board) =>{
     
 }
 

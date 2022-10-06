@@ -134,7 +134,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         {
             tile.innerText = currentPlayer;
             tile.classList.add(`player${currentPlayer}`);
-            turnAI();
+            turnAI(board);
         }
     }
 
