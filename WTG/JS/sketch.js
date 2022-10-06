@@ -17,11 +17,23 @@ window.addEventListener('DOMContentLoaded', () =>{
     const TIE = 'TIE';
 
     const handleResultValidation = () =>{
-       if (validateResultRows() || validateResultColumns())
+       if (validateResultRows() || validateResultColumns() || validateDiagonalLines())
         {
             isGameActive = false;
             announce(currentPlayer);
         }
+        counter = 0;
+        board.forEach((tile)=>{
+            if (tile.classList.contains(`playerX`))
+                counter++
+            if (tile.classList.contains(`playerO`))
+                counter++
+        })
+        if (counter == Math.pow(currentBoardSize,2) && isGameActive == true)
+        {
+            isGameActive = false;
+            announce(TIE)
+        }       
     }
 
     const validateResultRows = () =>{
