@@ -1,5 +1,18 @@
-export const turnAI = (board) =>{
-    
+import {handleResultValidation,changePlayer} from './sketch.js'
+
+export const turnAI = (board, currentPlayer) =>{
+    var availabeMoves = [];
+        for (var y = 0; y < board.length; y++)
+        {
+            if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
+                continue;
+            availabeMoves.push(y);
+        }
+    let move = availabeMoves[Math.floor(Math.random()*(availabeMoves.length-1))];
+    board[move].innerText = currentPlayer;
+    board[move].classList.add(`player${currentPlayer}`);
+    handleResultValidation();
+    changePlayer();
 }
 
 let scores = {

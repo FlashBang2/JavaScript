@@ -117,6 +117,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     };
 
     const changePlayer = () =>{
+        console.log('hi')
         playerDisplay.classList.remove(`player${currentPlayer}`);
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         playerDisplay.innerText = currentPlayer;
@@ -134,7 +135,9 @@ window.addEventListener('DOMContentLoaded', () =>{
         {
             tile.innerText = currentPlayer;
             tile.classList.add(`player${currentPlayer}`);
-            turnAI(board);
+            handleResultValidation();
+            changePlayer();
+            turnAI(board, currentPlayer);
         }
     }
 
