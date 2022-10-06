@@ -80,7 +80,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         if (counter == currentBoardSize)
             return true
         counter = 0;
-        for (var x = parseInt(currentBoardSize)-1;x < Math.pow(currentBoardSize,2);x+=parseInt(currentBoardSize,10) - 1)
+        for (var x = parseInt(currentBoardSize)-1;x < (Math.pow(currentBoardSize,2) - 1);x+=parseInt(currentBoardSize,10) - 1)
         {
             if (board[x].classList.contains(`player${currentPlayer}`))
                 counter++
