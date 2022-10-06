@@ -10,13 +10,26 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     let currentPlayer = 'X';
     let isGameActive = true;
+    let board;
 
     const PlayerX_WON = 'PLAYERX_WON';
     const PlayerO_WON = 'PLAYERO_WON';
     const TIE = 'TIE';
 
-    const handleResultValidation = () => {
+    const handleResultValidation = () =>{
         
+    }
+
+    const validateResultRows = () =>{
+        
+    }
+
+    const validateResultColumns = () =>{
+        
+    }
+
+    const validateDiagonalLines = () =>{
+
     }
 
     const announce = (type) =>{
@@ -63,7 +76,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const resetBoard = () =>{
-       Array.from(document.querySelectorAll('.tile')).forEach((tile) =>{
+        board.forEach((tile) =>{
         tile.remove();
         tiles.style.gridTemplateColumns = "";
         tiles.style.gridTemplateRows = "";
@@ -95,7 +108,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     } 
 
     const addClickEventForTiles = () => {
-        Array.from(document.querySelectorAll('.tile')).forEach((tile,index) =>{
+        board = Array.from(document.querySelectorAll('.tile'));
+        board.forEach((tile,index) =>{
             tile.addEventListener('click', ()=>userAction(tile,index));
         }); 
     }     
