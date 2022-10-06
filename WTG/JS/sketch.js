@@ -45,7 +45,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         for (var y = 0; y < currentBoardSize;y++)
         {
             counter = 0
-            for (var x = y; x < Math.pow(currentBoardSize,2); x+=3)
+            for (var x = y; x < Math.pow(currentBoardSize,2); x+=parseInt(currentBoardSize,10))
             {
                 if (board[x].classList.contains(`player${currentPlayer}`))
                     counter++
