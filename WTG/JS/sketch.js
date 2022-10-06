@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
-    let currentPlayer = 'X';
+    let currentPlayer = 'O';
     let isGameActive = true;
     let board;
     let currentBoardSize;
