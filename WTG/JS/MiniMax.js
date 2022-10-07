@@ -12,28 +12,23 @@ const turnAI = (board, currentPlayer) =>{
         board[move].innerText = currentPlayer;
         board[move].classList.add(`player${currentPlayer}`);
     }
+    shared.handleResultValidation();
+    shared.changePlayer();
 }
 
-let scores = {
-    X:1,
-    O:-1,
-    TIE:0
-}
-
-const minimax = (board, depth, isMaximizing) =>{
-
-    if (result !== null) {
-        return scores[result];
-    }
+const minimax = (board, depth, alpha, beta, isMaximizing) =>{
     if (isMaximizing) {
         let bestScore = -Infinity;
         for (let i = 0; i < 3; i++){
             for (let j = 0; j < 3; j++){
                 if (board[i][j] == ''){
                     board[i][j] = ai;
-                    let score = minimax(board, depth + 1, false);
+                    let score = minimax(board, depth - 1, alpha, beta, false);
                     board[i][j] = '';
                     bestScore = max(score, bestScore);
+                    alpha = max(alpha, score);
+                    if (beta <= alpha)
+                        break;
                 }
             }
         }
@@ -45,9 +40,12 @@ const minimax = (board, depth, isMaximizing) =>{
             for (let j = 0; j < 3; j++) {
                 if (board[i][j] == '') {
                     board[i][j] = human;
-                    let score = minimax(board, depth + 1, true);
+                    let score = minimax(board, depth - 1, alpha, beta, true);
                     board[i][j] = '';
                     bestScore = min(score, bestScore);
+                    beta = min(beta, score);
+                    if (beta <= alpha)
+                        break;
                 }
             }
             return bestScore

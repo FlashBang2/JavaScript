@@ -1,3 +1,7 @@
+let shared = {
+    handleResultValidation: () =>{},
+    changePlayer: () =>{}
+};
 
 window.addEventListener('DOMContentLoaded', () =>{
     const form = document.querySelector(".form");
@@ -19,7 +23,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     const TIE = 'TIE';
 
-    const handleResultValidation = () =>{
+    shared.handleResultValidation = () =>{
        if (validateResultRows() || validateResultColumns() || validateDiagonalLines())
         {
             isGameActive = false;
@@ -115,7 +119,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         return true;
     };
 
-    const changePlayer = () =>{
+    shared.changePlayer = () =>{
         playerDisplay.classList.remove(`player${currentPlayer}`);
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         playerDisplay.innerText = currentPlayer;
@@ -126,18 +130,16 @@ window.addEventListener('DOMContentLoaded', () =>{
         if(isValidAction(tile) && isGameActive && !isAgainstAI){
             tile.innerText = currentPlayer;
             tile.classList.add(`player${currentPlayer}`);
-            handleResultValidation();
-            changePlayer();
+            shared.handleResultValidation();
+            shared.changePlayer();
         }
         if (isValidAction(tile) && isGameActive && isAgainstAI)
         {
             tile.innerText = currentPlayer;
             tile.classList.add(`player${currentPlayer}`);
-            handleResultValidation();
-            changePlayer();
+            shared.handleResultValidation();
+            shared.changePlayer();
             turnAI(board, currentPlayer);
-            handleResultValidation();
-            changePlayer();
         }
     }
 
