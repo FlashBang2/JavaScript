@@ -11,6 +11,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const resetButton = document.querySelector('#reset');
     const boardSizeTool = form.querySelector("#boardSize");
     const gameModeTool = form.querySelector("#gameMode");
+    const AIType = form.querySelector("#AISelect");
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
