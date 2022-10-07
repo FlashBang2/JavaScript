@@ -157,12 +157,13 @@ window.addEventListener('DOMContentLoaded', () =>{
     
     const generateBoard = (dimension) =>{
         isGameActive = true;
-        currentBoardSize = parseInt(dimension);
+        currentBoardSize = parseInt(dimension,10);
         selectButton.style.display = "none";
         boardSizeTool.style.display = "none";
         gameModeTool.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
+        tiles.style.maxWidth = `${50*parseInt(dimension,10)}px`;
         for (var x = 0; x < currentBoardSize; x++)
         {
             tiles.style.gridTemplateColumns += `${100/currentBoardSize}% `;
@@ -181,9 +182,6 @@ window.addEventListener('DOMContentLoaded', () =>{
         board = Array.from(document.querySelectorAll('.tile'));
         board.forEach((tile) =>{
             tile.addEventListener('click',() =>userAction(tile));
-            tile.style.minWidth = `${(300*(100/currentBoardSize))/(100)}px`;
-            tile.style.minHeight = `${(300*(100/currentBoardSize))/(100)}px`;
-            tile.style.fontSize = `${(150*(100/currentBoardSize))/(100)}px`;
         }); 
     }     
 
