@@ -16,6 +16,20 @@ const turnAI = (board, currentPlayer) => {
     shared.changePlayer();
 }
 
-const negamax = (board, depth, alpha, beta, isMaximizing) =>{
-   
+const negamax = (board, depth) =>{
+    if (depth == 0) {
+        return evaluate();
+    }
+    var max = -Infinity;
+    for (let i = 0; i < 3; i++){
+        for (let j = 0; j < 3; j++){
+            if (board[i][j] == ''){
+                let score = minimax(board, depth - 1, );
+                if (score > max)
+                    max = score;
+            }
+        }
+    }
+
+   return max;
 }
