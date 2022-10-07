@@ -1,4 +1,3 @@
-import {turnAI} from '../JS/MiniMax.js';
 
 window.addEventListener('DOMContentLoaded', () =>{
     const form = document.querySelector(".form");
@@ -198,4 +197,5 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     resetButton.addEventListener('click', resetBoard);
     selectButton.addEventListener('click', gameHandler);
+
 });

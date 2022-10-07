@@ -1,4 +1,4 @@
-export const turnAI = (board, currentPlayer) =>{
+const turnAI = (board, currentPlayer) =>{
     var availabeMoves = [];
         for (var y = 0; y < board.length; y++)
         {
@@ -7,8 +7,11 @@ export const turnAI = (board, currentPlayer) =>{
             availabeMoves.push(y);
         }
     let move = availabeMoves[Math.floor(Math.random()*(availabeMoves.length-1))];
-    board[move].innerText = currentPlayer;
-    board[move].classList.add(`player${currentPlayer}`);
+    if (move != undefined)
+    {   
+        board[move].innerText = currentPlayer;
+        board[move].classList.add(`player${currentPlayer}`);
+    }
 }
 
 let scores = {
@@ -18,6 +21,7 @@ let scores = {
 }
 
 const minimax = (board, depth, isMaximizing) =>{
+
     if (result !== null) {
         return scores[result];
     }
