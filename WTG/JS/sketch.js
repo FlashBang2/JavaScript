@@ -1,5 +1,4 @@
 import {turnAI} from '../JS/MiniMax.js';
-import {handleResultValidation,changePlayer,validateResultRows, validateResultColumns, validateDiagonalLines,announce} from './shared.js'
 
 window.addEventListener('DOMContentLoaded', () =>{
     const form = document.querySelector(".form");
