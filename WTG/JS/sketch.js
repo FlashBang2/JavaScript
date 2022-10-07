@@ -139,6 +139,8 @@ window.addEventListener('DOMContentLoaded', () =>{
             handleResultValidation();
             changePlayer();
             turnAI(board, currentPlayer);
+            handleResultValidation();
+            changePlayer();
         }
     }
 
