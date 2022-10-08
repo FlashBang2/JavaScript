@@ -1,4 +1,4 @@
-const turnAI = (board, currentPlayer) => {
+const turnAINega = (board, currentPlayer) => {
 
     let availabeMoves = [];
        for (let y = 0; y < board.length; y++)
