@@ -135,14 +135,23 @@ window.addEventListener('DOMContentLoaded', () =>{
         if(isValidAction(tile) && isGameActive && !isAgainstAI){
             tile.innerText = currentPlayerGlobal;
             tile.classList.add(`player${currentPlayerGlobal}`);
-            shared.handleResultValidation();
+            switch (gameRulesTool.value) {
+                case "standard":
+                    shared.handleResultValidation();
+                    break;
+            }
+            
             shared.changePlayer();
         }
         if (isValidAction(tile) && isGameActive && isAgainstAI)
         {
             tile.innerText = currentPlayerGlobal;
             tile.classList.add(`player${currentPlayerGlobal}`);
-            shared.handleResultValidation();
+            switch (gameRulesTool.value) {
+                case "standard":
+                    shared.handleResultValidation();
+                    break;
+            }
             shared.changePlayer();
             turnAI(board, currentPlayerGlobal);
         }
