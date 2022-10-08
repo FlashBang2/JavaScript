@@ -45,28 +45,35 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     if (isMaximizing)
     {
         let bestScore = -Infinity;
-        availabeMoves.forEach((tile) =>{
+        for (let tile of availabeMoves)
+        {
             board[tile].innerText = currentPlayer;
             board[tile].classList.add(`player${currentPlayer}`);
             let score = minimax(board, depth + 1, alpha, beta, false, 'O');
             board[tile].innerText = '';
             board[tile].classList.remove(`player${currentPlayer}`);
             bestScore = Math.max(score, bestScore);
-        });
-        
+            alpha = Math.max(alpha, score);
+            if (beta <= alpha)
+                break;
+        }
         return bestScore;
     }
     else
     {
         let bestScore = Infinity;
-        availabeMoves.forEach((tile) =>{
+        for (let tile of availabeMoves)
+        {
             board[tile].innerText = currentPlayer;
             board[tile].classList.add(`player${currentPlayer}`);
             let score = minimax(board, depth + 1, alpha, beta, true, 'X');
             board[tile].innerText = '';
             board[tile].classList.remove(`player${currentPlayer}`);
             bestScore = Math.min(score, bestScore);
-        });
+            beta = Math.min(beta, score);
+            if (beta <= alpha)
+                break;
+        }
         return bestScore;
     }
 }
