@@ -1,4 +1,4 @@
-const turnAINega = (board, currentPlayer) => {
+/*const turnAINega = (board, currentPlayer) => {
 
     let availabeMoves = [];
        for (let y = 0; y < board.length; y++)
@@ -9,17 +9,17 @@ const turnAINega = (board, currentPlayer) => {
         }
     if (availabeMoves.length > 0)
     { 
-        /*let move = availabeMoves[Math.floor(Math.random()*(availabeMoves.length-1))];
+        let move = availabeMoves[Math.floor(Math.random()*(availabeMoves.length-1))];
         board[move].innerText = currentPlayer;
-        board[move].classList.add(`player${currentPlayer}`);*/
+        board[move].classList.add(`player${currentPlayer}`);
         
             let score = negamax(board, 9, -1);
             console.log(score)
-            /*if (bestScore < score) 
+            if (bestScore < score) 
             {
                 bestScore = score;
                 move = tile;
-            }*/
+            }
     }
     shared.handleResultValidation();
     shared.changePlayer();
@@ -41,4 +41,4 @@ const negamax = (board, depth, color) =>{
                 
     }
    return bestScore;
-}
+}*/
