@@ -1,6 +1,9 @@
 let shared = {
     handleResultValidation: () =>{},
     changePlayer: () =>{},
+    validateResultRows: () =>{},
+    validateResultColumns: () =>{},
+    validateDiagonalLines: () =>{},
     currentBoardSize: 0,
 };
 
@@ -16,7 +19,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
-    let currentPlayer = 'O';
+    let currentPlayerGlobal = 'O';
     let isGameActive = true;
     let isAgainstAI = false;
     let board;
@@ -25,10 +28,10 @@ window.addEventListener('DOMContentLoaded', () =>{
     const TIE = 'TIE';
 
     shared.handleResultValidation = () =>{
-       if (shared.validateResultRows() || shared.validateResultColumns() || shared.validateDiagonalLines())
+       if (shared.validateResultRows(currentPlayerGlobal) || shared.validateResultColumns(currentPlayerGlobal) || shared.validateDiagonalLines(currentPlayerGlobal))
         {
             isGameActive = false;
-            announce(currentPlayer);
+            announce(currentPlayerGlobal);
         }
         counter = 0;
         board.forEach((tile)=>{
@@ -44,7 +47,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         }       
     }
 
-    shared.validateResultRows = () =>{
+    shared.validateResultRows = (currentPlayer) =>{
         for (var y = 0;y < shared.currentBoardSize;y++)
         {
             counter = 0;
@@ -61,7 +64,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         return false; 
     }
 
-    shared.validateResultColumns = () =>{
+    shared.validateResultColumns = (currentPlayer) =>{
         for (var y = 0; y < shared.currentBoardSize;y++)
         {
             counter = 0
@@ -78,7 +81,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         return false;
     }
 
-    shared.validateDiagonalLines = () =>{
+    shared.validateDiagonalLines = (currentPlayer) =>{
         counter = 0;
         for (var x = 0;x < Math.pow(shared.currentBoardSize,2);x+=parseInt(shared.currentBoardSize,10) + 1)
         {
@@ -121,26 +124,26 @@ window.addEventListener('DOMContentLoaded', () =>{
     };
 
     shared.changePlayer = () =>{
-        playerDisplay.classList.remove(`player${currentPlayer}`);
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-        playerDisplay.innerText = currentPlayer;
-        playerDisplay.classList.add(`player${currentPlayer}`);
+        playerDisplay.classList.remove(`player${currentPlayerGlobal}`);
+        currentPlayerGlobal = currentPlayerGlobal === 'X' ? 'O' : 'X';
+        playerDisplay.innerText = currentPlayerGlobal;
+        playerDisplay.classList.add(`player${currentPlayerGlobal}`);
     }
 
     const userAction = (tile) =>{
         if(isValidAction(tile) && isGameActive && !isAgainstAI){
-            tile.innerText = currentPlayer;
-            tile.classList.add(`player${currentPlayer}`);
+            tile.innerText = currentPlayerGlobal;
+            tile.classList.add(`player${currentPlayerGlobal}`);
             shared.handleResultValidation();
             shared.changePlayer();
         }
         if (isValidAction(tile) && isGameActive && isAgainstAI)
         {
-            tile.innerText = currentPlayer;
-            tile.classList.add(`player${currentPlayer}`);
+            tile.innerText = currentPlayerGlobal;
+            tile.classList.add(`player${currentPlayerGlobal}`);
             shared.handleResultValidation();
             shared.changePlayer();
-            turnAI(board, currentPlayer);
+            turnAI(board, currentPlayerGlobal);
         }
     }
 

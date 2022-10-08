@@ -16,6 +16,7 @@ const turnAI = (board, currentPlayer) =>{
             let score = minimax(board, 0, -Infinity, Infinity, false, 'O');
             board[tile].innerText = '';
             board[tile].classList.remove(`player${currentPlayer}`);
+            console.log(score);
             if (score > bestScore)
             {
                 bestScore = score;
@@ -37,9 +38,8 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
             continue;
         availabeMoves.push(y);
     }
-    let winner = handleWinner(board);
-    if (winner != null)
-        return winner == 'X' ? 1 : -1;
+    if (shared.validateDiagonalLines(currentPlayer) || shared.validateResultColumns(currentPlayer) || shared.validateResultRows(currentPlayer))
+        return currentPlayer == 'X' ? 1 : -1;
     if (availabeMoves.length == 0)
         return 0;
     if (isMaximizing)
@@ -76,40 +76,4 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
         }
         return bestScore;
     }
-}
-
-const handleWinner = (board) =>{
-    if (board[0].classList.contains(`playerX`) && board[1].classList.contains(`playerX`) && board[2].classList.contains(`playerX`))
-        return 'X';
-    if (board[3].classList.contains(`playerX`) && board[4].classList.contains(`playerX`) && board[5].classList.contains(`playerX`))
-        return 'X';
-    if (board[6].classList.contains(`playerX`) && board[7].classList.contains(`playerX`) && board[8].classList.contains(`playerX`))
-        return 'X';
-    if (board[0].classList.contains(`playerX`) && board[3].classList.contains(`playerX`) && board[6].classList.contains(`playerX`))
-        return 'X';
-    if (board[1].classList.contains(`playerX`) && board[4].classList.contains(`playerX`) && board[7].classList.contains(`playerX`))
-        return 'X';
-    if (board[2].classList.contains(`playerX`) && board[5].classList.contains(`playerX`) && board[8].classList.contains(`playerX`))
-        return 'X';
-    if (board[0].classList.contains(`playerX`) && board[4].classList.contains(`playerX`) && board[8].classList.contains(`playerX`))
-        return 'X';
-    if (board[2].classList.contains(`playerX`) && board[4].classList.contains(`playerX`) && board[6].classList.contains(`playerX`))
-        return 'X';
-    if (board[0].classList.contains(`playerO`) && board[1].classList.contains(`playerO`) && board[2].classList.contains(`playerO`))
-        return 'O';
-    if (board[3].classList.contains(`playerO`) && board[4].classList.contains(`playerO`) && board[5].classList.contains(`playerO`))
-        return 'O';
-    if (board[6].classList.contains(`playerO`) && board[7].classList.contains(`playerO`) && board[8].classList.contains(`playerO`))
-        return 'O';
-    if (board[0].classList.contains(`playerO`) && board[3].classList.contains(`playerO`) && board[6].classList.contains(`playerO`))
-        return 'O';
-    if (board[1].classList.contains(`playerO`) && board[4].classList.contains(`playerO`) && board[7].classList.contains(`playerO`))
-        return 'O';
-    if (board[2].classList.contains(`playerO`) && board[5].classList.contains(`playerO`) && board[8].classList.contains(`playerO`))
-        return 'O';
-    if (board[0].classList.contains(`playerO`) && board[4].classList.contains(`playerO`) && board[8].classList.contains(`playerO`))
-        return 'O';
-    if (board[2].classList.contains(`playerO`) && board[4].classList.contains(`playerO`) && board[6].classList.contains(`playerO`))
-        return 'O';
-    return null;
 }
