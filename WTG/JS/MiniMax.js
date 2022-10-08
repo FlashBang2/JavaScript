@@ -16,7 +16,6 @@ const turnAI = (board, currentPlayer) =>{
             let score = minimax(board, 0, -Infinity, Infinity, false, 'O');
             board[tile].innerText = '';
             board[tile].classList.remove(`player${currentPlayer}`);
-            console.log(score);
             if (score > bestScore)
             {
                 bestScore = score;
