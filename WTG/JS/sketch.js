@@ -179,9 +179,9 @@ window.addEventListener('DOMContentLoaded', () =>{
        });
     } 
     
-    const generateBoard = (dimension) =>{
+    const generateBoard = () =>{
         isGameActive = true;
-        currentBoardSize = parseInt(dimension,10);
+        currentBoardSize = parseInt(boardSizeTool.value,10);
         if (gameRulesTool.value!="standard") {
             currentBoardSize=15;
         }
@@ -219,7 +219,7 @@ window.addEventListener('DOMContentLoaded', () =>{
             isAgainstAI = true;
         else
             isAgainstAI = false;
-        generateBoard(boardSizeTool.value);
+        generateBoard();
     }
 
     resetButton.addEventListener('click', resetBoard);
