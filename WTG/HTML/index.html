@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../CSS/stylesheet.css">
+        <script src="../JS/NegaMax.js"></script>
         <script src="../JS/MiniMax.js"></script>
         <script src="../JS/sketch.js"></script>
         <title> Tic-Tac-Toe</title>
@@ -34,6 +35,14 @@
                 <select class = "selectTools" id = "gameMode">
                     <option value = "PlayerVSPlayer"> PvP </option>
                     <option value = "PlayerVSAI"> PVAI </option>
+                </select>
+                <select class = "selectTools" id = "AISelect">
+                    <option value = "miniMax"> miniMax </option>
+                    <option value = "negaMax"> negaMax </option>
+                    <option value = "proof-NumberSearch"> proof-NumberSearch </option>
+                    <option value = "monte-CarloSearch"> monte-CarloSearch </option>
+                    <option value = "monte-CarloTreeSearch"> monte-CarloTreeSearch </option>
+                    <option value = "deepQLearning"> deepQLearning </option>
                 </select>
                 <button class = "selectTools" type = "button" id = "confirm">Confirm</button>
             </form>
