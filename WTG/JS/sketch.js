@@ -192,7 +192,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         AIType.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
-        tiles.style.maxWidth = `${50*parseInt(dimension,10)}px`;
+        tiles.style.maxWidth = `${50*currentBoardSize}px`;
         for (var x = 0; x < currentBoardSize; x++)
         {
             tiles.style.gridTemplateColumns += `${100/currentBoardSize}% `;
