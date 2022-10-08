@@ -4,7 +4,6 @@ let shared = {
     validateResultRows: () =>{},
     validateResultColumns: () =>{},
     validateDiagonalLines: () =>{},
-    currentBoardSize: 0,
 };
 
 window.addEventListener('DOMContentLoaded', () =>{
@@ -19,6 +18,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
 
+    let currentBoardSize = 0;
     let currentPlayerGlobal = 'O';
     let isGameActive = true;
     let isAgainstAI = false;
@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', () =>{
             if (tile.classList.contains(`playerO`))
                 counter++
         })
-        if (counter == Math.pow(shared.currentBoardSize,2) && isGameActive == true)
+        if (counter == Math.pow(currentBoardSize,2) && isGameActive == true)
         {
             isGameActive = false;
             announce(TIE)
@@ -48,34 +48,34 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     shared.validateResultRows = (currentPlayer) =>{
-        for (var y = 0;y < shared.currentBoardSize;y++)
+        for (var y = 0;y < currentBoardSize;y++)
         {
             counter = 0;
-            for (var x = shared.currentBoardSize * y;x < shared.currentBoardSize * (y + 1);x++)
+            for (var x = currentBoardSize * y;x < currentBoardSize * (y + 1);x++)
             {
                 if (board[x].classList.contains(`player${currentPlayer}`))
                     counter++
                 else
                     break
             }
-            if (counter == shared.currentBoardSize)
+            if (counter == currentBoardSize)
                 return true;
         }
         return false; 
     }
 
     shared.validateResultColumns = (currentPlayer) =>{
-        for (var y = 0; y < shared.currentBoardSize;y++)
+        for (var y = 0; y < currentBoardSize;y++)
         {
             counter = 0
-            for (var x = y; x < Math.pow(shared.currentBoardSize,2); x+=parseInt(shared.currentBoardSize,10))
+            for (var x = y; x < Math.pow(currentBoardSize,2); x+=parseInt(currentBoardSize,10))
             {
                 if (board[x].classList.contains(`player${currentPlayer}`))
                     counter++
                 else
                     break;
             }
-            if (counter == shared.currentBoardSize)
+            if (counter == currentBoardSize)
                 return true;
         }
         return false;
@@ -83,20 +83,20 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     shared.validateDiagonalLines = (currentPlayer) =>{
         counter = 0;
-        for (var x = 0;x < Math.pow(shared.currentBoardSize,2);x+=parseInt(shared.currentBoardSize,10) + 1)
+        for (var x = 0;x < Math.pow(currentBoardSize,2);x+=parseInt(currentBoardSize,10) + 1)
         {
             if(board[x].classList.contains(`player${currentPlayer}`))
                 counter++
         }
-        if (counter == shared.currentBoardSize)
+        if (counter == currentBoardSize)
             return true
         counter = 0;
-        for (var x = parseInt(shared.currentBoardSize)-1;x < (Math.pow(shared.currentBoardSize,2) - 1);x+=parseInt(shared.currentBoardSize,10) - 1)
+        for (var x = parseInt(currentBoardSize)-1;x < (Math.pow(currentBoardSize,2) - 1);x+=parseInt(currentBoardSize,10) - 1)
         {
             if (board[x].classList.contains(`player${currentPlayer}`))
                 counter++
         }
-        if (counter == shared.currentBoardSize)
+        if (counter == currentBoardSize)
             return true
         return false
     }
@@ -164,7 +164,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     
     const generateBoard = (dimension) =>{
         isGameActive = true;
-        shared.currentBoardSize = parseInt(dimension,10);
+        currentBoardSize = parseInt(dimension,10);
         selectButton.style.display = "none";
         boardSizeTool.style.display = "none";
         gameModeTool.style.display = "none";
@@ -172,11 +172,11 @@ window.addEventListener('DOMContentLoaded', () =>{
         display.style.display = "block";
         resetButton.style.display = "block";
         tiles.style.maxWidth = `${50*parseInt(dimension,10)}px`;
-        for (var x = 0; x < shared.currentBoardSize; x++)
+        for (var x = 0; x < currentBoardSize; x++)
         {
-            tiles.style.gridTemplateColumns += `${100/shared.currentBoardSize}% `;
-            tiles.style.gridTemplateRows += `${100/shared.currentBoardSize}%`;
-            for (var y = 0; y < shared.currentBoardSize; y++)
+            tiles.style.gridTemplateColumns += `${100/currentBoardSize}% `;
+            tiles.style.gridTemplateRows += `${100/currentBoardSize}%`;
+            for (var y = 0; y < currentBoardSize; y++)
             {
                 var div = document.createElement('div');
                 div.setAttribute("class", "tile");
