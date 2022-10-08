@@ -139,6 +139,9 @@ window.addEventListener('DOMContentLoaded', () =>{
                 case "standard":
                     shared.handleResultValidation();
                     break;
+                case "gomoku":
+                    console.log("its a me mario");
+                    break;
             }
             
             shared.changePlayer();
@@ -150,6 +153,9 @@ window.addEventListener('DOMContentLoaded', () =>{
             switch (gameRulesTool.value) {
                 case "standard":
                     shared.handleResultValidation();
+                    break;
+                case "gomoku":
+                    
                     break;
             }
             shared.changePlayer();
@@ -176,6 +182,9 @@ window.addEventListener('DOMContentLoaded', () =>{
     const generateBoard = (dimension) =>{
         isGameActive = true;
         currentBoardSize = parseInt(dimension,10);
+        if (gameRulesTool.value!="standard") {
+            currentBoardSize=15;
+        }
         selectButton.style.display = "none";
         boardSizeTool.style.display = "none";
         gameModeTool.style.display = "none";
