@@ -13,28 +13,32 @@ const turnAI = (board, currentPlayer) => {
         board[move].innerText = currentPlayer;
         board[move].classList.add(`player${currentPlayer}`);*/
         
-            let score = negamax(board, 2, -1, availabeMoves);
-            if (bestScore < score) 
+            let score = negamax(board, 9, -1);
+            console.log(score)
+            /*if (bestScore < score) 
             {
                 bestScore = score;
                 move = tile;
-            }
+            }*/
     }
     shared.handleResultValidation();
     shared.changePlayer();
 }
 
-const negamax = (board, depth, color, availabeMoves) =>{
-    if (depth == 0) {
+const negamax = (board, depth, color) =>{
+    //console.log(depth+" poziom");
+    if (depth == 0|| board.length ==0) {
         return color;
     }
-    console.log(availabeMoves);
-    bestScore = -Infinity;
-    for (let i = 0; i < availabeMoves.length; i++){
-            if (board[i].textContent == ''){
-                bestScore= Math.max(bestScore, -negamax(board, depth-1, -color));
-            }
+    let bestScore = -Infinity;
+    for (let i = 0; i < board.length; i++){
+        if (board[i].textContent == ''){
+            board[i].textContent = "ai";
+            let score = negamax(board, depth-1, -color);
+            board[i].textContent = '';
+            bestScore= Math.max(bestScore,-score);
+        }
+                
     }
-    console.log(bestScore)
    return bestScore;
 }
