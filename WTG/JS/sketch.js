@@ -40,17 +40,15 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const  hideOptions2 = () =>{
-        if(gameRulesTool.value =="standard" ){
-            console.log("not hidden")
-            hiddenOptions.forEach((tile) =>{
-                tile.removeAttribute("hidden");
-            }); 
-
-        }else{
-            console.log("hidden")
+        if(boardSizeTool.value !=="15" ){
             hiddenOptions.forEach((tile) =>{
                 tile.setAttribute("hidden", "hidden");
             });
+
+        }else{
+            hiddenOptions.forEach((tile) =>{
+                tile.removeAttribute("hidden");
+            }); 
 
         }
     }
@@ -279,6 +277,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     resetButton.addEventListener('click', resetBoard);
     selectButton.addEventListener('click', gameHandler);
     gameModeTool.addEventListener('click', hideOptions);
-    gameRulesTool.addEventListener('click', hideOptions2);
+    boardSizeTool.addEventListener('click', hideOptions2);
 
 });
