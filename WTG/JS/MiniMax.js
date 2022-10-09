@@ -25,7 +25,7 @@ const turnAI = (board, currentPlayer) =>{
             }
             else if (shared.AIType.value =="PNS")
             {
-                
+                PNS();
             }
             board[tile].innerText = '';
             board[tile].classList.remove(`player${currentPlayer}`);
