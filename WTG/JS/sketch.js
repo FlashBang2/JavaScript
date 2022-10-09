@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const gameRulesTool = form.querySelector("#gameSelect");
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
-    const hiddenOptions = document.querySelector("#hidden");
+    const hiddenOptions = document.querySelectorAll("#hidden");
 
     let currentBoardSize = 0;
     let currentPlayerGlobal = 'O';
@@ -42,10 +42,16 @@ window.addEventListener('DOMContentLoaded', () =>{
     const  hideOptions2 = () =>{
         if(gameRulesTool.value =="standard" ){
             console.log("not hidden")
-            hiddenOptions.removeAttribute("hidden");
+            hiddenOptions.forEach((tile) =>{
+                tile.removeAttribute("hidden");
+            }); 
+
         }else{
             console.log("hidden")
-            hiddenOptions.setAttribute("hidden", "hidden");
+            hiddenOptions.forEach((tile) =>{
+                tile.setAttribute("hidden", "hidden");
+            });
+
         }
     }
 
