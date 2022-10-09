@@ -18,9 +18,13 @@ const turnAI = (board, currentPlayer) =>{
             {
                 score = -negamax(board, 0, Infinity, -Infinity, 'O', -1);
             }
-            else
+            else if (shared.AIType.value == "miniMax")
             {
                 score = minimax(board, 0, -Infinity, Infinity, false, 'O');
+                
+            }
+            else if (shared.AIType.value =="PNS")
+            {
                 
             }
             board[tile].innerText = '';
