@@ -16,7 +16,7 @@ const turnAI = (board, currentPlayer) =>{
             board[tile].classList.add(`player${currentPlayer}`);
             if (shared.AIType.value == "negaMax")
             {
-                score = -negamax(board, 0, -Infinity, Infinity, 'O');
+                score = -negamax(board, 0, Infinity, -Infinity, 'O', -1);
             }
             else
             {
@@ -25,7 +25,6 @@ const turnAI = (board, currentPlayer) =>{
             }
             board[tile].innerText = '';
             board[tile].classList.remove(`player${currentPlayer}`);
-            console.log(score);
             if (score > bestScore)
             {
                 bestScore = score;

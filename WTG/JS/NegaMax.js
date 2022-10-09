@@ -1,6 +1,5 @@
-const negamax = (board, depth, alpha, beta, currentPlayer) =>{
+const negamax = (board, depth, alpha, beta, currentPlayer, color) =>{
     let availabeMoves = [];
-    console.log(board);
     for (let y = 0;y < board.length;y++)
     {
         if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
@@ -8,7 +7,9 @@ const negamax = (board, depth, alpha, beta, currentPlayer) =>{
         availabeMoves.push(y);
     }
     if (shared.validateDiagonalLines(currentPlayer) || shared.validateResultColumns(currentPlayer) || shared.validateResultRows(currentPlayer))
-        return currentPlayer == 'X' ? 1 : -1;
+    {
+        return currentPlayer == 'X' ?  1 * color : -1 * color;
+    }   
     if (availabeMoves.length == 0)
         return 0;
     let bestScore = -Infinity;
@@ -16,13 +17,16 @@ const negamax = (board, depth, alpha, beta, currentPlayer) =>{
     {
         board[tile].innerText = currentPlayer;
         board[tile].classList.add(`player${currentPlayer}`);
-        bestScore = Math.max(bestScore, -negamax(board, depth + 1, -alpha, -beta, swapPlayer(currentPlayer)));
+        bestScore = Math.max(bestScore, -negamax(board, depth + 1, -beta, -alpha, swapPlayer(currentPlayer), -color));
         board[tile].innerText = '';
         board[tile].classList.remove(`player${currentPlayer}`);
+        alpha = Math.max(alpha, beta);
+        if (alpha >= beta)
+            break;
     }
     return bestScore;
 }
 
 const swapPlayer = (currentPlayer) => {
-    return currentPlayer === 'X' ? 'O' : 'X';
+    return (currentPlayer === 'X') ? 'O' : 'X';
 }
