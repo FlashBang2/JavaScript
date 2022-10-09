@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const  hideOptions2 = () =>{
-        if(gameRulesTool.value =="standard" && !hiddenOptions.getAttribute("hidden")){
+        if(gameRulesTool.value =="standard" ){
             console.log("not hidden")
             hiddenOptions.removeAttribute("hidden");
         }else{
