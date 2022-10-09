@@ -222,7 +222,11 @@ window.addEventListener('DOMContentLoaded', () =>{
         boardSizeTool.style.display = "inline";
         gameModeTool.style.display = "inline";
         gameRulesTool.style.display = "inline";
-        shared.AIType.style.display = "inline";
+        if(gameModeTool.value=="PlayerVSAI"){
+            shared.AIType.style.display = "inline";
+        }else{
+            shared.AIType.style.display = "none";
+        }
         display.style.display = "none";
         resetButton.style.display = "none";
         announcer.style.display = "none";
