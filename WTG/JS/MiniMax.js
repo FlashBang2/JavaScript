@@ -2,6 +2,7 @@ const turnAI = (board, currentPlayer) =>{
     let availabeMoves = [];
     let bestScore = -Infinity;
     let move = -Infinity;
+    let score;
     for (let y = 0; y < board.length; y++)
     {
         if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
@@ -13,9 +14,18 @@ const turnAI = (board, currentPlayer) =>{
         availabeMoves.forEach((tile) =>{
             board[tile].innerText = currentPlayer;
             board[tile].classList.add(`player${currentPlayer}`);
-            let score = minimax(board, 0, -Infinity, Infinity, false, 'O');
+            if (shared.AIType.value == "negaMax")
+            {
+                score = -negamax(board, 0, -Infinity, Infinity, 'O');
+            }
+            else
+            {
+                score = minimax(board, 0, -Infinity, Infinity, false, 'O');
+                
+            }
             board[tile].innerText = '';
             board[tile].classList.remove(`player${currentPlayer}`);
+            console.log(score);
             if (score > bestScore)
             {
                 bestScore = score;

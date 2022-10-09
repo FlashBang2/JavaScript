@@ -4,6 +4,7 @@ let shared = {
     validateResultRows: () =>{},
     validateResultColumns: () =>{},
     validateDiagonalLines: () =>{},
+    AIType: null,
 };
 
 window.addEventListener('DOMContentLoaded', () =>{
@@ -14,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const resetButton = document.querySelector('#reset');
     const boardSizeTool = form.querySelector("#boardSize");
     const gameModeTool = form.querySelector("#gameMode");
-    const AIType = form.querySelector("#AISelect");
+    shared.AIType = form.querySelector("#AISelect");
     const gameRulesTool = form.querySelector("#gameSelect");
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
@@ -165,7 +166,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         boardSizeTool.style.display = "inline";
         gameModeTool.style.display = "inline";
         gameRulesTool.style.display = "inline";
-        AIType.style.display = "inline";
+        shared.AIType.style.display = "inline";
         display.style.display = "none";
         resetButton.style.display = "none";
         announcer.style.display = "none";
@@ -182,7 +183,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         boardSizeTool.style.display = "none";
         gameModeTool.style.display = "none";
         gameRulesTool.style.display = "none";
-        AIType.style.display = "none";
+        shared.AIType.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
         tiles.style.maxWidth = `${50*currentBoardSize}px`;

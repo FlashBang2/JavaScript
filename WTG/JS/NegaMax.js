@@ -1,5 +1,6 @@
 const negamax = (board, depth, alpha, beta, currentPlayer) =>{
     let availabeMoves = [];
+    console.log(board);
     for (let y = 0;y < board.length;y++)
     {
         if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
@@ -10,15 +11,18 @@ const negamax = (board, depth, alpha, beta, currentPlayer) =>{
         return currentPlayer == 'X' ? 1 : -1;
     if (availabeMoves.length == 0)
         return 0;
-    bestScore = -Infinity;
+    let bestScore = -Infinity;
     for (let tile of availabeMoves)
     {
         board[tile].innerText = currentPlayer;
         board[tile].classList.add(`player${currentPlayer}`);
-        score = -negamax(board, depth + 1, -alpha, -beta, () =>currentPlayer == 'X' ? 'O': 'X');
+        bestScore = Math.max(bestScore, -negamax(board, depth + 1, -alpha, -beta, swapPlayer(currentPlayer)));
         board[tile].innerText = '';
         board[tile].classList.remove(`player${currentPlayer}`);
-        bestScore = Math.max(score, bestScore);
     }
     return bestScore;
+}
+
+const swapPlayer = (currentPlayer) => {
+    return currentPlayer === 'X' ? 'O' : 'X';
 }
