@@ -51,7 +51,37 @@ window.addEventListener('DOMContentLoaded', () =>{
                 }
                 break;
             case "gomoku":
-                console.log("its a me mario");
+                let full=true;
+                for (let i = 0; i < board.length; i++) {
+                    if(board[i].textContent == ''){
+                        full =false;
+                    }
+                    if(board[i].textContent !== ''){
+                        if((board[i].textContent == board[i+1].textContent && 
+                            board[i+1].textContent == board[i+2].textContent && 
+                            board[i+2].textContent == board[i+3].textContent && 
+                            board[i+3].textContent == board[i+4].textContent ) ||
+                            (board[i].textContent == board[i+currentBoardSize].textContent && 
+                            board[i+currentBoardSize].textContent == board[i+2*currentBoardSize].textContent && 
+                            board[i+2*currentBoardSize].textContent == board[i+3*currentBoardSize].textContent && 
+                            board[i+3*currentBoardSize].textContent == board[i+4*currentBoardSize].textContent ) ||
+                            (board[i].textContent == board[i+1+currentBoardSize].textContent && 
+                            board[i+1+currentBoardSize].textContent == board[i+2+2*currentBoardSize].textContent && 
+                            board[i+2+2*currentBoardSize].textContent == board[i+3+3*currentBoardSize].textContent && 
+                            board[i+3+3*currentBoardSize].textContent == board[i+4+4*currentBoardSize].textContent ) ||
+                            (board[i].textContent == board[i-1+currentBoardSize].textContent && 
+                            board[i-1+currentBoardSize].textContent == board[i-2+2*currentBoardSize].textContent && 
+                            board[i-2+2*currentBoardSize].textContent == board[i-3+3*currentBoardSize].textContent && 
+                            board[i-3+3*currentBoardSize].textContent == board[i-4+4*currentBoardSize].textContent ) 
+                        ){
+                            isGameActive = false;
+                            announce(currentPlayerGlobal)
+                        }
+                    }
+                }
+                if(full){
+                    announce(TIE)
+                }
                 break;
         }
               
