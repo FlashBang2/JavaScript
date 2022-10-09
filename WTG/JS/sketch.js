@@ -26,8 +26,21 @@ window.addEventListener('DOMContentLoaded', () =>{
     let isAgainstAI = false;
     let board;
     let counter = 0;
+    shared.AIType.style.display = "none";
 
     const TIE = 'TIE';
+    
+   
+
+    const  hideOptions = () =>{
+        console.log("inline")
+        if(gameModeTool.value=="PlayerVSAI"){
+           
+            shared.AIType.style.display = "inline";
+        }else{
+            shared.AIType.style.display = "none";
+        }
+    }
 
     shared.handleResultValidation = () =>{
         switch (gameRulesTool.value) {
@@ -248,5 +261,6 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     resetButton.addEventListener('click', resetBoard);
     selectButton.addEventListener('click', gameHandler);
+    gameModeTool.addEventListener('click', hideOptions);
 
 });
