@@ -29,11 +29,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     shared.AIType.style.display = "none";
 
     const TIE = 'TIE';
-    
-   
 
     const  hideOptions = () =>{
-        console.log("inline")
         if(gameModeTool.value=="PlayerVSAI"){
            
             shared.AIType.style.display = "inline";
