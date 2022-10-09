@@ -29,23 +29,31 @@ window.addEventListener('DOMContentLoaded', () =>{
     const TIE = 'TIE';
 
     shared.handleResultValidation = () =>{
-       if (shared.validateResultRows(currentPlayerGlobal) || shared.validateResultColumns(currentPlayerGlobal) || shared.validateDiagonalLines(currentPlayerGlobal))
-        {
-            isGameActive = false;
-            announce(currentPlayerGlobal);
+        switch (gameRulesTool.value) {
+            case "standard":
+                if (shared.validateResultRows(currentPlayerGlobal) || shared.validateResultColumns(currentPlayerGlobal) || shared.validateDiagonalLines(currentPlayerGlobal))
+                {
+                    isGameActive = false;
+                    announce(currentPlayerGlobal);
+                }
+                counter = 0;
+                board.forEach((tile)=>{
+                    if (tile.classList.contains(`playerX`))
+                        counter++
+                    if (tile.classList.contains(`playerO`))
+                        counter++
+                })
+                if (counter == Math.pow(currentBoardSize,2) && isGameActive == true)
+                {
+                    isGameActive = false;
+                    announce(TIE)
+                }
+                break;
+            case "gomoku":
+                console.log("its a me mario");
+                break;
         }
-        counter = 0;
-        board.forEach((tile)=>{
-            if (tile.classList.contains(`playerX`))
-                counter++
-            if (tile.classList.contains(`playerO`))
-                counter++
-        })
-        if (counter == Math.pow(currentBoardSize,2) && isGameActive == true)
-        {
-            isGameActive = false;
-            announce(TIE)
-        }       
+              
     }
 
     shared.validateResultRows = (currentPlayer) =>{
@@ -135,29 +143,14 @@ window.addEventListener('DOMContentLoaded', () =>{
         if(isValidAction(tile) && isGameActive && !isAgainstAI){
             tile.innerText = currentPlayerGlobal;
             tile.classList.add(`player${currentPlayerGlobal}`);
-            switch (gameRulesTool.value) {
-                case "standard":
-                    shared.handleResultValidation();
-                    break;
-                case "gomoku":
-                    console.log("its a me mario");
-                    break;
-            }
-            
+            shared.handleResultValidation();
             shared.changePlayer();
         }
         if (isValidAction(tile) && isGameActive && isAgainstAI)
         {
             tile.innerText = currentPlayerGlobal;
             tile.classList.add(`player${currentPlayerGlobal}`);
-            switch (gameRulesTool.value) {
-                case "standard":
-                    shared.handleResultValidation();
-                    break;
-                case "gomoku":
-                    
-                    break;
-            }
+            shared.handleResultValidation();
             shared.changePlayer();
             turnAI(board, currentPlayerGlobal);
         }
