@@ -19,6 +19,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const gameRulesTool = form.querySelector("#gameSelect");
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
+    const hiddenOptions = document.querySelector("#hidden");
 
     let currentBoardSize = 0;
     let currentPlayerGlobal = 'O';
@@ -32,10 +33,19 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     const  hideOptions = () =>{
         if(gameModeTool.value=="PlayerVSAI"){
-           
             shared.AIType.style.display = "inline";
         }else{
             shared.AIType.style.display = "none";
+        }
+    }
+
+    const  hideOptions2 = () =>{
+        if(gameRulesTool.value =="standard" && !hiddenOptions.getAttribute("hidden")){
+            console.log("not hidden")
+            hiddenOptions.removeAttribute("hidden");
+        }else{
+            console.log("hidden")
+            hiddenOptions.setAttribute("hidden", "hidden");
         }
     }
 
@@ -259,5 +269,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     resetButton.addEventListener('click', resetBoard);
     selectButton.addEventListener('click', gameHandler);
     gameModeTool.addEventListener('click', hideOptions);
+    gameRulesTool.addEventListener('click', hideOptions2);
 
 });
