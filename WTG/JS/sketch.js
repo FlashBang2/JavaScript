@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const  hideOptions2 = () =>{
-        if(boardSizeTool.value !=="15" ){
+        if(boardSizeTool.value < 15 ){
             hiddenOptions.forEach((tile) =>{
                 tile.setAttribute("hidden", "hidden");
             });
