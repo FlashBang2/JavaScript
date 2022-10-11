@@ -27,6 +27,14 @@ const turnAI = (board, currentPlayer) =>{
             {
                 PNS();
             }
+            else if (shared.AIType.value == "MCS")
+            {
+                MCS();
+            }
+            else if (shared.AIType.value == "deepQLearning")
+            {
+                deepQLearning();
+            }
             board[tile].innerText = '';
             board[tile].classList.remove(`player${currentPlayer}`);
             if (score > bestScore)
