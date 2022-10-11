@@ -31,6 +31,35 @@ window.addEventListener('DOMContentLoaded', () =>{
     shared.AIType.style.display = "none";
     gameSideTool.style.display = "none";
 
+    
+    let config = {
+        container: "#tree-simple",
+        connectors:{
+            type:"straight"
+        }
+
+    };
+    let parent_node = {
+        text: { name: "Parent node" }
+    };
+    let first_child = {
+        parent: parent_node,
+        text: { name: "First child" }
+    };
+    let second_child = {
+        parent: parent_node,
+        text: { name: "Second child" }
+    };
+    let third_child = {
+        parent: parent_node,
+        text: { name: "third child" }
+    };
+    let simple_chart_config = [
+        config, parent_node,
+        first_child, second_child,third_child
+    ];
+    var my_chart = new Treant(simple_chart_config);
+
     const TIE = 'TIE';
 
     const  hideOptions = () =>{
