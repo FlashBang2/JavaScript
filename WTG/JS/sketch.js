@@ -78,7 +78,7 @@ window.addEventListener('DOMContentLoaded', () =>{
                 let full=true;
                 for (let i = 0; i < board.length; i++) {
                     if(board[i].textContent == ''){
-                        full =false;
+                        full = false;
                     }
                     if(board[i].textContent !== ''){
                         if((board[i].textContent == board[i+1].textContent && 
