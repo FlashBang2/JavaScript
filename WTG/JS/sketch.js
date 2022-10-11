@@ -29,14 +29,17 @@ window.addEventListener('DOMContentLoaded', () =>{
     let board;
     let counter = 0;
     shared.AIType.style.display = "none";
+    gameSideTool.style.display = "none";
 
     const TIE = 'TIE';
 
     const  hideOptions = () =>{
-        if(gameModeTool.value=="PlayerVSAI"){
+        if(gameModeTool.value == "PlayerVSAI"){
             shared.AIType.style.display = "inline";
+            gameSideTool.style.display = "inline";
         }else{
             shared.AIType.style.display = "none";
+            gameSideTool.style.display = "none";
         }
     }
 
@@ -282,5 +285,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     selectButton.addEventListener('click', gameHandler);
     gameModeTool.addEventListener('click', hideOptions);
     boardSizeTool.addEventListener('click', hideOptions2);
+    gameModeTool.addEventListener('click', hideOptions);
 
 });
