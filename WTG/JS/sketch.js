@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const resetButton = document.querySelector('#reset');
     const boardSizeTool = form.querySelector("#boardSize");
     const gameModeTool = form.querySelector("#gameMode");
+    const gameSideTool = form.querySelector("#side");
     shared.AIType = form.querySelector("#AISelect");
     const gameRulesTool = form.querySelector("#gameSelect");
     const selectButton = form.querySelector('#confirm');
@@ -216,6 +217,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         tile.remove();
         tiles.style.gridTemplateColumns = "";
         tiles.style.gridTemplateRows = "";
+        gameSideTool.style.display = "inline";
         selectButton.style.display = "inline";
         boardSizeTool.style.display = "inline";
         gameModeTool.style.display = "inline";
@@ -237,6 +239,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         if (gameRulesTool.value!="standard") {
             currentBoardSize=15;
         }
+        currentPlayerGlobal = gameSideTool.value;
+        gameSideTool.style.display = "none";
         selectButton.style.display = "none";
         boardSizeTool.style.display = "none";
         gameModeTool.style.display = "none";
