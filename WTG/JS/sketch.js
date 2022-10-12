@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     shared.config = {
         container: "#tree-simple",
         connectors:{
-            type:"straight",
+            type:"bCurve",
             style: {stroke: 'white'}
         }
 
