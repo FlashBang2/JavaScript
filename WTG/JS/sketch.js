@@ -55,15 +55,22 @@ window.addEventListener('DOMContentLoaded', () =>{
         parent: parent_node,
         text: { name: "Second child" }
     };
+
+    let first_first_child = {
+        parent: first_child,
+        text: { name: "First child" }
+    };
+
     let third_child = {
         parent: parent_node,
         text: { name: "Third child" }
     };
     shared.chartConfig = [
-        shared.config
+        shared.config, parent_node,
+        first_child, parent_node, second_child, first_first_child, third_child
     ];
-    
-
+    console.log(shared.chartConfig);
+    var my_chart = new Treant(shared.chartConfig);
     const TIE = 'TIE';
 
     const  hideOptions = () =>{
