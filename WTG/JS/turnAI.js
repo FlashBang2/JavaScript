@@ -3,6 +3,8 @@ const turnAI = (board, currentPlayer) =>{
     let bestScore = -Infinity;
     let move = -Infinity;
     let score;
+    shared.chartConfig.splice(0, shared.chartConfig.length);
+    shared.chartConfig.push(shared.config);
     for (let y = 0; y < board.length; y++)
     {
         if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
@@ -47,6 +49,8 @@ const turnAI = (board, currentPlayer) =>{
                 move = tile;
             }
         });
+        console.log(shared.chartConfig);
+        var my_chart = new Treant(shared.chartConfig);
         board[move].innerText = currentPlayer;
         board[move].classList.add(`player${currentPlayer}`);
     }

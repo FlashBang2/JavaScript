@@ -2,15 +2,15 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     let availabeMoves = [];
     if (depth == 0) {
         window["node" + depth] = {
-            text: { name: "Parent node" }
+            text: { name: `node${depth}` }
         };
     } else {
         window["node" + depth]= {
             parent: `node${depth-1}`,
-            text: { name: `child${depth}` }
+            text: { name: `node${depth}` }
         };
     }
-    shared.chartConfig.push(`node${depth}`);
+    shared.chartConfig.push( window["node" + depth]);
     for (let y = 0;y < board.length;y++)
     {
         if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))

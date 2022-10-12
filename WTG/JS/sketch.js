@@ -6,6 +6,7 @@ let shared = {
     validateDiagonalLines: () =>{},
     AIType: null,
     chartConfig: null,
+    config: null
 };
 
 window.addEventListener('DOMContentLoaded', () =>{
@@ -35,7 +36,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     gameSideTool.style.display = "none";
 
     
-    let config = {
+    shared.config = {
         container: "#tree-simple",
         connectors:{
             type:"straight",
@@ -59,10 +60,9 @@ window.addEventListener('DOMContentLoaded', () =>{
         text: { name: "Third child" }
     };
     shared.chartConfig = [
-        config, parent_node,
-        first_child, second_child,third_child
+        shared.config
     ];
-    var my_chart = new Treant(shared.chartConfig);
+    
 
     const TIE = 'TIE';
 
@@ -240,6 +240,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         }
         if (isValidAction(tile) && isGameActive && isAgainstAI)
         {
+            
             tile.innerText = currentPlayerGlobal;
             tile.classList.add(`player${currentPlayerGlobal}`);
             shared.handleResultValidation();
