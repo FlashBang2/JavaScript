@@ -20,10 +20,6 @@ const turnAI = (board, currentPlayer) =>{
             {
                 score = -negamax(board, 0, Infinity, -Infinity, 'O', -1);
             }
-            else if (shared.AIType.value == "RandomAI")
-            {
-                RandomAI();
-            }
             else if (shared.AIType.value == "miniMax")
             {
                 score = minimax(board, 0, -Infinity, Infinity, false, 'O');
@@ -51,6 +47,8 @@ const turnAI = (board, currentPlayer) =>{
         });
         console.log(shared.chartConfig);
         var my_chart = new Treant(shared.chartConfig);
+        if (shared.AIType.value == "RandomAI")
+            move = Math.floor(Math.random() * availabeMoves.length);
         board[move].innerText = currentPlayer;
         board[move].classList.add(`player${currentPlayer}`);
     }
