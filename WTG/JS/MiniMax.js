@@ -2,12 +2,17 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     let availabeMoves = [];
     if (depth == 0) {
         window["node_" + depth] = {
-            text: { name: `node_${depth}` }
+            parent: shared.node,
+            text: { name: `${board[0].innerText}|${board[1].innerText}|${board[2].innerText}
+            ${board[3].innerText}|${board[4].innerText}|${board[5].innerText}
+            ${board[6].innerText}|${board[7].innerText}|${board[8].innerText}` }
         };
     } else {
         window["node_" + depth]= {
             parent: window["node_" + (depth-1)],
-            text: { name: `node_${depth}` }
+            text: { name: `${board[0].innerText}|${board[1].innerText}|${board[2].innerText}
+            ${board[3].innerText}|${board[4].innerText}|${board[5].innerText}
+            ${board[6].innerText}|${board[7].innerText}|${board[8].innerText}` }
         };
     }
     shared.chartConfig.push( window["node_" + depth]);
