@@ -1,5 +1,16 @@
 const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     let availabeMoves = [];
+    if (depth == 0) {
+        let node = {
+            text: { name: "Parent node" }
+        };
+    } else {
+        let node = {
+            parent: `node${depth-1}`,
+            text: { name: `child${depth}` }
+        };
+    }
+    shared.chartConfig.push(`node${depth}`)
     for (let y = 0;y < board.length;y++)
     {
         if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))

@@ -5,6 +5,7 @@ let shared = {
     validateResultColumns: () =>{},
     validateDiagonalLines: () =>{},
     AIType: null,
+    chartConfig: null,
 };
 
 window.addEventListener('DOMContentLoaded', () =>{
@@ -35,7 +36,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     let config = {
         container: "#tree-simple",
         connectors:{
-            type:"straight"
+            type:"straight",
+            style: {stroke: 'white'}
         }
 
     };
@@ -52,13 +54,13 @@ window.addEventListener('DOMContentLoaded', () =>{
     };
     let third_child = {
         parent: parent_node,
-        text: { name: "third child" }
+        text: { name: "Third child" }
     };
     let simple_chart_config = [
         config, parent_node,
         first_child, second_child,third_child
     ];
-    new Treant(simple_chart_config);
+    var my_chart = new Treant(shared.chartConfig);
 
     const TIE = 'TIE';
 
