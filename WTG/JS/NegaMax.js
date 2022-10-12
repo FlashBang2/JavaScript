@@ -1,5 +1,16 @@
 const negamax = (board, depth, alpha, beta, currentPlayer, color) =>{
     let availabeMoves = [];
+    if (depth == 0) {
+        window["node_" + depth] = {
+            text: { name: `node_${depth}` }
+        };
+    } else {
+        window["node_" + depth]= {
+            parent: window["node_" + (depth-1)],
+            text: { name: `node_${depth}` }
+        };
+    }
+    shared.chartConfig.push( window["node_" + depth]);
     for (let y = 0;y < board.length;y++)
     {
         if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
