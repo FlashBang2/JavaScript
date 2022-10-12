@@ -58,7 +58,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         parent: parent_node,
         text: { name: "Third child" }
     };
-    let simple_chart_config = [
+    shared.chartConfig = [
         config, parent_node,
         first_child, second_child,third_child
     ];
