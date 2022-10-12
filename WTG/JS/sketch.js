@@ -6,7 +6,8 @@ let shared = {
     validateDiagonalLines: () =>{},
     AIType: null,
     chartConfig: null,
-    config: null
+    config: null,
+    node: null
 };
 
 window.addEventListener('DOMContentLoaded', () =>{
