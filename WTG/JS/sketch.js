@@ -44,33 +44,11 @@ window.addEventListener('DOMContentLoaded', () =>{
         }
 
     };
-    let parent_node = {
-        text: { name: "Parent node" }
-    };
-    let first_child = {
-        parent: parent_node,
-        text: { name: "First child" }
-    };
-    let second_child = {
-        parent: parent_node,
-        text: { name: "Second child" }
-    };
-
-    let first_first_child = {
-        parent: first_child,
-        text: { name: "First child" }
-    };
-
-    let third_child = {
-        parent: parent_node,
-        text: { name: "Third child" }
-    };
+    
     shared.chartConfig = [
-        shared.config, parent_node,
-        first_child, parent_node, second_child, first_first_child, third_child
+        shared.config
     ];
-    console.log(shared.chartConfig);
-    var my_chart = new Treant(shared.chartConfig);
+    
     const TIE = 'TIE';
 
     const  hideOptions = () =>{
