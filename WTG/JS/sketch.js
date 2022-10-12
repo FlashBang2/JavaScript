@@ -21,6 +21,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     const selectButton = form.querySelector('#confirm');
     const announcer = document.querySelector('.announcer');
     const hiddenOptions = document.querySelectorAll("#hidden");
+    const AlphaBetaPrunning = document.querySelector("#AlphaBetaPrunning");
+    const AlphaBetaPrunningInput = document.querySelector("#AlphaBetaPrunningInput");
 
     let currentBoardSize = 0;
     let currentPlayerGlobal = 'O';
@@ -254,6 +256,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         boardSizeTool.style.display = "inline";
         gameModeTool.style.display = "inline";
         gameRulesTool.style.display = "inline";
+        AlphaBetaPrunning.style.display = "inline";
+        AlphaBetaPrunningInput.style.display = "inline";
         if(gameModeTool.value=="PlayerVSAI"){
             shared.AIType.style.display = "inline";
         }else{
@@ -278,6 +282,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         gameModeTool.style.display = "none";
         gameRulesTool.style.display = "none";
         shared.AIType.style.display = "none";
+        AlphaBetaPrunning.style.display = "none";
+        AlphaBetaPrunningInput.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
         tiles.style.maxWidth = `${50*currentBoardSize}px`;
