@@ -32,11 +32,12 @@
                     <option value = "O"> O </option>
                 </select>
                 <select class = "selectTools" id = "AISelect">
+                    <option value = "Random AI"> Random AI </option>
                     <option value = "miniMax"> miniMax </option>
                     <option value = "negaMax"> negaMax </option>
                     <option value = "PNS"> Proof-NumberSearch </option>
                     <option value = "MCS"> monte-CarloSearch </option>
-                    <option value = "monte-CarloTreeSearch"> monte-CarloTreeSearch </option>
+                    <option value = "MCTS"> monte-CarloTreeSearch </option>
                     <option value = "deepQLearning"> deepQLearning </option>
                 </select>
                 <select class = "selectTools" id = "gameSelect">
@@ -45,6 +46,8 @@
                     <option value = "gomoku_pro"  id = "hidden" hidden="hidden">  gomoku pro </option>
                     <option value = "gomoku_swap2"  id = "hidden" hidden="hidden">  gomoku swap2 </option>
                 </select>
+                <label class = "selectTools" for = "AlphaBetaPrunning"> Enable Alpha Beta Prunning </label>
+                <input type = "checkbox" id = "AlphaBetaPrunning" value = "True">
                 <button class = "selectTools" type = "button" id = "confirm">Confirm</button>
             </form>
             <section class = "container">
