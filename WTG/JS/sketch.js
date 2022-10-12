@@ -58,7 +58,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         config, parent_node,
         first_child, second_child,third_child
     ];
-    var my_chart = new Treant(simple_chart_config);
+    new Treant(simple_chart_config);
 
     const TIE = 'TIE';
 
