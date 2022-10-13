@@ -6,9 +6,7 @@ const turnAI = (board, currentPlayer) =>{
     /*shared.chartConfig.splice(0, shared.chartConfig.length);
     shared.chartConfig.push(shared.config);
     shared.node = {
-        text: { name: `${board[0].innerText}|${board[1].innerText}|${board[2].innerText}
-        ${board[3].innerText}|${board[4].innerText}|${board[5].innerText}
-        ${board[6].innerText}|${board[7].innerText}|${board[8].innerText}` }
+        text: { name: "start" }
     };
     shared.chartConfig.push( shared.node);
     */

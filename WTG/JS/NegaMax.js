@@ -3,16 +3,12 @@ const negamax = (board, depth, alpha, beta, currentPlayer, color) =>{
     if (depth == 0) {
         window["node_" + depth] = {
             parent: shared.node,
-            text: { name: `${board[0].innerText}|${board[1].innerText}|${board[2].innerText}
-            ${board[3].innerText}|${board[4].innerText}|${board[5].innerText}
-            ${board[6].innerText}|${board[7].innerText}|${board[8].innerText}` }
+            text: { name: ` node_ ${depth} ` }
         };
     } else {
         window["node_" + depth]= {
             parent: window["node_" + (depth-1)],
-            text: { name: `${board[0].innerText}|${board[1].innerText}|${board[2].innerText}
-            ${board[3].innerText}|${board[4].innerText}|${board[5].innerText}
-            ${board[6].innerText}|${board[7].innerText}|${board[8].innerText}` }
+            text: { name: ` node_ ${depth} ` }
         };
     }
     shared.chartConfig.push( window["node_" + depth]);
