@@ -52,7 +52,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     
     const TIE = 'TIE';
 
-    const  hideOptions = () =>{
+    const  hideAIOptions = () =>{
         if(gameModeTool.value == "PlayerVSAI"){
             shared.AIType.style.display = "inline";
             gameSideTool.style.display = "inline";
@@ -62,7 +62,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         }
     }
 
-    const  hideOptions2 = () =>{
+    const  hideRulesTools = () =>{
         if(boardSizeTool.value < 15 ){
             hiddenOptions.forEach((tile) =>{
                 tile.setAttribute("hidden", "hidden");
@@ -307,8 +307,8 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     resetButton.addEventListener('click', resetBoard);
     selectButton.addEventListener('click', gameHandler);
-    gameModeTool.addEventListener('click', hideOptions);
-    boardSizeTool.addEventListener('click', hideOptions2);
-    gameModeTool.addEventListener('click', hideOptions);
+    gameModeTool.addEventListener('click', hideAIOptions);
+    boardSizeTool.addEventListener('click', hideRulesTools);
+    gameModeTool.addEventListener('click', hideAIOptions);
 
 });
