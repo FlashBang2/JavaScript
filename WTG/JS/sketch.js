@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     gameSideTool.style.display = "none";
 
     
-    shared.config = {
+    /*shared.config = {
         container: "#tree-simple",
         connectors:{
             type:"bCurve",
@@ -49,7 +49,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     shared.chartConfig = [
         shared.config
     ];
-    
+    */
     const TIE = 'TIE';
 
     const  hideAIOptions = () =>{

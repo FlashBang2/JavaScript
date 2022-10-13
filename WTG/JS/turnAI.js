@@ -2,8 +2,8 @@ const turnAI = (board, currentPlayer) =>{
     let availabeMoves = [];
     let bestScore = -Infinity;
     let move = -Infinity;
-    let score;
-    shared.chartConfig.splice(0, shared.chartConfig.length);
+    let score = 0;
+    /*shared.chartConfig.splice(0, shared.chartConfig.length);
     shared.chartConfig.push(shared.config);
     shared.node = {
         text: { name: `${board[0].innerText}|${board[1].innerText}|${board[2].innerText}
@@ -11,7 +11,7 @@ const turnAI = (board, currentPlayer) =>{
         ${board[6].innerText}|${board[7].innerText}|${board[8].innerText}` }
     };
     shared.chartConfig.push( shared.node);
-    
+    */
     for (let y = 0; y < board.length; y++)
     {
         if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
@@ -52,7 +52,7 @@ const turnAI = (board, currentPlayer) =>{
                 move = tile;
             }
         });
-        var my_chart = new Treant(shared.chartConfig);
+        /*var my_chart = new Treant(shared.chartConfig);*/
         if (shared.AIType.value == "RandomAI")
             move = availabeMoves[Math.floor(Math.random() * availabeMoves.length)];
         board[move].innerText = currentPlayer;
