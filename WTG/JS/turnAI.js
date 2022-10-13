@@ -29,7 +29,7 @@ const turnAI = (board, currentPlayer) =>{
             }
             else if (shared.AIType.value == "miniMax")
             {
-                score = minimax(board, 0, -Infinity, Infinity, false, 'O');
+                score = minimax(board, 3, -Infinity, Infinity, false, 'O');
                 
             }
             else if (shared.AIType.value =="PNS")

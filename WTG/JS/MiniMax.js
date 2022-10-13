@@ -26,7 +26,7 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     let terminalNode = validateMinimax(board);
     if (terminalNode != null)
         return terminalNode;
-    if (availabeMoves.length == 0)
+    if (depth == 0 || availabeMoves.length == 0)
         return 0;
     if (isMaximizing)
     {
