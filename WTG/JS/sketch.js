@@ -26,6 +26,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const hiddenOptions = document.querySelectorAll("#hidden");
     const AlphaBetaPrunning = document.querySelector("#AlphaBetaPrunning");
     const AlphaBetaPrunningInput = document.querySelector("#AlphaBetaPrunningInput");
+    const depthTool = document.querySelector("#depthTool");
 
     let currentBoardSize = 0;
     let currentPlayerGlobal = 'O';
@@ -37,7 +38,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     gameSideTool.style.display = "none";
 
     
-    shared.config = {
+    /*shared.config = {
         container: "#tree-simple",
         connectors:{
             type:"bCurve",
@@ -49,7 +50,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     shared.chartConfig = [
         shared.config
     ];
-    
+    */
     const TIE = 'TIE';
 
     const  hideAIOptions = () =>{
@@ -98,7 +99,7 @@ window.addEventListener('DOMContentLoaded', () =>{
                 }
                 break;
             case "gomoku":
-                let full=true;
+                let full = true;
                 for (let i = 0; i < board.length; i++) {
                     if(board[i].textContent == ''){
                         full = false;
@@ -247,6 +248,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         gameRulesTool.style.display = "inline";
         AlphaBetaPrunning.style.display = "inline";
         AlphaBetaPrunningInput.style.display = "inline";
+        depthTool.style.display = "inline";
         if(gameModeTool.value=="PlayerVSAI"){
             shared.AIType.style.display = "inline";
         }else{
@@ -273,6 +275,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         shared.AIType.style.display = "none";
         AlphaBetaPrunning.style.display = "none";
         AlphaBetaPrunningInput.style.display = "none";
+        depthTool.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
         tiles.style.maxWidth = `${50*currentBoardSize}px`;

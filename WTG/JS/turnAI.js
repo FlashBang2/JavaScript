@@ -2,14 +2,14 @@ const turnAI = (board, currentPlayer) =>{
     let availabeMoves = [];
     let bestScore = -Infinity;
     let move = -Infinity;
-    let score;
-    shared.chartConfig.splice(0, shared.chartConfig.length);
+    let score = 0;
+    /*shared.chartConfig.splice(0, shared.chartConfig.length);
     shared.chartConfig.push(shared.config);
     shared.node = {
         text: { name: "start" }
     };
     shared.chartConfig.push( shared.node);
-    
+    */
     for (let y = 0; y < board.length; y++)
     {
         if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
@@ -27,7 +27,7 @@ const turnAI = (board, currentPlayer) =>{
             }
             else if (shared.AIType.value == "miniMax")
             {
-                score = minimax(board, 0, -Infinity, Infinity, false, 'O');
+                score = minimax(board, 1, -Infinity, Infinity, false, 'O');
                 
             }
             else if (shared.AIType.value =="PNS")
@@ -50,7 +50,7 @@ const turnAI = (board, currentPlayer) =>{
                 move = tile;
             }
         });
-        var my_chart = new Treant(shared.chartConfig);
+        /*var my_chart = new Treant(shared.chartConfig);*/
         if (shared.AIType.value == "RandomAI")
             move = availabeMoves[Math.floor(Math.random() * availabeMoves.length)];
         board[move].innerText = currentPlayer;
