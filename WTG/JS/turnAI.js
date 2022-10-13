@@ -52,10 +52,9 @@ const turnAI = (board, currentPlayer) =>{
                 move = tile;
             }
         });
-        console.log(shared.chartConfig);
         var my_chart = new Treant(shared.chartConfig);
         if (shared.AIType.value == "RandomAI")
-            move = Math.floor(Math.random() * availabeMoves.length);
+            move = availabeMoves[Math.floor(Math.random() * availabeMoves.length)];
         board[move].innerText = currentPlayer;
         board[move].classList.add(`player${currentPlayer}`);
     }
