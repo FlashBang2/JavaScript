@@ -58,33 +58,116 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     shared.handleResultValidation = () =>{
-        for(var i = 0;i <= currentBoardSize;i++){
-            var result = parseInt(bitwiseBoardO[0][i].join(''),2) & parseInt(bitwiseBoardO[0][i+1].join(''),2) & parseInt(bitwiseBoardO[0][i+2].join(''),2);
-              if(result !== 0)
-                break;
+
+        if (shared.validateResultRows() || shared.validateResultColumns() || shared.validateDiagonalLines())
+        {
+            isGameActive = false;
+            announce(currentPlayerGlobal);
+        }
+        
+    }
+
+    shared.validateResultRows = () =>{
+
+        if (currentPlayerGlobal == 'X'){
+            var newmat =bitwiseBoardX.reduce((prev, next) => next.map((item, i) =>
+                    (prev[i] || []).concat(next[i])
+                        ), []);
+        
+            for(var i=0;i<=currentBoardSize-3;i++){
+                    var result = parseInt(newmat[i].join(''),2) & parseInt(newmat[i+1].join(''),2) & parseInt(newmat[i+2].join(''),2);
+                    if(result !== 0)
+                        {
+                            return true;
+                        }
             }
+        }
+         else{
+            var newmat =bitwiseBoardO.reduce((prev, next) => next.map((item, i) =>
+            (prev[i] || []).concat(next[i])
+                ), []);
+        
+            for(var i=0;i<=currentBoardSize-3;i++){
+                    var result = parseInt(newmat[i].join(''),2) & parseInt(newmat[i+1].join(''),2) & parseInt(newmat[i+2].join(''),2);
+                    if(result !== 0)
+                    {
+                        return true;
+                    }
+            }
+         }
     
-        var newmat =bitwiseBoardO[0].reduce((prev, next) => next.map((item, i) =>
-                (prev[i] || []).concat(next[i])
-                    ), []);
-            
-        for(var i=0;i<=currentBoardSize;i++){
-                var result = parseInt(newmat[i].join(''),2) & parseInt(newmat[i+1].join(''),2) & parseInt(newmat[i+2].join(''),2);
-                if(result !== 0)
-                    break;
+
+
+       
+    }
+
+    shared.validateResultColumns = () =>{
+        if (currentPlayerGlobal == 'X')
+            {
+                for(var i = 0;i <= currentBoardSize-3;i++){
+                    var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) & parseInt(bitwiseBoardX[i+2].join(''),2);
+                      if(result !== 0)
+                       {
+                        return true;
+                        }
+                       
+                    }
             }
-            
-        for(var i=0;i<=currentBoardSize;i++){
-                var result = parseInt(bitwiseBoardO[1][i].join(''),2) & parseInt(bitwiseBoardO[1][i+1].join(''),2)<< 1 & parseInt(bitwiseBoardO[1][i+2].join(''),2)<< 2;
-                if(result !== 0)
-                    break;
+        else
+            {
+                for(var i = 0;i <= currentBoardSize-3;i++){
+                    var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) & parseInt(bitwiseBoardO[i+2].join(''),2);
+                      if(result !== 0)
+                        {
+                            return true;
+                        }
+                        
+                    }
             }
-            
-        for(var i=0;i<=currentBoardSize;i++){
-                var result = parseInt(bitwiseBoardO[1][i].join(''),2) & parseInt(bitwiseBoardO[1][i+1].join(''),2)>> 1 & parseInt(bitwiseBoardO[1][i+2].join(''),2)>>2;
-                if(result !== 0)
-                    break;
-            }
+
+        
+    }
+
+    shared.validateDiagonalLines = () =>{
+        if (currentPlayerGlobal == 'X')
+                {
+                    for(var i=0;i<=currentBoardSize-3;i++){
+                        var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2)<< 1 & parseInt(bitwiseBoardX[i+2].join(''),2)<< 2;
+                        if(result !== 0)
+                            {
+                                return true;
+                            }
+                    }
+                    for(var i=0;i<=currentBoardSize-3;i++){
+                        var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2)>> 1 & parseInt(bitwiseBoardX[i+2].join(''),2)>>2;
+                        if(result !== 0)
+                            {
+                                return true;
+                            }
+                    }
+                }
+            else
+                {
+                    for(var i=0;i<=currentBoardSize-3;i++){
+                        var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2)<< 1 & parseInt(bitwiseBoardO[i+2].join(''),2)<< 2;
+                        if(result !== 0)
+                            {
+                                return true;
+                            }
+                    }
+                    for(var i=0;i<=currentBoardSize-3;i++){
+                        var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2)>> 1 & parseInt(bitwiseBoardO[i+2].join(''),2)>>2;
+                        if(result !== 0)
+                            {
+                                return true;
+                            }
+                    }
+                }
+
+
+        
+        
+        
     }
 
     const  hideAIOptions = () =>{
