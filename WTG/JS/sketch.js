@@ -71,7 +71,6 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     shared.validateResultRows = () =>{
         if (gameRulesTool.value=="standard") {
-            console.log('standard')
             if (currentPlayerGlobal == 'X'){
                 var newmat =bitwiseBoardX.reduce((prev, next) => next.map((item, i) =>
                         (prev[i] || []).concat(next[i])

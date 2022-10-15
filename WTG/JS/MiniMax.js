@@ -17,11 +17,16 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     }
     shared.chartConfig.push( window["node_" + depth]);
     */
-    for (let y = 0;y < board.length;y++)
+    for (let row of board)
     {
-        if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
+        for (let element of row)
+        {
+            if (element.DOM.classList.contains(`playerO`) || element.DOM.classList.contains(`playerX`))
             continue;
-        availabeMoves.push(y);
+            let x = element.row;
+            let y = element.column;
+            availabeMoves.push({x,y});
+        }   
     }
     let terminalNode = validateMinimax(board);
     if (terminalNode != null)
@@ -33,11 +38,11 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
         let bestScore = -Infinity;
         for (let tile of availabeMoves)
         {
-            board[tile].innerText = currentPlayer;
-            board[tile].classList.add(`player${currentPlayer}`);
+            board[tile.x][tile.y].DOM.innerText = currentPlayer;
+            board[tile.x][tile.y].DOM.classList.add(`player${currentPlayer}`);
             let score = minimax(board, depth - 1, alpha, beta, false, 'O');
-            board[tile].innerText = '';
-            board[tile].classList.remove(`player${currentPlayer}`);
+            board[tile.x][tile.y].DOM.innerText = '';
+            board[tile.x][tile.y].DOM.classList.remove(`player${currentPlayer}`);
             bestScore = Math.max(score, bestScore);
             alpha = Math.max(alpha, bestScore);
             if (beta <= alpha)
@@ -50,11 +55,11 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
         let bestScore = Infinity;
         for (let tile of availabeMoves)
         {
-            board[tile].innerText = currentPlayer;
-            board[tile].classList.add(`player${currentPlayer}`);
+            board[tile.x][tile.y].DOM.innerText = currentPlayer;
+            board[tile.x][tile.y].DOM.classList.add(`player${currentPlayer}`);
             let score = minimax(board, depth - 1, alpha, beta, true, 'X');
-            board[tile].innerText = '';
-            board[tile].classList.remove(`player${currentPlayer}`);
+            board[tile.x][tile.y].DOM.innerText = '';
+            board[tile.x][tile.y].DOM.classList.remove(`player${currentPlayer}`);
             bestScore = Math.min(score, bestScore);
             beta = Math.min(beta, bestScore);
             if (beta <= alpha)
