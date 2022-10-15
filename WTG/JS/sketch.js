@@ -123,6 +123,9 @@ window.addEventListener('DOMContentLoaded', () =>{
             shared.AIType.style.display = "inline";
         else
             shared.AIType.style.display = "none";
+        document.querySelectorAll('.tile').forEach((tile) =>{
+            tile.remove();
+        });
         tiles.style.gridTemplateColumns = "";
         tiles.style.gridTemplateRows = "";
         gameSideTool.style.display = "inline";
