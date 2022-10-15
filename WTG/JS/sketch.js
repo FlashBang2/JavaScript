@@ -28,7 +28,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const AlphaBetaPrunningInput = document.querySelector("#AlphaBetaPrunningInput");
     const depthTool = document.querySelector("#depthTool");
 
-    let currentBoardSize = 0;
+    let currentBoardSize = parseInt(boardSizeTool.value,10);
     let currentPlayerGlobal = 'O';
     let isGameActive = true;
     let isAgainstAI = false;
@@ -103,6 +103,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const userAction = (tile) =>{
+        console.log(bitwiseBoardO, bitwiseBoardX);
         if(isValidAction(tile) && isGameActive && !isAgainstAI){
             tile.DOM.innerText = currentPlayerGlobal;
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
@@ -145,7 +146,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     
     const generateBoard = () =>{
         isGameActive = true;
-        currentBoardSize = parseInt(boardSizeTool.value,10);
         currentPlayerGlobal = gameSideTool.value;
         gameSideTool.style.display = "none";
         selectButton.style.display = "none";
@@ -158,8 +158,6 @@ window.addEventListener('DOMContentLoaded', () =>{
         depthTool.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
-        if (gameRulesTool.value != "standard")
-            currentBoardSize=15;
         tiles.style.maxWidth = `${50*currentBoardSize}px`;
         for (var x = 0; x < currentBoardSize; x++)
         {
