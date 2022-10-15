@@ -10,12 +10,7 @@
     padding-top: 1px;
 }
 
-.title{
-    color:white;
-    text-align: center;
-    font-size: 40px;
-    margin-top: 10%;
-}
+
 
 .display{
     color:white;
@@ -59,11 +54,6 @@
     justify-content: center;
     align-items: center;
     margin-top: 1em;
-}
-
-.form{
-    margin: 0 auto;
-    text-align: center;
 }
 
 #reset{
@@ -111,4 +101,31 @@
     font-weight: bold; 
     padding: 3px; 
     margin: 0; 
+}
+
+#AISelect {
+    display: none;
+}
+
+#side {
+    display: none;
+}
+
+#AlphaBetaPrunningInput {
+    display: none;
+}
+
+#AlphaBetaPrunning {
+    display: none;
+}
+
+#depthTool {
+    display: none;
+}
+
+#mainTitle {
+    text-align: center;
+    font-size: 40px;
+    margin-top: 10%;
+    color: #C8C8C8;
 }

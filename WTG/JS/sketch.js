@@ -182,9 +182,15 @@ window.addEventListener('DOMContentLoaded', () =>{
         if(gameModeTool.value == "PlayerVSAI"){
             shared.AIType.style.display = "inline";
             gameSideTool.style.display = "inline";
+            depthTool.style.display = "inline";
+            AlphaBetaPrunning.style.display = "inline"; 
+            AlphaBetaPrunningInput.style.display = "inline";
         }else{
             shared.AIType.style.display = "none";
             gameSideTool.style.display = "none";
+            depthTool.style.display = "none";
+            AlphaBetaPrunning.style.display = "none"; 
+            AlphaBetaPrunningInput.style.display = "none";
         }
     }
 
@@ -255,22 +261,30 @@ window.addEventListener('DOMContentLoaded', () =>{
             playerDisplay.classList.remove(`playerX`);
         playerDisplay.innerText = '';
         if(gameModeTool.value == "PlayerVSAI")
+        {
             shared.AIType.style.display = "inline";
+            gameSideTool.style.display = "inline";
+            depthTool.style.display = "inline";
+            AlphaBetaPrunning.style.display = "inline"; 
+            AlphaBetaPrunningInput.style.display = "inline";
+        }  
         else
+        {
             shared.AIType.style.display = "none";
+            gameSideTool.style.display = "none";
+            depthTool.style.display = "none";
+            AlphaBetaPrunning.style.display = "none"; 
+            AlphaBetaPrunningInput.style.display = "none";
+        }  
         document.querySelectorAll('.tile').forEach((tile) =>{
             tile.remove();
         });
         tiles.style.gridTemplateColumns = "";
         tiles.style.gridTemplateRows = "";
-        gameSideTool.style.display = "inline";
         selectButton.style.display = "inline";
         boardSizeTool.style.display = "inline";
         gameModeTool.style.display = "inline";
         gameRulesTool.style.display = "inline";
-        AlphaBetaPrunning.style.display = "inline";
-        AlphaBetaPrunningInput.style.display = "inline";
-        depthTool.style.display = "inline";
         display.style.display = "none";
         resetButton.style.display = "none";
         announcer.style.display = "none";

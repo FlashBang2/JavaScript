@@ -17,7 +17,7 @@
     <body>
         <main class="background">
             <section class="title">
-                <h1>Tic Tac Toe</h1>
+                <h1 id = "mainTitle">Tic Tac Toe</h1>
             </section>
             <section class="display">
                 Player <span class  = "display-player playerO"> O </span>'s turn
@@ -29,10 +29,18 @@
                     <option value = "PlayerVSAI"> PVAI </option>
                     <option value = "AIVAI"> AIVAI </option>
                 </select>
+                <select class = "selectTools" id = "gameSelect">
+                    <option value = "standard"> standard </option>
+                    <option value = "gomoku"  id = "hidden" hidden="hidden"> gomoku </option>
+                    <option value = "gomoku_pro"  id = "hidden" hidden="hidden">  gomoku pro </option>
+                    <option value = "gomoku_swap2"  id = "hidden" hidden="hidden">  gomoku swap2 </option>
+                </select> 
+                <button class = "selectTools" type = "button" id = "confirm">Confirm</button>
+                </br> </br>
                 <select class = "selectTools" id = "side">
                     <option value = "X"> X </option>
                     <option value = "O"> O </option>
-                </select>
+                </select> 
                 <select class = "selectTools" id = "AISelect">
                     <option value = "RandomAI"> RandomAI </option>
                     <option value = "miniMax"> miniMax </option>
@@ -41,12 +49,6 @@
                     <option value = "MCS"> monte-CarloSearch </option>
                     <option value = "MCTS"> monte-CarloTreeSearch </option>
                     <option value = "deepQLearning"> deepQLearning </option>
-                </select><br/><br/>
-                <select class = "selectTools" id = "gameSelect">
-                    <option value = "standard"> standard </option>
-                    <option value = "gomoku"  id = "hidden" hidden="hidden"> gomoku </option>
-                    <option value = "gomoku_pro"  id = "hidden" hidden="hidden">  gomoku pro </option>
-                    <option value = "gomoku_swap2"  id = "hidden" hidden="hidden">  gomoku swap2 </option>
                 </select>
                 <label class = "selectTools" id = "AlphaBetaPrunning" for = "AlphaBetaPrunning"> Enable Alpha Beta Prunning </label>
                 <input type = "checkbox" id = "AlphaBetaPrunningInput" value = "True">
@@ -57,7 +59,6 @@
                     <option value = "4"> 4 </option>
                     <option value = "5"> 5 </option>
                 </select>
-                <button class = "selectTools" type = "button" id = "confirm">Confirm</button>
             </form>
             <section class = "container">
             </section>
