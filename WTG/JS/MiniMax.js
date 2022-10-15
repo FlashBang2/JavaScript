@@ -69,7 +69,18 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     }
 }
 const validateMinimax = (board) =>{
-    if (board[0].classList.contains(`playerO`) && board[1].classList.contains(`playerO`) && board[2].classList.contains(`playerO`))
+    
+    if (shared.validateResultRows("O") || shared.validateResultColumns("O") || shared.validateDiagonalLines("O"))
+    {
+        return -1;
+    }
+    if (shared.validateResultRows("X") || shared.validateResultColumns("X") || shared.validateDiagonalLines("X"))
+    {
+        return 1;
+    }
+
+
+    /*/if (board[0].classList.contains(`playerO`) && board[1].classList.contains(`playerO`) && board[2].classList.contains(`playerO`))
         return -1;
     if (board[3].classList.contains(`playerO`) && board[4].classList.contains(`playerO`) && board[5].classList.contains(`playerO`))
         return -1;
@@ -100,6 +111,6 @@ const validateMinimax = (board) =>{
     if (board[0].classList.contains(`playerX`) && board[4].classList.contains(`playerX`) && board[8].classList.contains(`playerX`))
         return 1;
     if (board[6].classList.contains(`playerX`) && board[4].classList.contains(`playerX`) && board[2].classList.contains(`playerX`))
-        return 1;
+        return 1;*/
     return null
 }

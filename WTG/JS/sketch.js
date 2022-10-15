@@ -61,7 +61,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     shared.handleResultValidation = () =>{
 
-        if (shared.validateResultRows() || shared.validateResultColumns() || shared.validateDiagonalLines())
+        if (shared.validateResultRows(currentPlayerGlobal) || shared.validateResultColumns(currentPlayerGlobal) || shared.validateDiagonalLines(currentPlayerGlobal))
         {
             isGameActive = false;
             announce(currentPlayerGlobal);
@@ -69,9 +69,9 @@ window.addEventListener('DOMContentLoaded', () =>{
         
     }
 
-    shared.validateResultRows = () =>{
+    shared.validateResultRows = (Player) =>{
         if (gameRulesTool.value=="standard") {
-            if (currentPlayerGlobal == 'X'){
+            if (Player == 'X'){
                 var newmat =bitwiseBoardX.reduce((prev, next) => next.map((item, i) =>
                         (prev[i] || []).concat(next[i])
                             ), []);
@@ -102,7 +102,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         
         } else {
             console.log('gomoku')
-            if (currentPlayerGlobal == 'X'){
+            if (Player == 'X'){
                 var newmat =bitwiseBoardX.reduce((prev, next) => next.map((item, i) =>
                         (prev[i] || []).concat(next[i])
                             ), []);
@@ -138,9 +138,9 @@ window.addEventListener('DOMContentLoaded', () =>{
        
     }
 
-    shared.validateResultColumns = () =>{
+    shared.validateResultColumns = (Player) =>{
         if (gameRulesTool.value=="standard") {
-            if (currentPlayerGlobal == 'X')
+            if (Player == 'X')
                 {
                     for(var i = 0;i <= currentBoardSize-3;i++){
                         var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) & parseInt(bitwiseBoardX[i+2].join(''),2) ;
@@ -165,7 +165,7 @@ window.addEventListener('DOMContentLoaded', () =>{
                     return false;
                 }
         } else {
-            if (currentPlayerGlobal == 'X')
+            if (Player == 'X')
                 {
                     for(var i = 0;i <= currentBoardSize-5;i++){
                         var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) & parseInt(bitwiseBoardX[i+2].join(''),2) & parseInt(bitwiseBoardX[i+3].join(''),2) & parseInt(bitwiseBoardX[i+4].join(''),2);
@@ -196,9 +196,9 @@ window.addEventListener('DOMContentLoaded', () =>{
         
     }
 
-    shared.validateDiagonalLines = () =>{
+    shared.validateDiagonalLines = (Player) =>{
         if (gameRulesTool.value=="standard") {
-            if (currentPlayerGlobal == 'X')
+            if (Player == 'X')
             {
                 for(var i=0;i<=currentBoardSize-3;i++){
                     var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) << 1 & parseInt(bitwiseBoardX[i+2].join(''),2) << 2 ;
@@ -235,7 +235,7 @@ window.addEventListener('DOMContentLoaded', () =>{
                 return false;
             }
         } else {
-            if (currentPlayerGlobal == 'X')
+            if (Player == 'X')
             {
                 for(var i=0;i<=currentBoardSize-5;i++){
                     var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) << 1 & parseInt(bitwiseBoardX[i+2].join(''),2) << 2 & parseInt(bitwiseBoardX[i+3].join(''),2) << 3 & parseInt(bitwiseBoardX[i+4].join(''),2) << 4;
