@@ -1,4 +1,4 @@
-const turnAI = () =>{
+const turnAI = (board, currentPlayer) =>{
     let availabeMoves = [];
     let bestScore = -Infinity;
     let move = -Infinity;
@@ -10,17 +10,23 @@ const turnAI = () =>{
     };
     shared.chartConfig.push( shared.node);
     */
-    for (let y = 0; y < board.length; y++)
+    for (let row of board)
     {
-        if (board[y].classList.contains(`playerO`) || board[y].classList.contains(`playerX`))
+        for (let element of row)
+        {
+            if (element.DOM.classList.contains(`playerO`) || element.DOM.classList.contains(`playerX`))
             continue;
-        availabeMoves.push(y);
+            let x = element.row;
+            let y = element.column;
+            availabeMoves.push({x,y});
+        }   
     }
     if (availabeMoves.length > 0)
     { 
-        availabeMoves.forEach((tile) =>{
-            board[tile].innerText = currentPlayer;
-            board[tile].classList.add(`player${currentPlayer}`);
+        for (let tile of availabeMoves)
+        {
+            board[tile.x][tile.y].DOM.innerText = currentPlayer;
+            board[tile.x][tile.y].DOM.classList.add(`player${currentPlayer}`);
             if (shared.AIType.value == "negaMax")
             {
                 score = -negamax(board, 0, Infinity, -Infinity, 'O', -1);
@@ -42,19 +48,21 @@ const turnAI = () =>{
             {
                 deepQLearning();
             }
-            board[tile].innerText = '';
-            board[tile].classList.remove(`player${currentPlayer}`);
+            board[tile.x][tile.y].DOM.innerText = '';
+            board[tile.x][tile.y].DOM.classList.remove(`player${currentPlayer}`);
             if (score > bestScore)
             {
                 bestScore = score;
-                move = tile;
+                let x = tile.x;
+                let y = tile.y;
+                move = {x,y};
             }
-        });
+        }
         /*var my_chart = new Treant(shared.chartConfig);*/
         if (shared.AIType.value == "RandomAI")
             move = availabeMoves[Math.floor(Math.random() * availabeMoves.length)];
-        board[move].innerText = currentPlayer;
-        board[move].classList.add(`player${currentPlayer}`);
+        board[move.x][move.y].DOM.innerText = currentPlayer;
+        board[move.x][move.y].DOM.classList.add(`player${currentPlayer}`);
     }
     shared.handleResultValidation();
     shared.changePlayer();

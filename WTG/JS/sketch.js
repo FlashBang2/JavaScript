@@ -34,6 +34,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     let isAgainstAI = false;
     let bitwiseBoardO = [];
     let bitwiseBoardX = [];
+    let squareBoard = [];
+    let board = [];
     
     /*shared.config = {
         container: "#tree-simple",
@@ -334,7 +336,7 @@ window.addEventListener('DOMContentLoaded', () =>{
             shared.handleResultValidation();
             shared.changePlayer();
         }
-        /*if (isValidAction(tile) && isGameActive && isAgainstAI)
+        if (isValidAction(tile) && isGameActive && isAgainstAI)
         {
             tile.DOM.innerText = currentPlayerGlobal;
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
@@ -344,8 +346,8 @@ window.addEventListener('DOMContentLoaded', () =>{
                 bitwiseBoardO[tile.row][tile.column] = 1;
             shared.handleResultValidation();
             shared.changePlayer();
-            turnAI();
-        }*/
+            turnAI(squareBoard, currentPlayerGlobal);
+        }
     }
 
     const resetBoard = () =>{
@@ -376,6 +378,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         announcer.style.display = "none";
         bitwiseBoardO = [];
         bitwiseBoardX = [];
+        board = [];
+        squareBoard = [];
     } 
     
     const generateBoard = () =>{
@@ -407,6 +411,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         tiles.style.maxWidth = `${50*currentBoardSize}px`;
         for (var x = 0; x < currentBoardSize; x++)
         {
+            let row = [];
             tiles.style.gridTemplateColumns += `${100/currentBoardSize}% `;
             tiles.style.gridTemplateRows += `${100/currentBoardSize}%`;
             for (var y = 0; y < currentBoardSize; y++)
@@ -414,11 +419,14 @@ window.addEventListener('DOMContentLoaded', () =>{
                let square = new Square(x, y);
                square.setOnClick(() =>userAction(square));
                document.querySelector(".container").append(square.DOM);
+               row.push(square);
             }
+            squareBoard.push(row);
         }
         bitwiseBoardO = new Array(Math.pow(currentBoardSize,2)).fill(0);
         bitwiseBoardO = to2D(bitwiseBoardO, currentBoardSize);
         bitwiseBoardX = JSON.parse(JSON.stringify(bitwiseBoardO));
+        board = JSON.parse(JSON.stringify(bitwiseBoardX));
     }  
 
     const to2D = (array, width) => 
