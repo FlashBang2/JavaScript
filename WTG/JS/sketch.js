@@ -33,10 +33,9 @@ window.addEventListener('DOMContentLoaded', () =>{
     let isGameActive = true;
     let isAgainstAI = false;
     let board;
+    let bitwiseBoardO = new Array(Math.pow(currentBoardSize,2)).fill(0);
+    let bitwiseBoardX 
     let counter = 0;
-    shared.AIType.style.display = "none";
-    gameSideTool.style.display = "none";
-
     
     /*shared.config = {
         container: "#tree-simple",
@@ -205,9 +204,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     };
 
     const isValidAction = (tile) =>{
-        if(tile.innerText === 'X' || tile.innerText === 'O'){
+        if(tile.DOM.innerText === 'X' || tile.DOM.innerText === 'O')
             return false;
-        }
         return true;
     };
 
@@ -220,16 +218,15 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     const userAction = (tile) =>{
         if(isValidAction(tile) && isGameActive && !isAgainstAI){
-            tile.innerText = currentPlayerGlobal;
-            tile.classList.add(`player${currentPlayerGlobal}`);
+            tile.DOM.innerText = currentPlayerGlobal;
+            tile.DOM.classList.add(`player${currentPlayerGlobal}`);
             shared.handleResultValidation();
             shared.changePlayer();
         }
         if (isValidAction(tile) && isGameActive && isAgainstAI)
         {
-            
-            tile.innerText = currentPlayerGlobal;
-            tile.classList.add(`player${currentPlayerGlobal}`);
+            tile.DOM.innerText = currentPlayerGlobal;
+            tile.DOM.classList.add(`player${currentPlayerGlobal}`);
             shared.handleResultValidation();
             shared.changePlayer();
             turnAI(board, currentPlayerGlobal);
@@ -237,8 +234,13 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const resetBoard = () =>{
+        if(gameModeTool.value=="PlayerVSAI")
+            shared.AIType.style.display = "inline";
+        else
+            shared.AIType.style.display = "none";
         board.forEach((tile) =>{
         tile.remove();
+        });
         tiles.style.gridTemplateColumns = "";
         tiles.style.gridTemplateRows = "";
         gameSideTool.style.display = "inline";
@@ -249,23 +251,14 @@ window.addEventListener('DOMContentLoaded', () =>{
         AlphaBetaPrunning.style.display = "inline";
         AlphaBetaPrunningInput.style.display = "inline";
         depthTool.style.display = "inline";
-        if(gameModeTool.value=="PlayerVSAI"){
-            shared.AIType.style.display = "inline";
-        }else{
-            shared.AIType.style.display = "none";
-        }
         display.style.display = "none";
         resetButton.style.display = "none";
         announcer.style.display = "none";
-       });
     } 
     
     const generateBoard = () =>{
         isGameActive = true;
         currentBoardSize = parseInt(boardSizeTool.value,10);
-        if (gameRulesTool.value!="standard") {
-            currentBoardSize=15;
-        }
         currentPlayerGlobal = gameSideTool.value;
         gameSideTool.style.display = "none";
         selectButton.style.display = "none";
@@ -278,6 +271,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         depthTool.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
+        if (gameRulesTool.value != "standard")
+            currentBoardSize=15;
         tiles.style.maxWidth = `${50*currentBoardSize}px`;
         for (var x = 0; x < currentBoardSize; x++)
         {
@@ -285,20 +280,18 @@ window.addEventListener('DOMContentLoaded', () =>{
             tiles.style.gridTemplateRows += `${100/currentBoardSize}%`;
             for (var y = 0; y < currentBoardSize; y++)
             {
-                var div = document.createElement('div');
-                div.setAttribute("class", "tile");
-                tiles.appendChild(div);
+               let square = new Square(x, y);
+               square.setOnClick(() =>userAction(square));
+               document.querySelector(".container").append(square.DOM);
             }
         }
-        addClickEventForTiles();
-    } 
+        bitwiseBoardO = to2D(bitwiseBoardO, currentBoardSize);
+        bitwiseBoardX = [...bitwiseBoardO];
+    }  
 
-    const addClickEventForTiles = () => {
-        board = Array.from(document.querySelectorAll('.tile'));
-        board.forEach((tile) =>{
-            tile.addEventListener('click',() =>userAction(tile));
-        }); 
-    }     
+    const to2D = (array, width) => 
+    array.reduce((rows, key, index) => (index % width == 0 ? rows.push([key]) 
+      : rows[rows.length-1].push(key)) && rows, []);
 
     const gameHandler = () => {
         if (gameModeTool.value == "PlayerVSAI")
