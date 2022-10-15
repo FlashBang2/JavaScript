@@ -1,4 +1,4 @@
-const turnAI = (board, currentPlayer) =>{
+const turnAI = () =>{
     let availabeMoves = [];
     let bestScore = -Infinity;
     let move = -Infinity;

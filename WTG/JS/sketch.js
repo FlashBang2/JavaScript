@@ -29,10 +29,10 @@ window.addEventListener('DOMContentLoaded', () =>{
     const depthTool = document.querySelector("#depthTool");
 
     let currentBoardSize = parseInt(boardSizeTool.value,10);
-    let currentPlayerGlobal = 'O';
+    let currentPlayerGlobal = gameSideTool.value;
     let isGameActive = true;
     let isAgainstAI = false;
-    let bitwiseBoardO = new Array(Math.pow(currentBoardSize,2)).fill(0);
+    let bitwiseBoardO = [];
     let bitwiseBoardX = [];
     
     /*shared.config = {
@@ -107,6 +107,9 @@ window.addEventListener('DOMContentLoaded', () =>{
         if(isValidAction(tile) && isGameActive && !isAgainstAI){
             tile.DOM.innerText = currentPlayerGlobal;
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
+            if (currentPlayerGlobal == 'X')
+                bitwiseBoardX[tile.row][tile.column] = 1;
+            bitwiseBoardO[tile.row][tile.column] = 1;
             shared.handleResultValidation();
             shared.changePlayer();
         }
@@ -114,16 +117,22 @@ window.addEventListener('DOMContentLoaded', () =>{
         {
             tile.DOM.innerText = currentPlayerGlobal;
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
+            if (currentPlayerGlobal == 'X')
+                bitwiseBoardX[tile.row][tile.column] = 1;
+            bitwiseBoardO[tile.row][tile.column] = 1;
             shared.handleResultValidation();
             shared.changePlayer();
+            turnAI();
         }
     }
 
     const resetBoard = () =>{
+        if (playerDisplay.classList.contains(`playerO`))
+            playerDisplay.classList.remove(`playerO`);
+        playerDisplay.classList.remove(`playerX`);
         if(gameModeTool.value=="PlayerVSAI")
             shared.AIType.style.display = "inline";
-        else
-            shared.AIType.style.display = "none";
+        shared.AIType.style.display = "none";
         document.querySelectorAll('.tile').forEach((tile) =>{
             tile.remove();
         });
@@ -145,8 +154,11 @@ window.addEventListener('DOMContentLoaded', () =>{
     } 
     
     const generateBoard = () =>{
+        console.log(currentPlayerGlobal);
+        if (currentPlayerGlobal == 'X')
+            shared.changePlayer();
+        shared.changePlayer();
         isGameActive = true;
-        currentPlayerGlobal = gameSideTool.value;
         gameSideTool.style.display = "none";
         selectButton.style.display = "none";
         boardSizeTool.style.display = "none";
@@ -170,6 +182,7 @@ window.addEventListener('DOMContentLoaded', () =>{
                document.querySelector(".container").append(square.DOM);
             }
         }
+        bitwiseBoardO = new Array(Math.pow(currentBoardSize,2)).fill(0);
         bitwiseBoardO = to2D(bitwiseBoardO, currentBoardSize);
         bitwiseBoardX = [...bitwiseBoardO];
     }  
