@@ -32,10 +32,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     let currentPlayerGlobal = 'O';
     let isGameActive = true;
     let isAgainstAI = false;
-    let board;
     let bitwiseBoardO = new Array(Math.pow(currentBoardSize,2)).fill(0);
-    let bitwiseBoardX 
-    let counter = 0;
+    let bitwiseBoardX = [];
     
     /*shared.config = {
         container: "#tree-simple",
@@ -74,118 +72,6 @@ window.addEventListener('DOMContentLoaded', () =>{
             }); 
 
         }
-    }
-
-    shared.handleResultValidation = () =>{
-        switch (gameRulesTool.value) {
-            case "standard":
-                if (shared.validateResultRows(currentPlayerGlobal) || shared.validateResultColumns(currentPlayerGlobal) || shared.validateDiagonalLines(currentPlayerGlobal))
-                {
-                    isGameActive = false;
-                    announce(currentPlayerGlobal);
-                }
-                counter = 0;
-                board.forEach((tile)=>{
-                    if (tile.classList.contains(`playerX`))
-                        counter++
-                    if (tile.classList.contains(`playerO`))
-                        counter++
-                })
-                if (counter == Math.pow(currentBoardSize,2) && isGameActive == true)
-                {
-                    isGameActive = false;
-                    announce(TIE)
-                }
-                break;
-            case "gomoku":
-                let full = true;
-                for (let i = 0; i < board.length; i++) {
-                    if(board[i].textContent == ''){
-                        full = false;
-                    }
-                    if(board[i].textContent !== ''){
-                        if((board[i].textContent == board[i+1].textContent && 
-                            board[i+1].textContent == board[i+2].textContent && 
-                            board[i+2].textContent == board[i+3].textContent && 
-                            board[i+3].textContent == board[i+4].textContent ) ||
-                            (board[i].textContent == board[i+currentBoardSize].textContent && 
-                            board[i+currentBoardSize].textContent == board[i+2*currentBoardSize].textContent && 
-                            board[i+2*currentBoardSize].textContent == board[i+3*currentBoardSize].textContent && 
-                            board[i+3*currentBoardSize].textContent == board[i+4*currentBoardSize].textContent ) ||
-                            (board[i].textContent == board[i+1+currentBoardSize].textContent && 
-                            board[i+1+currentBoardSize].textContent == board[i+2+2*currentBoardSize].textContent && 
-                            board[i+2+2*currentBoardSize].textContent == board[i+3+3*currentBoardSize].textContent && 
-                            board[i+3+3*currentBoardSize].textContent == board[i+4+4*currentBoardSize].textContent ) ||
-                            (board[i].textContent == board[i-1+currentBoardSize].textContent && 
-                            board[i-1+currentBoardSize].textContent == board[i-2+2*currentBoardSize].textContent && 
-                            board[i-2+2*currentBoardSize].textContent == board[i-3+3*currentBoardSize].textContent && 
-                            board[i-3+3*currentBoardSize].textContent == board[i-4+4*currentBoardSize].textContent ) 
-                        ){
-                            isGameActive = false;
-                            announce(currentPlayerGlobal)
-                        }
-                    }
-                }
-                if(full){
-                    announce(TIE)
-                }
-                break;
-        }
-              
-    }
-
-    shared.validateResultRows = (currentPlayer) =>{
-        for (var y = 0;y < currentBoardSize;y++)
-        {
-            counter = 0;
-            for (var x = currentBoardSize * y;x < currentBoardSize * (y + 1);x++)
-            {
-                if (board[x].classList.contains(`player${currentPlayer}`))
-                    counter++
-                else
-                    break
-            }
-            if (counter == currentBoardSize)
-                return true;
-        }
-        return false; 
-    }
-
-    shared.validateResultColumns = (currentPlayer) =>{
-        for (var y = 0; y < currentBoardSize;y++)
-        {
-            counter = 0
-            for (var x = y; x < Math.pow(currentBoardSize,2); x+=parseInt(currentBoardSize,10))
-            {
-                if (board[x].classList.contains(`player${currentPlayer}`))
-                    counter++
-                else
-                    break;
-            }
-            if (counter == currentBoardSize)
-                return true;
-        }
-        return false;
-    }
-
-    shared.validateDiagonalLines = (currentPlayer) =>{
-        counter = 0;
-        for (var x = 0;x < Math.pow(currentBoardSize,2);x+=parseInt(currentBoardSize,10) + 1)
-        {
-            if(board[x].classList.contains(`player${currentPlayer}`))
-                counter++
-        }
-        if (counter == currentBoardSize)
-            return true
-        counter = 0;
-        for (var x = parseInt(currentBoardSize)-1;x < (Math.pow(currentBoardSize,2) - 1);x+=parseInt(currentBoardSize,10) - 1)
-        {
-            if (board[x].classList.contains(`player${currentPlayer}`))
-                counter++
-        }
-        if (counter == currentBoardSize)
-            return true
-        return false
     }
 
     const announce = (type) =>{
@@ -229,7 +115,6 @@ window.addEventListener('DOMContentLoaded', () =>{
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
             shared.handleResultValidation();
             shared.changePlayer();
-            turnAI(board, currentPlayerGlobal);
         }
     }
 
@@ -238,9 +123,6 @@ window.addEventListener('DOMContentLoaded', () =>{
             shared.AIType.style.display = "inline";
         else
             shared.AIType.style.display = "none";
-        board.forEach((tile) =>{
-        tile.remove();
-        });
         tiles.style.gridTemplateColumns = "";
         tiles.style.gridTemplateRows = "";
         gameSideTool.style.display = "inline";
