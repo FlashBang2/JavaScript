@@ -68,7 +68,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     shared.validateResultRows = () =>{
-        if (gameRulesTool=="standard") {
+        if (gameRulesTool.value=="standard") {
+            console.log('standard')
             if (currentPlayerGlobal == 'X'){
                 var newmat =bitwiseBoardX.reduce((prev, next) => next.map((item, i) =>
                         (prev[i] || []).concat(next[i])
@@ -99,6 +100,7 @@ window.addEventListener('DOMContentLoaded', () =>{
             }
         
         } else {
+            console.log('gomoku')
             if (currentPlayerGlobal == 'X'){
                 var newmat =bitwiseBoardX.reduce((prev, next) => next.map((item, i) =>
                         (prev[i] || []).concat(next[i])
@@ -136,56 +138,56 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     shared.validateResultColumns = () =>{
-        if (gameRulesTool=="standard") {
+        if (gameRulesTool.value=="standard") {
             if (currentPlayerGlobal == 'X')
-            {
-                for(var i = 0;i <= currentBoardSize-3;i++){
-                    var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) & parseInt(bitwiseBoardX[i+2].join(''),2) ;
-                      if(result !== 0)
-                       {
-                        return true;
-                        }
-                       
-                    }
-                return false;
-            }
-        else
-            {
-                for(var i = 0;i <= currentBoardSize-3;i++){
-                    var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) & parseInt(bitwiseBoardO[i+2].join(''),2) ;
-                      if(result !== 0)
+                {
+                    for(var i = 0;i <= currentBoardSize-3;i++){
+                        var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) & parseInt(bitwiseBoardX[i+2].join(''),2) ;
+                        if(result !== 0)
                         {
                             return true;
-                        }
+                            }
                         
-                    }
-                return false;
-            }
+                        }
+                    return false;
+                }
+            else
+                {
+                    for(var i = 0;i <= currentBoardSize-3;i++){
+                        var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) & parseInt(bitwiseBoardO[i+2].join(''),2) ;
+                        if(result !== 0)
+                            {
+                                return true;
+                            }
+                            
+                        }
+                    return false;
+                }
         } else {
             if (currentPlayerGlobal == 'X')
-            {
-                for(var i = 0;i <= currentBoardSize-5;i++){
-                    var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) & parseInt(bitwiseBoardX[i+2].join(''),2) & parseInt(bitwiseBoardX[i+3].join(''),2) & parseInt(bitwiseBoardX[i+4].join(''),2);
-                      if(result !== 0)
-                       {
-                        return true;
-                        }
-                       
-                    }
-                    return false;
-            }
-        else
-            {
-                for(var i = 0;i <= currentBoardSize-5;i++){
-                    var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) & parseInt(bitwiseBoardO[i+2].join(''),2) & parseInt(bitwiseBoardO[i+3].join(''),2) & parseInt(bitwiseBoardO[i+4].join(''),2);
-                      if(result !== 0)
+                {
+                    for(var i = 0;i <= currentBoardSize-5;i++){
+                        var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) & parseInt(bitwiseBoardX[i+2].join(''),2) & parseInt(bitwiseBoardX[i+3].join(''),2) & parseInt(bitwiseBoardX[i+4].join(''),2);
+                        if(result !== 0)
                         {
                             return true;
-                        }
+                            }
                         
-                    }
-                    return false;
-            } 
+                        }
+                        return false;
+                }
+            else
+                {
+                    for(var i = 0;i <= currentBoardSize-5;i++){
+                        var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) & parseInt(bitwiseBoardO[i+2].join(''),2) & parseInt(bitwiseBoardO[i+3].join(''),2) & parseInt(bitwiseBoardO[i+4].join(''),2);
+                        if(result !== 0)
+                            {
+                                return true;
+                            }
+                            
+                        }
+                        return false;
+                } 
         }
 
         
@@ -194,7 +196,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     shared.validateDiagonalLines = () =>{
-        if (gameRulesTool=="standard") {
+        if (gameRulesTool.value=="standard") {
             if (currentPlayerGlobal == 'X')
             {
                 for(var i=0;i<=currentBoardSize-3;i++){
