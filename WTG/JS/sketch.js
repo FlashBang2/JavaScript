@@ -28,8 +28,8 @@ window.addEventListener('DOMContentLoaded', () =>{
     const AlphaBetaPrunningInput = document.querySelector("#AlphaBetaPrunningInput");
     const depthTool = document.querySelector("#depthTool");
 
-    let currentBoardSize = parseInt(boardSizeTool.value,10);
-    let currentPlayerGlobal = gameSideTool.value;
+    let currentBoardSize = 0;
+    let currentPlayerGlobal;
     let isGameActive = true;
     let isAgainstAI = false;
     let bitwiseBoardO = [];
@@ -103,7 +103,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     const userAction = (tile) =>{
-        console.log(bitwiseBoardO, bitwiseBoardX);
         if(isValidAction(tile) && isGameActive && !isAgainstAI){
             tile.DOM.innerText = currentPlayerGlobal;
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
@@ -129,10 +128,13 @@ window.addEventListener('DOMContentLoaded', () =>{
     const resetBoard = () =>{
         if (playerDisplay.classList.contains(`playerO`))
             playerDisplay.classList.remove(`playerO`);
-        playerDisplay.classList.remove(`playerX`);
-        if(gameModeTool.value=="PlayerVSAI")
+        else
+            playerDisplay.classList.remove(`playerX`);
+        playerDisplay.innerText = '';
+        if(gameModeTool.value == "PlayerVSAI")
             shared.AIType.style.display = "inline";
-        shared.AIType.style.display = "none";
+        else
+            shared.AIType.style.display = "none";
         document.querySelectorAll('.tile').forEach((tile) =>{
             tile.remove();
         });
@@ -154,11 +156,20 @@ window.addEventListener('DOMContentLoaded', () =>{
     } 
     
     const generateBoard = () =>{
-        console.log(currentPlayerGlobal);
-        if (currentPlayerGlobal == 'X')
-            shared.changePlayer();
-        shared.changePlayer();
+        currentBoardSize = parseInt(boardSizeTool.value,10);
+        currentPlayerGlobal = gameSideTool.value;
         isGameActive = true;
+        if (currentPlayerGlobal == 'X')
+        {
+            playerDisplay.innerText = 'X';
+            playerDisplay.classList.remove(`playerO`);
+            playerDisplay.classList.add(`playerX`);
+        }
+        else
+        {
+            playerDisplay.innerText = 'O';
+            playerDisplay.classList.add(`playerO`);
+        }
         gameSideTool.style.display = "none";
         selectButton.style.display = "none";
         boardSizeTool.style.display = "none";
