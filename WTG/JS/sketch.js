@@ -139,6 +139,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         display.style.display = "none";
         resetButton.style.display = "none";
         announcer.style.display = "none";
+        bitwiseBoardO = [];
+        bitwiseBoardX = [];
     } 
     
     const generateBoard = () =>{
