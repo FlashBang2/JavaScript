@@ -50,6 +50,17 @@ window.addEventListener('DOMContentLoaded', () =>{
     */
     const TIE = 'TIE';
 
+    shared.changePlayer = () =>{
+        playerDisplay.classList.remove(`player${currentPlayerGlobal}`);
+        currentPlayerGlobal = currentPlayerGlobal === 'X' ? 'O' : 'X';
+        playerDisplay.innerText = currentPlayerGlobal;
+        playerDisplay.classList.add(`player${currentPlayerGlobal}`);
+    }
+
+    shared.handleResultValidation = () =>{
+        console.log(bitwiseBoardO, bitwiseBoardX);
+    } 
+
     const  hideAIOptions = () =>{
         if(gameModeTool.value == "PlayerVSAI"){
             shared.AIType.style.display = "inline";
@@ -95,34 +106,29 @@ window.addEventListener('DOMContentLoaded', () =>{
         return true;
     };
 
-    shared.changePlayer = () =>{
-        playerDisplay.classList.remove(`player${currentPlayerGlobal}`);
-        currentPlayerGlobal = currentPlayerGlobal === 'X' ? 'O' : 'X';
-        playerDisplay.innerText = currentPlayerGlobal;
-        playerDisplay.classList.add(`player${currentPlayerGlobal}`);
-    }
-
     const userAction = (tile) =>{
         if(isValidAction(tile) && isGameActive && !isAgainstAI){
             tile.DOM.innerText = currentPlayerGlobal;
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
             if (currentPlayerGlobal == 'X')
                 bitwiseBoardX[tile.row][tile.column] = 1;
-            bitwiseBoardO[tile.row][tile.column] = 1;
+            else
+                bitwiseBoardO[tile.row][tile.column] = 1;
             shared.handleResultValidation();
             shared.changePlayer();
         }
-        if (isValidAction(tile) && isGameActive && isAgainstAI)
+        /*if (isValidAction(tile) && isGameActive && isAgainstAI)
         {
             tile.DOM.innerText = currentPlayerGlobal;
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
             if (currentPlayerGlobal == 'X')
                 bitwiseBoardX[tile.row][tile.column] = 1;
-            bitwiseBoardO[tile.row][tile.column] = 1;
+            else
+                bitwiseBoardO[tile.row][tile.column] = 1;
             shared.handleResultValidation();
             shared.changePlayer();
             turnAI();
-        }
+        }*/
     }
 
     const resetBoard = () =>{
@@ -195,7 +201,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         }
         bitwiseBoardO = new Array(Math.pow(currentBoardSize,2)).fill(0);
         bitwiseBoardO = to2D(bitwiseBoardO, currentBoardSize);
-        bitwiseBoardX = [...bitwiseBoardO];
+        bitwiseBoardX = JSON.parse(JSON.stringify(bitwiseBoardO));
     }  
 
     const to2D = (array, width) => 
