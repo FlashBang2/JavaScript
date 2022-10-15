@@ -4,10 +4,12 @@ let shared = {
     validateResultRows: () =>{},
     validateResultColumns: () =>{},
     validateDiagonalLines: () =>{},
+    to2D: () =>{},
     AIType: null,
     chartConfig: null,
     config: null,
-    node: null
+    node: null,
+    currentBoardSize: null
 };
 
 window.addEventListener('DOMContentLoaded', () =>{
@@ -28,7 +30,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     const AlphaBetaPrunningInput = document.querySelector("#AlphaBetaPrunningInput");
     const depthTool = document.querySelector("#depthTool");
 
-    let currentBoardSize = 0;
+    shared.currentBoardSize = 0;
     let currentPlayerGlobal;
     let isGameActive = true;
     let isAgainstAI = false;
@@ -60,23 +62,29 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     shared.handleResultValidation = () =>{
-
-        if (shared.validateResultRows(currentPlayerGlobal) || shared.validateResultColumns(currentPlayerGlobal) || shared.validateDiagonalLines(currentPlayerGlobal))
-        {
-            isGameActive = false;
-            announce(currentPlayerGlobal);
+        if(currentPlayerGlobal== 'X'){
+            if (shared.validateResultRows(bitwiseBoardX) || shared.validateResultColumns(bitwiseBoardX) || shared.validateDiagonalLines(bitwiseBoardX))
+            {
+                isGameActive = false;
+                announce(currentPlayerGlobal);
+            }
+        }else{
+            if (shared.validateResultRows(bitwiseBoardO) || shared.validateResultColumns(bitwiseBoardO) || shared.validateDiagonalLines(bitwiseBoardO))
+            {
+                isGameActive = false;
+                announce(currentPlayerGlobal);
+            }
         }
-        
     }
 
-    shared.validateResultRows = (Player) =>{
+    shared.validateResultRows = (board) =>{
         if (gameRulesTool.value=="standard") {
-            if (Player == 'X'){
-                var newmat =bitwiseBoardX.reduce((prev, next) => next.map((item, i) =>
+            
+                var newmat =board.reduce((prev, next) => next.map((item, i) =>
                         (prev[i] || []).concat(next[i])
                             ), []);
             
-                for(var i=0;i<=currentBoardSize-3;i++){
+                for(var i=0;i<=shared.currentBoardSize-3;i++){
                         var result = parseInt(newmat[i].join(''),2) & parseInt(newmat[i+1].join(''),2) & parseInt(newmat[i+2].join(''),2);
                         if(result !== 0)
                             {
@@ -84,30 +92,14 @@ window.addEventListener('DOMContentLoaded', () =>{
                             }
                 }
                 return false;
-            }
-            else{
-                var newmat =bitwiseBoardO.reduce((prev, next) => next.map((item, i) =>
-                (prev[i] || []).concat(next[i])
-                    ), []);
-            
-                for(var i=0;i<=currentBoardSize-3;i++){
-                        var result = parseInt(newmat[i].join(''),2) & parseInt(newmat[i+1].join(''),2) & parseInt(newmat[i+2].join(''),2);
-                        if(result !== 0)
-                        {
-                            return true;
-                        }
-                }
-                return false;
-            }
         
         } else {
-            console.log('gomoku')
-            if (Player == 'X'){
-                var newmat =bitwiseBoardX.reduce((prev, next) => next.map((item, i) =>
+           
+                var newmat =board.reduce((prev, next) => next.map((item, i) =>
                         (prev[i] || []).concat(next[i])
                             ), []);
             
-                for(var i=0;i<=currentBoardSize-5;i++){
+                for(var i=0;i<=shared.currentBoardSize-5;i++){
                         var result = parseInt(newmat[i].join(''),2) & parseInt(newmat[i+1].join(''),2) & parseInt(newmat[i+2].join(''),2) & parseInt(newmat[i+3].join(''),2) & parseInt(newmat[i+4].join(''),2);
                         if(result !== 0)
                             {
@@ -115,35 +107,15 @@ window.addEventListener('DOMContentLoaded', () =>{
                             }
                 }
                 return false;
-            }
-            else{
-                var newmat =bitwiseBoardO.reduce((prev, next) => next.map((item, i) =>
-                (prev[i] || []).concat(next[i])
-                    ), []);
             
-                for(var i=0;i<=currentBoardSize-5;i++){
-                        var result = parseInt(newmat[i].join(''),2) & parseInt(newmat[i+1].join(''),2) & parseInt(newmat[i+2].join(''),2) & parseInt(newmat[i+3].join(''),2) & parseInt(newmat[i+4].join(''),2);
-                        if(result !== 0)
-                        {
-                            return true;
-                        }
-                }
-                return false;
-            }
-        }
-
-        
-
-
-       
+        } 
     }
 
-    shared.validateResultColumns = (Player) =>{
+    shared.validateResultColumns = (board) =>{
         if (gameRulesTool.value=="standard") {
-            if (Player == 'X')
-                {
-                    for(var i = 0;i <= currentBoardSize-3;i++){
-                        var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) & parseInt(bitwiseBoardX[i+2].join(''),2) ;
+            
+                    for(var i = 0;i <= shared.currentBoardSize-3;i++){
+                        var result = parseInt(board[i].join(''),2) & parseInt(board[i+1].join(''),2) & parseInt(board[i+2].join(''),2) ;
                         if(result !== 0)
                         {
                             return true;
@@ -151,24 +123,10 @@ window.addEventListener('DOMContentLoaded', () =>{
                         
                         }
                     return false;
-                }
-            else
-                {
-                    for(var i = 0;i <= currentBoardSize-3;i++){
-                        var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) & parseInt(bitwiseBoardO[i+2].join(''),2) ;
-                        if(result !== 0)
-                            {
-                                return true;
-                            }
-                            
-                        }
-                    return false;
-                }
+              
         } else {
-            if (Player == 'X')
-                {
-                    for(var i = 0;i <= currentBoardSize-5;i++){
-                        var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) & parseInt(bitwiseBoardX[i+2].join(''),2) & parseInt(bitwiseBoardX[i+3].join(''),2) & parseInt(bitwiseBoardX[i+4].join(''),2);
+                    for(var i = 0;i <= shared.currentBoardSize-5;i++){
+                        var result = parseInt(board[i].join(''),2) & parseInt(board[i+1].join(''),2) & parseInt(board[i+2].join(''),2) & parseInt(board[i+3].join(''),2) & parseInt(board[i+4].join(''),2);
                         if(result !== 0)
                         {
                             return true;
@@ -176,109 +134,48 @@ window.addEventListener('DOMContentLoaded', () =>{
                         
                         }
                         return false;
-                }
-            else
-                {
-                    for(var i = 0;i <= currentBoardSize-5;i++){
-                        var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) & parseInt(bitwiseBoardO[i+2].join(''),2) & parseInt(bitwiseBoardO[i+3].join(''),2) & parseInt(bitwiseBoardO[i+4].join(''),2);
-                        if(result !== 0)
-                            {
-                                return true;
-                            }
-                            
-                        }
-                        return false;
-                } 
+                
         }
-
-        
-
-        
     }
 
-    shared.validateDiagonalLines = (Player) =>{
+    shared.validateDiagonalLines = (board) =>{
         if (gameRulesTool.value=="standard") {
-            if (Player == 'X')
-            {
-                for(var i=0;i<=currentBoardSize-3;i++){
-                    var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) << 1 & parseInt(bitwiseBoardX[i+2].join(''),2) << 2 ;
+            
+                for(var i=0;i<=shared.currentBoardSize-3;i++){
+                    var result = parseInt(board[i].join(''),2) & parseInt(board[i+1].join(''),2) << 1 & parseInt(board[i+2].join(''),2) << 2 ;
                     if(result !== 0)
                         {
                             return true;
                         }
                 }
-                for(var i=0;i<=currentBoardSize-3;i++){
-                    var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) >> 1 & parseInt(bitwiseBoardX[i+2].join(''),2) >> 2 ;
-                    if(result !== 0)
-                        {
-                            return true;
-                        }
-                }
-                return false;
-            }
-        else
-            {
-                for(var i=0;i<=currentBoardSize-3;i++){
-                    var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) << 1 & parseInt(bitwiseBoardO[i+2].join(''),2) << 2 ;
-                    if(result !== 0)
-                        {
-                            return true;
-                        }
-                }
-                for(var i=0;i<=currentBoardSize-3;i++){
-                    var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) >> 1 & parseInt(bitwiseBoardO[i+2].join(''),2) >> 2 ;
+                for(var i=0;i<=shared.currentBoardSize-3;i++){
+                    var result = parseInt(board[i].join(''),2) & parseInt(board[i+1].join(''),2) >> 1 & parseInt(board[i+2].join(''),2) >> 2 ;
                     if(result !== 0)
                         {
                             return true;
                         }
                 }
                 return false;
-            }
+           
         } else {
-            if (Player == 'X')
-            {
-                for(var i=0;i<=currentBoardSize-5;i++){
-                    var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) << 1 & parseInt(bitwiseBoardX[i+2].join(''),2) << 2 & parseInt(bitwiseBoardX[i+3].join(''),2) << 3 & parseInt(bitwiseBoardX[i+4].join(''),2) << 4;
+            
+                for(var i=0;i<=shared.currentBoardSize-5;i++){
+                    var result = parseInt(board[i].join(''),2) & parseInt(board[i+1].join(''),2) << 1 & parseInt(board[i+2].join(''),2) << 2 & parseInt(board[i+3].join(''),2) << 3 & parseInt(board[i+4].join(''),2) << 4;
                     if(result !== 0)
                         {
                             return true;
                         }
                 }
-                for(var i=0;i<=currentBoardSize-5;i++){
-                    var result = parseInt(bitwiseBoardX[i].join(''),2) & parseInt(bitwiseBoardX[i+1].join(''),2) >> 1 & parseInt(bitwiseBoardX[i+2].join(''),2) >> 2 & parseInt(bitwiseBoardX[i+3].join(''),2) >> 3 & parseInt(bitwiseBoardX[i+4].join(''),2) >> 4;
-                    if(result !== 0)
-                        {
-                            return true;
-                        }
-                }
-                return false;
-            }
-        else
-            {
-                for(var i=0;i<=currentBoardSize-5;i++){
-                    var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) << 1 & parseInt(bitwiseBoardO[i+2].join(''),2) << 2 & parseInt(bitwiseBoardO[i+3].join(''),2) << 3 & parseInt(bitwiseBoardO[i+4].join(''),2) << 4;
-                    if(result !== 0)
-                        {
-                            return true;
-                        }
-                }
-                for(var i=0;i<=currentBoardSize-5;i++){
-                    var result = parseInt(bitwiseBoardO[i].join(''),2) & parseInt(bitwiseBoardO[i+1].join(''),2) >> 1 & parseInt(bitwiseBoardO[i+2].join(''),2) >> 2 & parseInt(bitwiseBoardO[i+3].join(''),2) >> 3 & parseInt(bitwiseBoardO[i+4].join(''),2) >> 4;
+                for(var i=0;i<=shared.currentBoardSize-5;i++){
+                    var result = parseInt(board[i].join(''),2) & parseInt(board[i+1].join(''),2) >> 1 & parseInt(board[i+2].join(''),2) >> 2 & parseInt(board[i+3].join(''),2) >> 3 & parseInt(board[i+4].join(''),2) >> 4;
                     if(result !== 0)
                         {
                             return true;
                         }
                 }
                 return false;
-            }
+           
         }
-
-       
-
-
-        
-        
-        
     }
 
     const  hideAIOptions = () =>{
@@ -398,7 +295,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     } 
     
     const generateBoard = () =>{
-        currentBoardSize = parseInt(boardSizeTool.value,10);
+        shared.currentBoardSize = parseInt(boardSizeTool.value,10);
         currentPlayerGlobal = gameSideTool.value;
         isGameActive = true;
         if (currentPlayerGlobal == 'X')
@@ -423,13 +320,13 @@ window.addEventListener('DOMContentLoaded', () =>{
         depthTool.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
-        tiles.style.maxWidth = `${50*currentBoardSize}px`;
-        for (var x = 0; x < currentBoardSize; x++)
+        tiles.style.maxWidth = `${50*shared.currentBoardSize}px`;
+        for (var x = 0; x < shared.currentBoardSize; x++)
         {
             let row = [];
-            tiles.style.gridTemplateColumns += `${100/currentBoardSize}% `;
-            tiles.style.gridTemplateRows += `${100/currentBoardSize}%`;
-            for (var y = 0; y < currentBoardSize; y++)
+            tiles.style.gridTemplateColumns += `${100/shared.currentBoardSize}% `;
+            tiles.style.gridTemplateRows += `${100/shared.currentBoardSize}%`;
+            for (var y = 0; y < shared.currentBoardSize; y++)
             {
                let square = new Square(x, y);
                square.setOnClick(() =>userAction(square));
@@ -438,13 +335,13 @@ window.addEventListener('DOMContentLoaded', () =>{
             }
             squareBoard.push(row);
         }
-        bitwiseBoardO = new Array(Math.pow(currentBoardSize,2)).fill(0);
-        bitwiseBoardO = to2D(bitwiseBoardO, currentBoardSize);
+        bitwiseBoardO = new Array(Math.pow(shared.currentBoardSize,2)).fill(0);
+        bitwiseBoardO = shared.to2D(bitwiseBoardO, shared.currentBoardSize);
         bitwiseBoardX = JSON.parse(JSON.stringify(bitwiseBoardO));
         board = JSON.parse(JSON.stringify(bitwiseBoardX));
     }  
 
-    const to2D = (array, width) => 
+    shared.to2D = (array, width) => 
     array.reduce((rows, key, index) => (index % width == 0 ? rows.push([key]) 
       : rows[rows.length-1].push(key)) && rows, []);
 

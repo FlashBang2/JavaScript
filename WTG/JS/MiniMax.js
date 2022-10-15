@@ -69,12 +69,27 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     }
 }
 const validateMinimax = (board) =>{
+    let boardO = new Array(Math.pow(shared.currentBoardSize,2)).fill(0);
+    boardO = shared.to2D(boardO, shared.currentBoardSize);
+    let boardX=JSON.parse(JSON.stringify(boardO));
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[1].length; j++) {
+            if (board[i][j].DOM.innerText == "O") {
+                boardO[i][j]=1;
+                boardX[i][j]=0;
+            } else if (board[i][j].DOM.innerText == "X") {
+                boardO[i][j]=0;
+                boardX[i][j]=1; 
+            }
+            
+        }
+    }
     
-    if (shared.validateResultRows("O") || shared.validateResultColumns("O") || shared.validateDiagonalLines("O"))
+    if (shared.validateResultRows(boardO) || shared.validateResultColumns(boardO) || shared.validateDiagonalLines(boardO))
     {
         return -1;
     }
-    if (shared.validateResultRows("X") || shared.validateResultColumns("X") || shared.validateDiagonalLines("X"))
+    if (shared.validateResultRows(boardX) || shared.validateResultColumns(boardX) || shared.validateDiagonalLines(boardX))
     {
         return 1;
     }
