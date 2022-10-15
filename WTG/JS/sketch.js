@@ -58,8 +58,34 @@ window.addEventListener('DOMContentLoaded', () =>{
     }
 
     shared.handleResultValidation = () =>{
-        console.log(bitwiseBoardO, bitwiseBoardX);
-    } 
+        for(var i = 0;i <= currentBoardSize;i++){
+            var result = parseInt(bitwiseBoardO[0][i].join(''),2) & parseInt(bitwiseBoardO[0][i+1].join(''),2) & parseInt(bitwiseBoardO[0][i+2].join(''),2);
+              if(result !== 0)
+                break;
+            }
+    
+        var newmat =bitwiseBoardO[0].reduce((prev, next) => next.map((item, i) =>
+                (prev[i] || []).concat(next[i])
+                    ), []);
+            
+        for(var i=0;i<=currentBoardSize;i++){
+                var result = parseInt(newmat[i].join(''),2) & parseInt(newmat[i+1].join(''),2) & parseInt(newmat[i+2].join(''),2);
+                if(result !== 0)
+                    break;
+            }
+            
+        for(var i=0;i<=currentBoardSize;i++){
+                var result = parseInt(bitwiseBoardO[1][i].join(''),2) & parseInt(bitwiseBoardO[1][i+1].join(''),2)<< 1 & parseInt(bitwiseBoardO[1][i+2].join(''),2)<< 2;
+                if(result !== 0)
+                    break;
+            }
+            
+        for(var i=0;i<=currentBoardSize;i++){
+                var result = parseInt(bitwiseBoardO[1][i].join(''),2) & parseInt(bitwiseBoardO[1][i+1].join(''),2)>> 1 & parseInt(bitwiseBoardO[1][i+2].join(''),2)>>2;
+                if(result !== 0)
+                    break;
+            }
+    }
 
     const  hideAIOptions = () =>{
         if(gameModeTool.value == "PlayerVSAI"){
