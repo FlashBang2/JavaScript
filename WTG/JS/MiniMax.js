@@ -1,6 +1,6 @@
 const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer, i, p) =>{
     let availabeMoves = [];
-    /*if (depth == parseInt(document.querySelector('#depthTool').value, 10)) {
+    if (depth == parseInt(document.querySelector('#depthTool').value, 10)) {
         window["node_" + depth +"_"+i+"_"+p] = {
             parent: shared.node,
             text: { name: ` node_ ${depth} ` }
@@ -24,7 +24,7 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer, i, p) =
         
     }
     shared.chartConfig.push( window["node_" + depth +"_"+i+"_"+p]);
-    */
+    
     for (let row of board)
     {
         for (let element of row)

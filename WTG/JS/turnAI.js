@@ -3,13 +3,13 @@ const turnAI = (board, currentPlayer) =>{
     let bestScore = -Infinity;
     let move = -Infinity;
     let score = 0;
-    /*shared.chartConfig.splice(0, shared.chartConfig.length);
+    shared.chartConfig.splice(0, shared.chartConfig.length);
     shared.chartConfig.push(shared.config);
     shared.node = {
         text: { name: "start" }
     };
     shared.chartConfig.push( shared.node);
-    */
+    
     for (let row of board)
     {
         for (let element of row)
@@ -59,7 +59,7 @@ const turnAI = (board, currentPlayer) =>{
                 move = {x,y};
             }
         }
-        /*var my_chart = new Treant(shared.chartConfig);*/
+        var my_chart = new Treant(shared.chartConfig);
         if (shared.AIType.value == "RandomAI")
             move = availabeMoves[Math.floor(Math.random() * availabeMoves.length)];
         board[move.x][move.y].DOM.innerText = currentPlayer;
