@@ -29,7 +29,6 @@ window.addEventListener('DOMContentLoaded', () =>{
     const announcer = document.querySelector('.announcer');
     const hiddenOptions = document.querySelectorAll("#hidden");
     const AlphaBetaPrunning = document.querySelector("#AlphaBetaPrunning");
-    const AlphaBetaPrunningInput = document.querySelector("#AlphaBetaPrunningInput");
     const depthTool = document.querySelector("#depthTool");
 
     shared.currentBoardSize = 0;
@@ -183,13 +182,11 @@ window.addEventListener('DOMContentLoaded', () =>{
             gameSideTool.style.display = "inline";
             depthTool.style.display = "inline";
             AlphaBetaPrunning.style.display = "inline"; 
-            AlphaBetaPrunningInput.style.display = "inline";
         }else{
             shared.AIType.style.display = "none";
             gameSideTool.style.display = "none";
             depthTool.style.display = "none";
             AlphaBetaPrunning.style.display = "none"; 
-            AlphaBetaPrunningInput.style.display = "none";
         }
     }
 
@@ -265,7 +262,6 @@ window.addEventListener('DOMContentLoaded', () =>{
             gameSideTool.style.display = "inline";
             depthTool.style.display = "inline";
             AlphaBetaPrunning.style.display = "inline"; 
-            AlphaBetaPrunningInput.style.display = "inline";
         }  
         else
         {
@@ -273,7 +269,6 @@ window.addEventListener('DOMContentLoaded', () =>{
             gameSideTool.style.display = "none";
             depthTool.style.display = "none";
             AlphaBetaPrunning.style.display = "none"; 
-            AlphaBetaPrunningInput.style.display = "none";
         }  
         document.querySelectorAll('.tile').forEach((tile) =>{
             tile.remove();
@@ -315,7 +310,6 @@ window.addEventListener('DOMContentLoaded', () =>{
         gameRulesTool.style.display = "none";
         shared.AIType.style.display = "none";
         AlphaBetaPrunning.style.display = "none";
-        AlphaBetaPrunningInput.style.display = "none";
         depthTool.style.display = "none";
         display.style.display = "block";
         resetButton.style.display = "block";
