@@ -1,21 +1,29 @@
-const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
+const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer, i, p) =>{
     let availabeMoves = [];
-    /*if (depth == 0) {
-        window["node_" + depth] = {
+    /*if (depth == parseInt(document.querySelector('#depthTool').value, 10)) {
+        window["node_" + depth +"_"+i+"_"+p] = {
             parent: shared.node,
-            text: { name: `${board[0].innerText}|${board[1].innerText}|${board[2].innerText}
-            ${board[3].innerText}|${board[4].innerText}|${board[5].innerText}
-            ${board[6].innerText}|${board[7].innerText}|${board[8].innerText}` }
+            text: { name: ` node_ ${depth} ` }
         };
+       
     } else {
-        window["node_" + depth]= {
-            parent: window["node_" + (depth-1)],
-            text: { name: `${board[0].innerText}|${board[1].innerText}|${board[2].innerText}
-            ${board[3].innerText}|${board[4].innerText}|${board[5].innerText}
-            ${board[6].innerText}|${board[7].innerText}|${board[8].innerText}` }
+        let int=0;
+        while (shared.chartConfig.length == int) {
+            if (shared.chartConfig.includes( window["node_" + depth +"_"+p+"_"+int])) {
+                break;
+            }else if(shared.chartConfig.length == int){
+                int=0;
+                break;
+            }
+            int++;
+        }
+        window["node_" + depth +"_"+i+"_"+p]= {
+            parent: window["node_" + (depth+1) +"_"+p+"_"+int],
+            text: { name: ` node_ ${depth} ` }
         };
+        
     }
-    shared.chartConfig.push( window["node_" + depth]);
+    shared.chartConfig.push( window["node_" + depth +"_"+i+"_"+p]);
     */
     for (let row of board)
     {
@@ -36,11 +44,11 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     if (isMaximizing)
     {
         let bestScore = -Infinity;
-        for (let tile of availabeMoves)
+        for (let [index,tile] of availabeMoves.entries())
         {
             board[tile.x][tile.y].DOM.innerText = currentPlayer;
             board[tile.x][tile.y].DOM.classList.add(`player${currentPlayer}`);
-            let score = minimax(board, depth - 1, alpha, beta, false, 'O');
+            let score = minimax(board, depth - 1, alpha, beta, false, 'O',  index, i);
             board[tile.x][tile.y].DOM.innerText = '';
             board[tile.x][tile.y].DOM.classList.remove(`player${currentPlayer}`);
             bestScore = Math.max(score, bestScore);
@@ -53,11 +61,11 @@ const minimax = (board, depth, alpha, beta, isMaximizing, currentPlayer) =>{
     else
     {
         let bestScore = Infinity;
-        for (let tile of availabeMoves)
+        for (let [index,tile] of availabeMoves.entries())
         {
             board[tile.x][tile.y].DOM.innerText = currentPlayer;
             board[tile.x][tile.y].DOM.classList.add(`player${currentPlayer}`);
-            let score = minimax(board, depth - 1, alpha, beta, true, 'X');
+            let score = minimax(board, depth - 1, alpha, beta, true, 'X', index, i);
             board[tile.x][tile.y].DOM.innerText = '';
             board[tile.x][tile.y].DOM.classList.remove(`player${currentPlayer}`);
             bestScore = Math.min(score, bestScore);
@@ -84,7 +92,10 @@ const validateMinimax = (board) =>{
             
         }
     }
-    
+    /*console.log(board[0][0].DOM.innerText+"|"+board[0][1].DOM.innerText+"|"+board[0][2].DOM.innerText)
+    console.log(board[1][0].DOM.innerText+"|"+board[1][1].DOM.innerText+"|"+board[1][2].DOM.innerText)
+    console.log(board[2][0].DOM.innerText+"|"+board[2][1].DOM.innerText+"|"+board[2][2].DOM.innerText)
+    console.log("---------")*/
     if (shared.validateResultRows(boardO) || shared.validateResultColumns(boardO) || shared.validateDiagonalLines(boardO))
     {
         return -1;

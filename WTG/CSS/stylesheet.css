@@ -40,6 +40,13 @@
     cursor: pointer;
 }
 
+.tree{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 .playerX{
     color: aquamarine;
 }

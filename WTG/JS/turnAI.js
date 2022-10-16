@@ -23,7 +23,7 @@ const turnAI = (board, currentPlayer) =>{
     }
     if (availabeMoves.length > 0)
     { 
-        for (let tile of availabeMoves)
+        for (let [index,tile] of availabeMoves.entries())
         {
             board[tile.x][tile.y].DOM.innerText = currentPlayer;
             board[tile.x][tile.y].DOM.classList.add(`player${currentPlayer}`);
@@ -33,7 +33,7 @@ const turnAI = (board, currentPlayer) =>{
             }
             else if (shared.AIType.value == "miniMax")
             {
-                score = minimax(board, parseInt(document.querySelector('#depthTool').value, 10), -Infinity, Infinity, false, 'O');
+                score = minimax(board, parseInt(document.querySelector('#depthTool').value, 10), -Infinity, Infinity, false, 'O', index, 0);
                 
             }
             else if (shared.AIType.value =="PNS")
