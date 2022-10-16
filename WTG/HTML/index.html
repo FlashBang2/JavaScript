@@ -16,12 +16,6 @@
     </head>
     <body>
         <main class="background">
-            <section class="title">
-                
-            </section>
-            <section class="display">
-                Player <span class  = "display-player playerO"> O </span>'s turn
-            </section>
             <form class="form">
                 <input type = "number" class = "selectTools" id = "boardSize" value = "3"  min = "3" style = "width: 50px;">
                 <select class = "selectTools" id = "gameMode">
@@ -62,19 +56,19 @@
                     <option value = "5"> 5 </option>
                 </select>
             </form>
-            <h1 id = "mainTitle">Tic Tac Toe</h1>
+            <section class="title">
+                <h1 id = "mainTitle">Tic Tac Toe</h1>
+            </section>
+            <section class="display">
+                Player <span class  = "display-player playerO"> O </span>'s turn
+            </section>
             <section class = "container"> </section>
             <section class = "display announcer hide"></section>
             <section class = "controls"> 
                 <button id = "reset"> Reset </button> 
             </section>
             <br/> <br/> <br/> <br/>
-            
-           
-
             <div id="tree-simple" style="width: 1700px; height: 1000px"> </div>
-            
-           
         </main>
     </body>
 </html>
