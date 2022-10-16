@@ -29,11 +29,11 @@ const turnAI = (board, currentPlayer) =>{
             board[tile.x][tile.y].DOM.classList.add(`player${currentPlayer}`);
             if (shared.AIType.value == "negaMax")
             {
-                score = -negamax(board, document.querySelector('#depthTool').value, Infinity, -Infinity, 'O', -1);
+                score = -negamax(board, parseInt(document.querySelector('#depthTool').value, 10), Infinity, -Infinity, 'O', -1);
             }
             else if (shared.AIType.value == "miniMax")
             {
-                score = minimax(board, document.querySelector('#depthTool').value, -Infinity, Infinity, false, 'O');
+                score = minimax(board, parseInt(document.querySelector('#depthTool').value, 10), -Infinity, Infinity, false, 'O');
                 
             }
             else if (shared.AIType.value =="PNS")
@@ -50,6 +50,7 @@ const turnAI = (board, currentPlayer) =>{
             }
             board[tile.x][tile.y].DOM.innerText = '';
             board[tile.x][tile.y].DOM.classList.remove(`player${currentPlayer}`);
+            console.log(score);
             if (score > bestScore)
             {
                 bestScore = score;

@@ -9,7 +9,9 @@ let shared = {
     chartConfig: null,
     config: null,
     node: null,
-    currentBoardSize: null
+    currentBoardSize: null,
+    bitwiseBoardO: [],
+    bitwiseBoardX: [],
 };
 
 window.addEventListener('DOMContentLoaded', () =>{
@@ -34,10 +36,7 @@ window.addEventListener('DOMContentLoaded', () =>{
     let currentPlayerGlobal;
     let isGameActive = true;
     let isAgainstAI = false;
-    let bitwiseBoardO = [];
-    let bitwiseBoardX = [];
     let squareBoard = [];
-    let board = [];
     
     /*shared.config = {
         container: "#tree-simple",
@@ -63,13 +62,13 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     shared.handleResultValidation = () =>{
         if(currentPlayerGlobal== 'X'){
-            if (shared.validateResultRows(bitwiseBoardX) || shared.validateResultColumns(bitwiseBoardX) || shared.validateDiagonalLines(bitwiseBoardX))
+            if (shared.validateResultRows(shared.bitwiseBoardX) || shared.validateResultColumns(shared.bitwiseBoardX) || shared.validateDiagonalLines(shared.bitwiseBoardX))
             {
                 isGameActive = false;
                 announce(currentPlayerGlobal);
             }
         }else{
-            if (shared.validateResultRows(bitwiseBoardO) || shared.validateResultColumns(bitwiseBoardO) || shared.validateDiagonalLines(bitwiseBoardO))
+            if (shared.validateResultRows(shared.bitwiseBoardO) || shared.validateResultColumns(shared.bitwiseBoardO) || shared.validateDiagonalLines(shared.bitwiseBoardO))
             {
                 isGameActive = false;
                 announce(currentPlayerGlobal);
@@ -234,9 +233,9 @@ window.addEventListener('DOMContentLoaded', () =>{
             tile.DOM.innerText = currentPlayerGlobal;
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
             if (currentPlayerGlobal == 'X')
-                bitwiseBoardX[tile.row][tile.column] = 1;
+                shared.bitwiseBoardX[tile.row][tile.column] = 1;
             else
-                bitwiseBoardO[tile.row][tile.column] = 1;
+                shared.bitwiseBoardO[tile.row][tile.column] = 1;
             shared.handleResultValidation();
             shared.changePlayer();
         }
@@ -245,9 +244,9 @@ window.addEventListener('DOMContentLoaded', () =>{
             tile.DOM.innerText = currentPlayerGlobal;
             tile.DOM.classList.add(`player${currentPlayerGlobal}`);
             if (currentPlayerGlobal == 'X')
-                bitwiseBoardX[tile.row][tile.column] = 1;
+                shared.bitwiseBoardX[tile.row][tile.column] = 1;
             else
-                bitwiseBoardO[tile.row][tile.column] = 1;
+                shared.bitwiseBoardO[tile.row][tile.column] = 1;
             shared.handleResultValidation();
             shared.changePlayer();
             turnAI(squareBoard, currentPlayerGlobal);
@@ -288,8 +287,8 @@ window.addEventListener('DOMContentLoaded', () =>{
         display.style.display = "none";
         resetButton.style.display = "none";
         announcer.style.display = "none";
-        bitwiseBoardO = [];
-        bitwiseBoardX = [];
+        shared.bitwiseBoardO = [];
+        shared.bitwiseBoardX = [];
         board = [];
         squareBoard = [];
     } 
@@ -335,10 +334,9 @@ window.addEventListener('DOMContentLoaded', () =>{
             }
             squareBoard.push(row);
         }
-        bitwiseBoardO = new Array(Math.pow(shared.currentBoardSize,2)).fill(0);
-        bitwiseBoardO = shared.to2D(bitwiseBoardO, shared.currentBoardSize);
-        bitwiseBoardX = JSON.parse(JSON.stringify(bitwiseBoardO));
-        board = JSON.parse(JSON.stringify(bitwiseBoardX));
+        shared.bitwiseBoardO = new Array(Math.pow(shared.currentBoardSize,2)).fill(0);
+        shared.bitwiseBoardO = shared.to2D(shared.bitwiseBoardO, shared.currentBoardSize);
+        shared.bitwiseBoardX = JSON.parse(JSON.stringify(shared.bitwiseBoardO));
     }  
 
     shared.to2D = (array, width) => 
@@ -355,8 +353,6 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     resetButton.addEventListener('click', resetBoard);
     selectButton.addEventListener('click', gameHandler);
-    gameModeTool.addEventListener('click', hideAIOptions);
-    boardSizeTool.addEventListener('click', hideRulesTools);
-    gameModeTool.addEventListener('click', hideAIOptions);
-
+    gameModeTool.addEventListener('change', hideAIOptions);
+    boardSizeTool.addEventListener('change', hideRulesTools);
 });

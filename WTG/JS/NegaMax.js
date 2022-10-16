@@ -24,10 +24,9 @@ const negamax = (board, depth, alpha, beta, currentPlayer, color) =>{
             availabeMoves.push({x,y});
         }   
     }
-    if (shared.validateDiagonalLines(currentPlayer) || shared.validateResultColumns(currentPlayer) || shared.validateResultRows(currentPlayer))
-    {
-        return currentPlayer == 'X' ?  1 * color : -1 * color;
-    }   
+    let score = validateNega();
+    if (score != null)
+        return score * color;
     if (availabeMoves.length == 0)
         return 0;
     let bestScore = -Infinity;
@@ -35,9 +34,11 @@ const negamax = (board, depth, alpha, beta, currentPlayer, color) =>{
     {
         board[tile.x][tile.y].DOM.innerText = currentPlayer;
         board[tile.x][tile.y].DOM.classList.add(`player${currentPlayer}`);
+        currentPlayer == 'X' ? shared.bitwiseBoardX[tile.x][tile.y] = 1: shared.bitwiseBoardO[tile.x][tile.y] = 1;
         bestScore = Math.max(bestScore, -negamax(board, depth + 1, -beta, -alpha, swapPlayer(currentPlayer), -color));
         board[tile.x][tile.y].DOM.innerText = '';
         board[tile.x][tile.y].DOM.classList.remove(`player${currentPlayer}`);
+        currentPlayer == 'X' ? shared.bitwiseBoardX[tile.x][tile.y] = 0: shared.bitwiseBoardO[tile.x][tile.y] = 0;
         alpha = Math.max(alpha, beta);
         if (alpha >= beta)
             break;
@@ -47,4 +48,8 @@ const negamax = (board, depth, alpha, beta, currentPlayer, color) =>{
 
 const swapPlayer = (currentPlayer) => {
     return (currentPlayer === 'X') ? 'O' : 'X';
+}
+
+const validateNega = () =>{
+    
 }
