@@ -162,7 +162,7 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.max(bestScore, score);
-                    if (this.alphaBetaPrunning)
+                    if (this.alphaBetaPrunning === 'true')
                     {
                         this.alpha = Math.max(this.alpha, bestScore);
                         if (this.beta <= this.alpha)
@@ -181,7 +181,7 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.max(bestScore, score);
-                    if (this.alphaBetaPrunning)
+                    if (this.alphaBetaPrunning === 'true')
                     {
                         this.alpha = Math.max(this.alpha, bestScore);
                         if (this.beta <= this.alpha)
@@ -209,7 +209,7 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.min(bestScore, score);
-                    if (this.alphaBetaPrunning)
+                    if (this.alphaBetaPrunning === 'true')
                     {
                         this.beta = Math.min(this.beta, bestScore);
                         if (this.beta <= this.alpha)
@@ -228,7 +228,7 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.min(bestScore, score);
-                    if (this.alphaBetaPrunning)
+                    if (this.alphaBetaPrunning === 'true')
                     {
                         this.beta = Math.min(this.beta, bestScore);
                         if (this.beta <= this.alpha)
