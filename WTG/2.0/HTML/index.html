@@ -4,10 +4,13 @@
         <title> Tic Tac Toe </title>
         <meta charset = "UTF-8" />
         <link rel = "stylesheet" href = "../CSS/style.css"/>
+        <link rel = "stylesheet" href = "../treant-js-master/Treant.css">
         <script src = "../JS/main.js"></script>
         <script src = "../JS/Board.js"></script>
         <script src = "../JS/Square.js"></script>
         <script src ="../JS/AI.js"></script>
+        <script src = "../treant-js-master/vendor/raphael.js"></script>
+	    <script src = "../treant-js-master/Treant.js"></script>
     </head>
     <body id = "main">
         <input class = 'Tool' id = "boardSize" type = "number" value = 3 min = 3 />
@@ -76,5 +79,9 @@
         <h1 id = "mainTitle"> Tic Tac Toe </h1>
         <h2 id = "display"> Player <span id = "display-player" class = "playerO"> O </span>'s turn </h2>
         <section id = "container"> </section>
+        <br/>
+        <section class = "tree">
+            <div id="tree-simple" style="width: 1700px; height: 1000px"> </div>
+        </section>
     </body>
 </html>
