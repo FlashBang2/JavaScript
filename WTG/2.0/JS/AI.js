@@ -22,6 +22,9 @@ class AI{
         this.chartConfig = [
             this.config
         ];
+        this.treeTemp = [
+            
+        ];
     }
 
     move()
@@ -133,18 +136,25 @@ class AI{
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "DQL"):
                 break;
         }
+        console.log(this.chartConfig)
         var my_chart = new Treant(this.chartConfig);
     }
 
     minimax(depth, i, p)
     {
-        this.drawTree(depth, i, p, 0);
+        //this.drawTree(depth, i, p, 0);
         let array = this.matrix.getAvailabeSpots();
         this.matrix.validate();
         if (this.matrix.getWinner() != null)
-            return this.matrix.getWinner() == this.maximizingPlayer ? 1 : -1;
+            {
+                this.drawTree(depth, i, p, this.matrix.getWinner() == this.maximizingPlayer ? 1 : -1);
+                return this.matrix.getWinner() == this.maximizingPlayer ? 1 : -1;
+            }
         if (array.length == 0 || depth == 0)
-            return 0;
+            {
+                this.drawTree(depth, i, p, 0);
+                return 0;
+            }
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
             let bestScore = -Infinity
@@ -190,6 +200,7 @@ class AI{
                 }
                 
             }
+            this.drawTree(depth, i, p, bestScore);
             return bestScore;
         }
         else
@@ -236,6 +247,7 @@ class AI{
                     }
                 }
             }
+            this.drawTree(depth, i, p, bestScore);
             return bestScore;
         }
     }
@@ -251,31 +263,47 @@ class AI{
     }
 
     drawTree(depth, i, p, bestScore){
-        //console.log(depth, i, p, bestScore)
+        let int=0;
+        //console.log("głębokość " + depth+" iteracja "+i+" rodzic "+p+" bestScore "+bestScore)
         if (depth == parseInt(document.querySelector('#Depth').value, 10)) {
             window["node_" + depth +"_"+i+"_"+p] = {
                 parent: this.node,
-                text: { name: ` ${bestScore} ` }
+                text: { name: `${bestScore}` }
             };
            
         } else {
             let int=0;
-            while (this.chartConfig.length == int) {
-                if (this.chartConfig.includes( window["node_" + depth +"_"+p+"_"+int])) {
+            while (this.chartConfig.length !== int) {
+                if (!this.chartConfig.includes( window["node_" + (depth+1) +"_"+p+"_"+int])) {
+                    //console.log("node_" + (depth+1) +"_"+p+"_"+int)
                     break;
                 }else if(this.chartConfig.length == int){
+                    //console.log(int)
                     int=0;
                     break;
                 }
                 int++;
             }
+            //console.log(int)
             window["node_" + depth +"_"+i+"_"+p]= {
                 parent: window["node_" + (depth+1) +"_"+p+"_"+int],
-                text: { name: ` ${bestScore} ` }
+                text: { name: `${bestScore}` }
             };
             
         }
-        this.chartConfig.push( window["node_" + depth +"_"+i+"_"+p]);
+
+        if (this.chartConfig.includes( window["node_" + (depth+1) +"_"+p+"_"+int])==false&& depth !== parseInt(document.querySelector('#Depth').value, 10)) {
+            this.treeTemp.push( window["node_" + depth +"_"+i+"_"+p]);
+            
+        }else{
+            console.log(this.treeTemp)
+            this.chartConfig.push( window["node_" + depth +"_"+i+"_"+p]);
+            this.chartConfig = this.chartConfig.concat(this.treeTemp);
+            this.treeTemp.splice(0, this.treeTemp.length);
+        }
+
+        //console.log(window["node_" + depth +"_"+i+"_"+p])
+        
     
     }
 }
