@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Tic Tac Toe </title>
+        <meta charset = "UTF-8" />
+        <link rel = "stylesheet" href = "../CSS/style.css"/>
+        <script src = "../JS/main.js"></script>
+        <script src = "../JS/Board.js"></script>
+        <script src = "../JS/Square.js"></script>
+        <script src ="../JS/AI.js"></script>
+    </head>
+    <body id = "main">
+        <input class = 'Tool' id = "boardSize" type = "number" value = 3 min = 3 />
+        <select class = 'Tool' id = "settings">
+            <option value = "PvP"> PvP </option>
+            <option value = "PvAI"> PvAI </option>
+            <option value = "AIvAI"> AIvAI </option>
+        </select>
+        <select class = 'Tool' id = "rules">
+            <option value = "Standard">                     Standard       </option>
+            <option hidden = true class = "rule" value = "Gomoku">        Gomoku         </option>
+            <option hidden = true class = "rule" value = "GomokuPro">     GomokuPro      </option>
+            <option hidden = true class = "rule" value = "GomokuSwap2">   GomokuSwap2    </option>
+        </select>
+        <button class = 'Tool' id = "confirm"> Confirm </button>
+        </br> </br>
+        <div id = "AISettings">
+        <select class = 'Tool' id = "side">
+            <option> O </option>
+            <option> X </option>
+        </select>
+        <select class = 'Tool' id = "AlphaBetaPrunning">
+            <option> Yes </option>
+            <option> No </option>
+        </select>
+        <select class = 'Tool' id = "Depth">
+            <option > 1 </option>
+            <option > 2 </option>
+            <option > 3 </option>
+            <option > 4 </option>
+            <option > 5 </option> 
+        </select>
+        <select class = 'Tool' id = "AIType">
+            <option value = "Random"> Random </option>
+            <option value = "Minimax"> Minimax </option>
+            <option value = "NegaMax"> NegaMax </option>
+            <option value = ""> ProofNumberSearch </option>
+            <option value = ""> MonteCarloSearch </option>
+            <option value = ""> MonteCarloSearchTree </option>
+            <option value = ""> DeepQLearning </option> 
+        </select>
+        </div>
+        </br> </br>
+        <div id = "AISettings2">
+            <select class = 'Tool' id = "side2">
+                <option> O </option>
+                <option> X </option>
+            </select>
+            <select class = 'Tool' id = "AlphaBetaPrunning2">
+                <option value = "Enable"> Enable </option>
+                <option value = "Disable"> Disable </option>
+            </select>
+            <select class = 'Tool' id = "Depth2">
+                <option > 1 </option>
+                <option > 2 </option>
+                <option > 3 </option>
+                <option > 4 </option>
+                <option > 5 </option> 
+            </select>
+            <select class = 'Tool' id = "AIType2">
+                <option> Random </option>
+                <option> Minimax </option>
+                <option> NegaMax </option>
+                <option> ProofNumberSearch </option>
+                <option> MonteCarloSearch </option>
+                <option> MonteCarloSearchTree </option>
+                <option> DeepQLearning </option> 
+            </select>
+        </div>
+        <h1 id = "mainTitle"> Tic Tac Toe </h1>
+        <h2 id = "display"> Player <span id = "display-player" class = "playerO"> O </span>'s turn </h2>
+        <section id = "container"> </section>
+    </body>
+</html>
