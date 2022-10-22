@@ -10,29 +10,10 @@ class AI{
         this.alphaBetaPrunning = alphabetaPrunning;
         this.alpha = -Infinity;
         this.beta = Infinity;
-        this.config = {
-            container: "#tree-simple",
-            connectors:{
-                type:"bCurve",
-                style: {stroke: 'white'}
-            }
-    
-        };
-        
-        this.chartConfig = [
-            this.config
-        ];
     }
 
     move()
     {
-        this.chartConfig.splice(0, this.chartConfig.length);
-        this.chartConfig.push(this.config);
-        this.node = {
-            text: { name: "start" }
-        };
-        this.chartConfig.push(this.node);
-
         let array = this.matrix.getAvailabeSpots();
         this.bestScore = -Infinity;
         switch (true)
@@ -61,7 +42,7 @@ class AI{
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "Minimax"):
                 this.maximizingPlayer = this.matrix.getSide();
-                for (let [index,indices] of array.entries())
+                for (let indices of array)
                 {
                     if (this.maximizingPlayer == 'X')
                     {
@@ -69,7 +50,7 @@ class AI{
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        let score = this.minimax(this.depth, index, 0);
+                        let score = this.minimax(this.depth);
                         this.matrix.Xbits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -88,7 +69,7 @@ class AI{
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        let score = this.minimax(this.depth, index, 0);
+                        let score = this.minimax(this.depth);
                         this.matrix.Obits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -133,12 +114,10 @@ class AI{
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "DQL"):
                 break;
         }
-        var my_chart = new Treant(this.chartConfig);
     }
 
-    minimax(depth, i, p)
+    minimax(depth)
     {
-        this.drawTree(depth, i, p, 0);
         let array = this.matrix.getAvailabeSpots();
         this.matrix.validate();
         if (this.matrix.getWinner() != null)
@@ -148,7 +127,7 @@ class AI{
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
             let bestScore = -Infinity
-            for (let [index,indices] of array.entries())
+            for (let indices of array)
             {
                 if (this.maximizingPlayer == 'X')
                 {
@@ -156,7 +135,7 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
-                    let score = this.minimax(depth - 1, index, i);
+                    let score = this.minimax(depth - 1);
                     this.matrix.Xbits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -175,7 +154,7 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
-                    let score = this.minimax(depth - 1, index, i);
+                    let score = this.minimax(depth - 1);
                     this.matrix.Obits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -195,7 +174,7 @@ class AI{
         else
         {
             let bestScore = Infinity
-            for (let [index,indices] of array.entries())
+            for (let indices of array)
             {
                 if (this.maximizingPlayer != 'O')
                 {
@@ -203,7 +182,7 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
-                    let score = this.minimax(depth - 1, index, i);
+                    let score = this.minimax(depth - 1);
                     this.matrix.Obits[ this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -222,7 +201,7 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
-                    let score = this.minimax(depth - 1, index, i);
+                    let score = this.minimax(depth - 1);
                     this.matrix.Xbits[ this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -248,34 +227,5 @@ class AI{
     PNS()
     {
 
-    }
-
-    drawTree(depth, i, p, bestScore){
-        //console.log(depth, i, p, bestScore)
-        if (depth == parseInt(document.querySelector('#Depth').value, 10)) {
-            window["node_" + depth +"_"+i+"_"+p] = {
-                parent: this.node,
-                text: { name: ` ${bestScore} ` }
-            };
-           
-        } else {
-            let int=0;
-            while (this.chartConfig.length == int) {
-                if (this.chartConfig.includes( window["node_" + depth +"_"+p+"_"+int])) {
-                    break;
-                }else if(this.chartConfig.length == int){
-                    int=0;
-                    break;
-                }
-                int++;
-            }
-            window["node_" + depth +"_"+i+"_"+p]= {
-                parent: window["node_" + (depth+1) +"_"+p+"_"+int],
-                text: { name: ` ${bestScore} ` }
-            };
-            
-        }
-        this.chartConfig.push( window["node_" + depth +"_"+i+"_"+p]);
-    
     }
 }
