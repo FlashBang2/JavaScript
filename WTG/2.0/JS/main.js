@@ -18,6 +18,7 @@ window.addEventListener("DOMContentLoaded", () =>{
         if(board.getSide() == 'X')
         {
             board.setSide();
+            board.setBlockPlayerInteraction();
             ai = new AI(board);
             setTimeout(playervsAIHelper,1000);
         }
@@ -115,7 +116,7 @@ window.addEventListener("DOMContentLoaded", () =>{
                 }
                 break;
             case "PvAI":
-                if (!square.Occupied && board.isGameActive)
+                if (!square.Occupied && board.isGameActive && !board.blockPlayerInteraction)
                 {
                     square.DOM.innerText = board.getSide();
                     square.DOM.classList.add(`player${board.getSide()}`);
@@ -135,6 +136,7 @@ window.addEventListener("DOMContentLoaded", () =>{
                         displayPlayer.classList.add(`player${board.getSide()}`);
                         displayPlayer.innerText = board.getSide();
                         ai = new AI(board);
+                        board.setBlockPlayerInteraction();
                         setTimeout(playervsAIHelper,1000);
                         if (board.getAvailabeSpots().length == 0)
                         {

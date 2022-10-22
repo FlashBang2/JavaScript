@@ -32,6 +32,7 @@ class AI{
                     this.matrix.setSide();
                     document.querySelector("#display-player").classList.add(`player${this.matrix.getSide()}`);
                     document.querySelector("#display-player").innerText = this.matrix.getSide();
+                    this.matrix.setBlockPlayerInteraction();
                 }
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "Minimax"):
@@ -94,6 +95,7 @@ class AI{
                     this.matrix.setSide();
                     document.querySelector("#display-player").classList.add(`player${this.matrix.getSide()}`);
                     document.querySelector("#display-player").innerText = this.matrix.getSide();
+                    this.matrix.setBlockPlayerInteraction();
                 }
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "NegaMax"):

@@ -8,6 +8,7 @@ class Board{
         this.Obits = [];
         this.winner = null;
         this.isGameActive = true;
+        this.blockPlayerInteraction = false;
 
         this.tiles.style.maxWidth = `${50*boardSize}px`;
         for(let x = 0;x < boardSize;x++)
@@ -36,6 +37,11 @@ class Board{
     setSide()
     {
         this.side = this.side == 'X' ? 'O' : 'X';
+    }
+
+    setBlockPlayerInteraction()
+    {
+        this.blockPlayerInteraction = this.blockPlayerInteraction == false ? true : false;
     }
 
     getSide()
