@@ -1,16 +1,21 @@
 class AI{
-    constructor(board)
+    constructor(board,AIType,depth,alphabetaPrunning)
     {
         this.matrix = board;
-        this.bestMove;
+        this.bestMove = {};
         this.bestScore = -Infinity;
         this.maximizingPlayer = null;
-        this.AI = document.querySelector("#AIType").value;
+        this.AI = AIType;
+        this.depth = depth;
+        this.alphaBetaPrunning = alphabetaPrunning;
+        this.alpha = -Infinity;
+        this.beta = Infinity;
     }
 
     move()
     {
         let array = this.matrix.getAvailabeSpots();
+        this.bestScore = -Infinity;
         switch (true)
         {
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "Random"):
@@ -45,7 +50,7 @@ class AI{
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        let score = this.minimax(document.querySelector("#Depth").value);
+                        let score = this.minimax(this.depth);
                         this.matrix.Xbits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -64,7 +69,7 @@ class AI{
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        let score = this.minimax(document.querySelector("#Depth").value);
+                        let score = this.minimax(this.depth);
                         this.matrix.Obits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -136,6 +141,12 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.max(bestScore, score);
+                    if (this.alphaBetaPrunning)
+                    {
+                        this.alpha = Math.max(this.alpha, bestScore);
+                        if (this.beta <= this.alpha)
+                            break; 
+                    }
                 }
                 else
                 {
@@ -149,6 +160,12 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.max(bestScore, score);
+                    if (this.alphaBetaPrunning)
+                    {
+                        this.alpha = Math.max(this.alpha, bestScore);
+                        if (this.beta <= this.alpha)
+                            break; 
+                    }
                 }
                 
             }
@@ -171,6 +188,12 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.min(bestScore, score);
+                    if (this.alphaBetaPrunning)
+                    {
+                        this.beta = Math.min(this.beta, bestScore);
+                        if (this.beta <= this.alpha)
+                            break; 
+                    }
                 }
                 else
                 {
@@ -184,6 +207,12 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.min(bestScore, score);
+                    if (this.alphaBetaPrunning)
+                    {
+                        this.beta = Math.min(this.beta, bestScore);
+                        if (this.beta <= this.alpha)
+                            break; 
+                    }
                 }
             }
             return bestScore;

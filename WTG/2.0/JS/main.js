@@ -9,17 +9,25 @@ window.addEventListener("DOMContentLoaded", () =>{
     let display = null;
     let board = null;
     let ai = null;
+    let ai2 = null;
     let delay = null;
 
     const generateBoard = () =>{
+        const AIType = document.querySelector('#AIType').value;
+        const AIType2 = document.querySelector('#AIType2').value;
+        const depth = document.querySelector('#Depth').value;
+        const depth2 = document.querySelector('#Depth2').value;
+        const alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning').value;
+        const AlphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2').value;
         if (board != null)
             board = board.remove();
         board = new Board(boardSize.value, turnOrder);
+        ai = new AI(board,AIType,depth,alphaBetaPrunning);
+        ai2 = new AI(board,AIType2,depth2,AlphaBetaPrunning2);
         if(board.getSide() == 'X')
         {
             board.setSide();
             board.setBlockPlayerInteraction();
-            ai = new AI(board);
             setTimeout(playervsAIHelper,1000);
         }
         display = document.querySelector("#display");
@@ -32,7 +40,6 @@ window.addEventListener("DOMContentLoaded", () =>{
         {
             if (delay != null)
                 clearInterval(delay);
-            ai = new AI(board);
             delay = setInterval(botvsbot,1000);
         }
     }
@@ -53,7 +60,6 @@ window.addEventListener("DOMContentLoaded", () =>{
                 AISettings.style.display = "inline";
                 AISettings2.style.display = "inline";
                 document.querySelector('#side').style.display = "none";
-                document.querySelector('#side2').style.display = "none";
                 break;
         }
     }
@@ -80,6 +86,7 @@ window.addEventListener("DOMContentLoaded", () =>{
         if (board.getAvailabeSpots().length == 0 || !board.isGameActive)
             clearInterval(delay);
         ai.move();
+        ai2.move();
     }
 
     const turnOrder = (square) =>{
@@ -135,7 +142,6 @@ window.addEventListener("DOMContentLoaded", () =>{
                         board.setSide();
                         displayPlayer.classList.add(`player${board.getSide()}`);
                         displayPlayer.innerText = board.getSide();
-                        ai = new AI(board);
                         board.setBlockPlayerInteraction();
                         setTimeout(playervsAIHelper,1000);
                         if (board.getAvailabeSpots().length == 0)
