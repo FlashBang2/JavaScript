@@ -96,6 +96,16 @@ class AI{
                     document.querySelector("#display-player").innerText = this.matrix.getSide();
                 }
                 break;
+            case (array.length > 0 && this.matrix.isGameActive && this.AI == "NegaMax"):
+                break;
+            case (array.length > 0 && this.matrix.isGameActive && this.AI == "PNS"):
+                break;
+            case (array.length > 0 && this.matrix.isGameActive && this.AI == "MCS"):
+                break;
+            case (array.length > 0 && this.matrix.isGameActive && this.AI == "MCST"):
+                break;
+            case (array.length > 0 && this.matrix.isGameActive && this.AI == "DQL"):
+                break;
         }
     }
 
