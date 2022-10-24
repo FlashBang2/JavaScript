@@ -32,9 +32,10 @@ class AI{
             text: { name: "start" }
         };
         this.chartConfig.push(this.node);
-
         let array = this.matrix.getAvailabeSpots();
         this.bestScore = -Infinity;
+        this.alpha = -Infinity;
+        this.beta = Infinity;
         switch (true)
         {
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "Random"):
@@ -164,9 +165,9 @@ class AI{
                     bestScore = Math.max(bestScore, score);
                     if (this.alphaBetaPrunning === 'true')
                     {
-                        this.alpha = Math.max(this.alpha, bestScore);
-                        if (this.beta <= this.alpha)
-                            break; 
+                        if (bestScore >= this.beta)
+                           break;
+                        this.alpha = Math.max(this.alpha, bestScore); 
                     }
                 }
                 else
@@ -183,9 +184,9 @@ class AI{
                     bestScore = Math.max(bestScore, score);
                     if (this.alphaBetaPrunning === 'true')
                     {
-                        this.alpha = Math.max(this.alpha, bestScore);
-                        if (this.beta <= this.alpha)
-                            break; 
+                        if (bestScore >= this.beta)
+                            break;
+                        this.alpha = Math.max(this.alpha, bestScore); 
                     }
                 }
                 
@@ -211,9 +212,9 @@ class AI{
                     bestScore = Math.min(bestScore, score);
                     if (this.alphaBetaPrunning === 'true')
                     {
-                        this.beta = Math.min(this.beta, bestScore);
-                        if (this.beta <= this.alpha)
-                            break; 
+                        if (bestScore <= this.alpha)
+                            break;
+                        this.beta = Math.min(this.beta, bestScore); 
                     }
                 }
                 else
@@ -230,9 +231,9 @@ class AI{
                     bestScore = Math.min(bestScore, score);
                     if (this.alphaBetaPrunning === 'true')
                     {
-                        this.beta = Math.min(this.beta, bestScore);
                         if (this.beta <= this.alpha)
-                            break; 
+                            break;
+                        this.beta = Math.min(this.beta, bestScore); 
                     }
                 }
             }
