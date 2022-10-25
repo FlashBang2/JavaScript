@@ -123,7 +123,7 @@ class AI{
         let array = this.matrix.getAvailabeSpots();
         this.matrix.validate();
         if (this.matrix.getWinner() != null)
-            return this.matrix.getWinner() == this.maximizingPlayer ? 1 : -1;
+            return this.matrix.getWinner() == this.maximizingPlayer ? 1 + depth: -(1 + depth);
         if (array.length == 0 || depth == 0)
             return 0;
         if (this.matrix.getSide() == this.maximizingPlayer)
@@ -211,7 +211,7 @@ class AI{
                     bestScore = Math.min(bestScore, score);
                     if (this.alphaBetaPrunning === 'true')
                     {
-                        if (this.beta <= this.alpha)
+                        if (bestScore <= this.alpha)
                             break;
                         this.beta = Math.min(this.beta, bestScore); 
                     }
