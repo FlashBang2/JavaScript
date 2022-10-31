@@ -19,8 +19,7 @@ window.addEventListener("DOMContentLoaded", () =>{
         const depth2 = document.querySelector('#Depth2').value;
         const alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning').value;
         const AlphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2').value;
-        if (board != null)
-            board = board.remove();
+        if (board != null) board = board.remove();
         board = new Board(boardSize.value, turnOrder);
         ai = new AI(board,AIType,depth,alphaBetaPrunning);
         ai2 = new AI(board,AIType2,depth2,AlphaBetaPrunning2);
@@ -28,7 +27,7 @@ window.addEventListener("DOMContentLoaded", () =>{
         {
             board.setSide();
             board.setBlockPlayerInteraction();
-            setTimeout(playervsAIHelper,1000);
+            setTimeout(ai.move(),1000);
         }
         display = document.querySelector("#display");
         display.style.display = "block";
@@ -36,12 +35,9 @@ window.addEventListener("DOMContentLoaded", () =>{
         displayPlayer = document.querySelector("#display-player");
         displayPlayer.classList.add(`player${board.getSide()}`);
         displayPlayer.innerText = board.getSide();
-        if (settings.value == "AIvAI")
-        {
-            if (delay != null)
-                clearInterval(delay);
-            delay = setInterval(botvsbot,1000);
-        }
+        if (settings.value != "AIvAI") return
+        if (delay != null) clearInterval(delay);
+        delay = setInterval(botvsbot,1000);
     }
 
     const showAISettings = () =>{
@@ -66,7 +62,7 @@ window.addEventListener("DOMContentLoaded", () =>{
 
     const moreRules = () =>{
         
-        if (boardSize.value >= 15)
+        if (boardSize.value < 15)
         {
             for (let element of document.querySelectorAll(".rule"))
             {
@@ -83,80 +79,41 @@ window.addEventListener("DOMContentLoaded", () =>{
     }
 
     const botvsbot = () =>{
-        if (board.getAvailabeSpots().length == 0 || !board.isGameActive)
-            clearInterval(delay);
+        if (board.availabeMoves.length == 0 || board.isGameStoped) clearInterval(delay);
         ai.move();
         ai2.move();
     }
 
     const turnOrder = (square) =>{
         
+        let x = square.getRow();
+        let y = square.getColumn();
         switch(settings.value)
         {
             case "PvP":
-                if (!square.Occupied && board.isGameActive)
-                {
-                    square.DOM.innerText = board.getSide();
-                    square.DOM.classList.add(`player${board.getSide()}`);
-                    board.getSide() == 'X' ? board.Xbits[square.getRow()][square.getColumn()] = 1: board.Obits[square.getRow()][square.getColumn()] = 1;
-                    board.validate();
-                    if (board.getWinner() != null)
-                    {
-                        board.isGameActive = false;
-                        board.getWinner() == 'X' ? display.innerHTML = "Player <span class='playerX'>X</span> Won" : display.innerHTML = "Player <span class='playerO'>O</span> Won";
-                    }
-                    else
-                    {
-                        square.setValue();
-                        square.setOccupied();
-                        displayPlayer.classList.remove(`player${board.getSide()}`);
-                        board.setSide();
-                        displayPlayer.classList.add(`player${board.getSide()}`);
-                        displayPlayer.innerText = board.getSide();
-                        if (board.getAvailabeSpots().length == 0)
-                        {
-                            board.isGameActive = false;
-                            display.innerHTML = "TIE";
-                        }
-                        
-                    }
-                }
+                if (board.isGameStoped || square.value != '') return;
+                square.DOM.innerText = board.getSide();
+                square.DOM.classList.add(`player${board.getSide()}`);
+                board.getSide() == 'X' ? board.matrix[x][y].value = 'X': board.matrix[x][y].value = 'O';
+                board.availabeMoves.splice(board.availabeMoves.indexOf(board.availabeMoves.find((a) => {return a.x === x && a.y === y})),1);
+                board.validate();
+                board.getWinner() !== null ? board.announceWinner() : board.gamesContinues();
                 break;
             case "PvAI":
-                if (!square.Occupied && board.isGameActive && !board.blockPlayerInteraction)
-                {
-                    square.DOM.innerText = board.getSide();
-                    square.DOM.classList.add(`player${board.getSide()}`);
-                    board.getSide() == 'X' ? board.Xbits[square.getRow()][square.getColumn()] = 1: board.Obits[square.getRow()][square.getColumn()] = 1;
-                    board.validate();
-                    if (board.getWinner() != null)
-                    {
-                        board.isGameActive = false;
-                        board.getWinner() == 'X' ? display.innerHTML = "Player <span class='playerX'>X</span> Won" : display.innerHTML = "Player <span class='playerO'>O</span> Won";
-                    }
-                    else
-                    {
-                        square.setValue();
-                        square.setOccupied();
-                        displayPlayer.classList.remove(`player${board.getSide()}`);
-                        board.setSide();
-                        displayPlayer.classList.add(`player${board.getSide()}`);
-                        displayPlayer.innerText = board.getSide();
-                        board.setBlockPlayerInteraction();
-                        setTimeout(playervsAIHelper,1000);
-                        if (board.getAvailabeSpots().length == 0)
-                        {
-                            board.isGameActive = false;
-                            display.innerHTML = "TIE";
-                        }
-                    }
-                }
-                break;
+                if (board.isGameStoped || square.value != '' || board.blockPlayerInteraction) return;
+                square.DOM.innerText = board.getSide();
+                square.DOM.classList.add(`player${board.getSide()}`);
+                board.getSide() == 'X' ? board.matrix[x][y].value = 'X' : board.matrix[x][y].value = 'O';
+                board.availabeMoves.splice(board.availabeMoves.indexOf(board.availabeMoves.find((a) => {return a.x === x && a.y === y})),1);
+                board.validate();
+                board.getWinner() !== null ? board.announceWinner() : board.gamesContinues();
+                board.blockPlayerInteraction = true;
+                setTimeout(helper,1000);
+                break;         
         }
-        
     }
 
-    const playervsAIHelper = () =>{
+    const helper = () =>{
         ai.move();
     }
 

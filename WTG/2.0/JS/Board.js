@@ -4,44 +4,35 @@ class Board{
         this.matrix = [];
         this.tiles = document.querySelector("#container");
         this.side = document.querySelector('#side').value;
-        this.Xbits = [];
-        this.Obits = [];
+        this.rules = document.querySelector("#rules").value;
         this.winner = null;
-        this.isGameActive = true;
+        this.isGameStoped = false;
         this.blockPlayerInteraction = false;
+        this.availabeMoves = [];
+        this.size = boardSize;
 
-        this.tiles.style.maxWidth = `${50*boardSize}px`;
-        for(let x = 0;x < boardSize;x++)
+        this.tiles.style.maxWidth = `${50*this.size}px`;
+        for(let x = 0;x < this.size;x++)
         {
             let row = [];
-            let Xrow = [];
-            let Orow = [];
-            this.tiles.style.gridTemplateColumns += `${100/boardSize}% `;
-            this.tiles.style.gridTemplateRows += `${100/boardSize}%`;
-            for (let y = 0;y < boardSize;y++)
+            this.tiles.style.gridTemplateColumns += `${100/this.size}% `;
+            this.tiles.style.gridTemplateRows += `${100/this.sizee}%`;
+            for (let y = 0;y < this.size;y++)
             {
                 let square = new Square(x, y);
                 if (document.querySelector("#settings").value != "AIvAI")
                     square.setOnClick(() =>turnOrder(square));
                 this.tiles.append(square.DOM);
                 row.push(square);
-                Xrow.push(0);
-                Orow.push(0);
+                this.availabeMoves.push({x,y});
             }
             this.matrix.push(row);
-            this.Xbits.push(Xrow);
-            this.Obits.push(Orow);
         }
     }
 
     setSide()
     {
         this.side = this.side == 'X' ? 'O' : 'X';
-    }
-
-    setBlockPlayerInteraction()
-    {
-        this.blockPlayerInteraction = this.blockPlayerInteraction == false ? true : false;
     }
 
     getSide()
@@ -73,59 +64,64 @@ class Board{
         }, []);
     }
 
-    getAvailabeSpots()
+    announceWinner()
     {
-        let array = [];
-        for (let x = 0;x < this.matrix.length;x++)
-        {
-            for (let y = 0;y < this.matrix[0].length;y++)
-            {
-                if (this.matrix[x][y].getValue() == 1)
-                    continue;
-                else
-                    array.push({x,y});
-            }
-        }
-        return array;
+        this.isGameStoped = true;
+        document.querySelector("#display").innerHTML = `Player <span class = 'player${this.winner}'>${this.winner}</span> Won`;
+    }
+
+    gamesContinues()
+    {
+        document.querySelector("#display-player").classList.remove(`player${this.side}`);
+        this.setSide();
+        document.querySelector("#display-player").classList.add(`player${this.side}`);
+        document.querySelector("#display-player").innerText = this.side;
+        if (this.availabeMoves.length != 0) return;
+        this.isGameStoped = false;
+        document.querySelector("#display").innerHTML = "TIE";
+    }
+
+    getLength(x, y, dirX, dirY)
+    {
+        if (x < 0 || x >= this.size || y < 0 || y >= this.size) return 0;
+        if (this.matrix[x][y].value !== this.side) return 0;
+        return 1 + this.getLength(x + dirX, y + dirY, dirX, dirY);
+    }
+
+    getMaxLength(x,y)
+    {
+        if (this.matrix[x][y].value !== this.side) return 0;
+        return Math.max(
+            1 + this.getLength(x + 1, y, 1, 0) + this.getLength(x - 1, y, -1, 0),
+            1 + this.getLength(x, y + 1, 0, 1) + this.getLength(x, y - 1, 0, -1),
+            1 + this.getLength(x + 1, y + 1, 1, 1) + this.getLength(x - 1, y - 1, -1, -1),
+            1 + this.getLength(x - 1, y + 1, -1, 1) + this.getLength(x + 1, y - 1, 1, -1)
+        );
     }
 
     validate()
-    {
-        let flipedX = this.Xbits.reduce((prev, next) => next.map((item, i) =>
-        (prev[i] || []).concat(next[i])), []);
-        let flipedO = this.Obits.reduce((prev, next) => next.map((item, i) =>
-        (prev[i] || []).concat(next[i])), []);
-        this.winner = null;
-        switch (document.querySelector("#rules").value)
+    {   
+        let length = 0;
+        switch (this.rules)
         {
             case "Standard":
-                for(let x = 0;x <= this.matrix.length - 3;x++)
+                for (let x = 0; x < this.size; x++)
                 {
-                    if ((parseInt(this.Xbits[x].join(""),2) & parseInt(this.Xbits[x + 1].join(""),2) & parseInt(this.Xbits[x + 2].join(""),2)) ||
-                        (parseInt(flipedX[x].join(""),2) & parseInt(flipedX[x + 1].join(""),2) & parseInt(flipedX[x + 2].join(""),2)) ||
-                        (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) << 1 & parseInt(this.Xbits[x + 2].join(''),2) << 2) ||
-                        (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) >> 1 & parseInt(this.Xbits[x + 2].join(''),2) >> 2) != 0)
-                        this.winner = 'X';
-                    if ((parseInt(this.Obits[x].join(""),2) & parseInt(this.Obits[x + 1].join(""),2) & parseInt(this.Obits[x + 2].join(""),2)) ||
-                        (parseInt(flipedO[x].join(""),2) & parseInt(flipedO[x + 1].join(""),2) & parseInt(flipedO[x + 2].join(""),2)) ||
-                        (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) << 1 & parseInt(this.Obits[x + 2].join(''),2) << 2) ||
-                        (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) >> 1 & parseInt(this.Obits[x + 2].join(''),2) >> 2) != 0)
-                        this.winner = 'O';
+                    for (let y = 0; y < this.size; y++)
+                    {
+                        length = this.getMaxLength(x,y);
+                        if (length >= 3) this.winner = this.side;
+                    }
                 }
                 break;
             case "Gomoku":
-                for(let x = 0;x <= this.matrix.length - 5;x++)
+                for (let x = 0; x < this.size; x++)
                 {
-                    if ((parseInt(this.Xbits[x].join(""),2) & parseInt(this.Xbits[x + 1].join(""),2) & parseInt(this.Xbits[x + 2].join(""),2) & parseInt(this.Xbits[x + 3].join(""),2) & parseInt(this.Xbits[x + 4].join(""),2)) ||
-                        (parseInt(flipedX[x].join(""),2) & parseInt(flipedX[x + 1].join(""),2) & parseInt(flipedX[x + 2].join(""),2) & parseInt(flipedX[x + 3].join(""),2) & parseInt(flipedX[x + 4].join(""),2)) ||
-                        (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) << 1 & parseInt(this.Xbits[x + 2].join(''),2) << 2 & parseInt(this.Xbits[x + 3].join(""),2) << 3 & parseInt(this.Xbits[x + 4].join(""),2) << 4) ||
-                        (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) >> 1 & parseInt(this.Xbits[x + 2].join(''),2) >> 2 & parseInt(this.Xbits[x + 3].join(""),2) >> 3 & parseInt(this.Xbits[x + 4].join(""),2) >> 4) != 0)
-                        this.winner = 'X';
-                    if ((parseInt(this.Obits[x].join(""),2) & parseInt(this.Obits[x + 1].join(""),2) & parseInt(this.Obits[x + 2].join(""),2) & parseInt(this.Obits[x + 3].join(""),2) & parseInt(this.Obits[x + 4].join(""),2)) ||
-                        (parseInt(flipedO[x].join(""),2) & parseInt(flipedO[x + 1].join(""),2) & parseInt(flipedO[x + 2].join(""),2) & parseInt(flipedO[x + 3].join(""),2) & parseInt(flipedO[x + 4].join(""),2)) ||
-                        (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) << 1 & parseInt(this.Obits[x + 2].join(''),2) << 2 & parseInt(this.Obits[x + 3].join(""),2) << 3 & parseInt(this.Obits[x + 4].join(""),2) << 4) ||
-                        (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) >> 1 & parseInt(this.Obits[x + 2].join(''),2) >> 2 & parseInt(this.Obits[x + 3].join(""),2) >> 3 & parseInt(this.Obits[x + 4].join(""),2) >> 4) != 0)
-                        this.winner = 'O';
+                    for (let y = 0; y < this.size; y++)
+                    {
+                        length = this.getMaxLength(x,y);
+                        if (length >= 5) this.winner = this.side;
+                    }
                 }
                 break;
             case "GomokuPro":
@@ -134,7 +130,7 @@ class Board{
             case "GomokuSwap2":
 
                 break;
-        } 
+        }    
     }
 
     remove()
