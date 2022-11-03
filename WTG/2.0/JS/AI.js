@@ -27,13 +27,13 @@ class AI{
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "Minimax"):
                 this.maximizingPlayer = this.matrix.getSide();
                 this.minimax(this.depth,this.matrix.availabeMoves);
-                this.matrix.availabeMoves.splice(this.matrix.availabeMoves.indexOf(this.matrix.availabeMoves.find((a) => {return a.x === this.bestMove.x && a.y === this.bestMove.y})),1);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].value = this.matrix.getSide();
                 this.matrix.winner = this.matrix.validate();
                 this.matrix.getWinner() !== null ? this.matrix.announceWinner() : this.matrix.gamesContinues();
                 this.matrix.blockPlayerInteraction = false;
+                this.matrix.availabeMoves.splice(this.matrix.availabeMoves.indexOf(this.matrix.availabeMoves.find((a) => {return a.x === this.bestMove.x && a.y === this.bestMove.y})),1);
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "NegaMax"):
                 break;
@@ -56,19 +56,16 @@ class AI{
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
             let bestScore = -Infinity;
-            console.log(currentAvailable);
-            for (let [index,element] of currentAvailable.entries())
+            currentAvailable = currentAvailable.flat();
+            for (let element of currentAvailable)
             {
-                console.log(index);
-                console.log(currentAvailable[index]);
-                let x = currentAvailable[index].x;
-                let y = currentAvailable[index].y;
-                this.matrix.getMatrix()[x][y] = this.matrix.getSide();
+                let x = element.x;
+                let y = element.y;
+                this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
-                console.log(this.matrix.availabeMoves.indexOf(x,y));
-                //childAvailable.splice(this.matrix.availabeMoves.indexOf(x,y),1);
+                childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1);
                 let score = this.minimax(depth - 1, childAvailable);
-                this.matrix.getMatrix()[x][y] = '';
+                this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
                 if (score > bestScore)
                 {
@@ -81,14 +78,15 @@ class AI{
         else
         {
             let bestScore = Infinity;
-            for (let [index,element] of currentAvailable.entries())
+            for (let element of currentAvailable)
             {
-                let x = currentAvailable[index].x;
-                let y = currentAvailable[index].y;
-                this.matrix.getMatrix()[x][y] = this.matrix.getSide();
+                let x = element.x;
+                let y = element.y;
+                this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
+                childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1);
                 let score = this.minimax(depth - 1, childAvailable);
-                this.matrix.getMatrix()[x][y] = '';
+                this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
                 if (score > bestScore)
                 {
