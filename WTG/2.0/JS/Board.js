@@ -110,7 +110,7 @@ class Board{
                     for (let y = 0; y < this.size; y++)
                     {
                         length = this.getMaxLength(x,y);
-                        if (length >= 3) this.winner = this.side;
+                        if (length >= 3) return this.side;
                     }
                 }
                 break;
@@ -120,7 +120,7 @@ class Board{
                     for (let y = 0; y < this.size; y++)
                     {
                         length = this.getMaxLength(x,y);
-                        if (length >= 5) this.winner = this.side;
+                        if (length >= 5) return this.side;
                     }
                 }
                 break;
@@ -130,7 +130,8 @@ class Board{
             case "GomokuSwap2":
 
                 break;
-        }    
+        }
+        return null;
     }
 
     remove()

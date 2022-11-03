@@ -94,18 +94,18 @@ window.addEventListener("DOMContentLoaded", () =>{
                 if (board.isGameStoped || square.value != '') return;
                 square.DOM.innerText = board.getSide();
                 square.DOM.classList.add(`player${board.getSide()}`);
-                board.getSide() == 'X' ? board.matrix[x][y].value = 'X': board.matrix[x][y].value = 'O';
+                board.matrix[x][y].value = board.getSide();
                 board.availabeMoves.splice(board.availabeMoves.indexOf(board.availabeMoves.find((a) => {return a.x === x && a.y === y})),1);
-                board.validate();
+                board.winner = board.validate();
                 board.getWinner() !== null ? board.announceWinner() : board.gamesContinues();
                 break;
             case "PvAI":
                 if (board.isGameStoped || square.value != '' || board.blockPlayerInteraction) return;
                 square.DOM.innerText = board.getSide();
                 square.DOM.classList.add(`player${board.getSide()}`);
-                board.getSide() == 'X' ? board.matrix[x][y].value = 'X' : board.matrix[x][y].value = 'O';
+                board.matrix[x][y].value = board.getSide();
                 board.availabeMoves.splice(board.availabeMoves.indexOf(board.availabeMoves.find((a) => {return a.x === x && a.y === y})),1);
-                board.validate();
+                board.winner = board.validate();
                 board.getWinner() !== null ? board.announceWinner() : board.gamesContinues();
                 board.blockPlayerInteraction = true;
                 setTimeout(helper,1000);
