@@ -110,10 +110,11 @@ class Board{
                     for (let y = 0; y < this.size; y++)
                     {
                         length = this.getMaxLength(x,y);
+                        console.log(length);
                         if (length >= 3) return this.side;
                     }
                 }
-                break;
+                return null;
             case "Gomoku":
                 for (let x = 0; x < this.size; x++)
                 {
@@ -123,7 +124,7 @@ class Board{
                         if (length >= 5) return this.side;
                     }
                 }
-                break;
+                return null;
             case "GomokuPro":
 
                 break;
@@ -131,7 +132,6 @@ class Board{
 
                 break;
         }
-        return null;
     }
 
     remove()

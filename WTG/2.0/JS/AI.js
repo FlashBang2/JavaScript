@@ -37,7 +37,6 @@ class AI{
                 this.matrix.blockPlayerInteraction = false;
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "NegaMax"):
-                
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "PNS"):
                 break;
@@ -68,6 +67,7 @@ class AI{
 
     mini(depth)
     {
+        console.log(this.matrix.validate());
         if (this.matrix.validate() != null) this.maximizingPlayer == this.matrix.getSide() ? 1 + this.depth : -(1 + this.depth);
         if (this.matrix.availabeMoves.length == 0 || depth == 0) return 0;
         for (let element of this.matrix.availabeMoves)
