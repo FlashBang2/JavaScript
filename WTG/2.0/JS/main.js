@@ -2,8 +2,8 @@ window.addEventListener("DOMContentLoaded", () =>{
     const confirm = document.querySelector("#confirm");
     const AISettings = document.querySelector("#AISettings");
     const AISettings2 = document.querySelector("#AISettings2");
-    const boardSize = document.querySelector("#boardSize");
     const settings = document.querySelector("#settings");
+    const boardSize = document.querySelector("#boardSize");
 
     let displayPlayer = null;
     let display = null;
@@ -66,14 +66,14 @@ window.addEventListener("DOMContentLoaded", () =>{
         {
             for (let element of document.querySelectorAll(".rule"))
             {
-                element.hidden = false;
+                element.hidden = true;
             }
         }
         else
         {
             for (let element of document.querySelectorAll(".rule"))
             {
-                element.hidden = true;
+                element.hidden = false;
             }
         }   
     }

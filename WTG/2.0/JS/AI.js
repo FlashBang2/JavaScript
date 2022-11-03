@@ -3,7 +3,6 @@ class AI{
     {
         this.matrix = board;
         this.bestMove = {};
-        this.bestScore = -Infinity;
         this.maximizingPlayer = null;
         this.AI = AIType;
         this.depth = parseInt(depth, 10);
@@ -26,8 +25,8 @@ class AI{
                 this.matrix.blockPlayerInteraction = false;
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "Minimax"):
-                this.maximizingPlayer = this.side;
-                this.max(this.depth);
+                this.maximizingPlayer = this.matrix.getSide();
+                this.minimax(this.depth,this.matrix.availabeMoves);
                 this.matrix.availabeMoves.splice(this.matrix.availabeMoves.indexOf(this.matrix.availabeMoves.find((a) => {return a.x === this.bestMove.x && a.y === this.bestMove.y})),1);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
@@ -49,36 +48,55 @@ class AI{
         }
     }
 
-    max(depth)
+    minimax(depth,...currentAvailable)
     {
-        if (this.matrix.validate() != null) return this.maximizingPlayer == this.matrix.getSide() ? 1 + this.depth : -(1 + this.depth);
-        if (this.matrix.availabeMoves.length == 0 || depth == 0) return 0;
-        for (let element of this.matrix.availabeMoves)
+        if (this.matrix.validate() != null) {return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)};
+        if (depth == 0 || currentAvailable.length == 0) return 0;
+        let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
+        if (this.matrix.getSide() == this.maximizingPlayer)
         {
-            if (depth == this.depth) {let x = element.x; let y = element.y; this.bestMove = {x,y}};
-            this.matrix.getMatrix()[element.x][element.y].value = this.matrix.getSide();
-            this.side == 'O' ? this.side = 'X' : this.side = 'O';
-            let score = this.mini(depth - 1);
-            this.matrix.getMatrix()[element.x][element.y].value = '';
-            this.side == 'O' ? this.side = 'X' : this.side = 'O';
-            if (score > this.bestScore) {this.bestScore = score; let x = element.x; let y = element.y; this.bestMove = {x,y}}
+            let bestScore = -Infinity;
+            console.log(currentAvailable);
+            for (let [index,element] of currentAvailable.entries())
+            {
+                console.log(index);
+                console.log(currentAvailable[index]);
+                let x = currentAvailable[index].x;
+                let y = currentAvailable[index].y;
+                this.matrix.getMatrix()[x][y] = this.matrix.getSide();
+                this.matrix.setSide();
+                console.log(this.matrix.availabeMoves.indexOf(x,y));
+                //childAvailable.splice(this.matrix.availabeMoves.indexOf(x,y),1);
+                let score = this.minimax(depth - 1, childAvailable);
+                this.matrix.getMatrix()[x][y] = '';
+                this.matrix.setSide();
+                if (score > bestScore)
+                {
+                    if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
+                    bestScore = score;
+                }
+            }
+            return bestScore;
         }
-    }
-
-    mini(depth)
-    {
-        console.log(this.matrix.validate());
-        if (this.matrix.validate() != null) this.maximizingPlayer == this.matrix.getSide() ? 1 + this.depth : -(1 + this.depth);
-        if (this.matrix.availabeMoves.length == 0 || depth == 0) return 0;
-        for (let element of this.matrix.availabeMoves)
+        else
         {
-            if (depth == this.depth) {let x = element.x; let y = element.y; this.bestMove = {x,y}};
-            this.matrix.getMatrix()[element.x][element.y].value = this.matrix.getSide();
-            this.side == 'O' ? this.side = 'X' : this.side = 'O';
-            let score = this.max(depth - 1);
-            this.matrix.getMatrix()[element.x][element.y].value = '';
-            this.side == 'O' ? this.side = 'X' : this.side = 'O';
-            if (score > this.bestScore) {this.bestScore = score; let x = element.x; let y = element.y; this.bestMove = {x,y}}
+            let bestScore = Infinity;
+            for (let [index,element] of currentAvailable.entries())
+            {
+                let x = currentAvailable[index].x;
+                let y = currentAvailable[index].y;
+                this.matrix.getMatrix()[x][y] = this.matrix.getSide();
+                this.matrix.setSide();
+                let score = this.minimax(depth - 1, childAvailable);
+                this.matrix.getMatrix()[x][y] = '';
+                this.matrix.setSide();
+                if (score > bestScore)
+                {
+                    if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
+                    bestScore = score;
+                }
+            }
+            return bestScore;
         }
     }
 

@@ -110,7 +110,6 @@ class Board{
                     for (let y = 0; y < this.size; y++)
                     {
                         length = this.getMaxLength(x,y);
-                        console.log(length);
                         if (length >= 3) return this.side;
                     }
                 }
