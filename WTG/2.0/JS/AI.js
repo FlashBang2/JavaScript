@@ -50,11 +50,19 @@ class AI{
 
     minimax(depth,...currentAvailable)
     {
+        for (let i = 0; i <= 5-depth; i++){
+            currentAvailable = currentAvailable.flat();
+        }
+        //console.log(currentAvailable, "currentAvailableaft")
         let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
-        if (this.matrix.validate() != null) {return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)};
+        //console.log(childAvailable, "childAvailable")
+        //console.log(this.matrix.getValueMatrix(), depth)
+        console.log(this.matrix.validate(), "score")
+        if (this.matrix.validate() != null) {
+            
+            return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)
+        };
         if (depth == 0 || currentAvailable.length == 0) return 0;
-        for (let i = 0; i <= 5-depth; i++)
-        currentAvailable = currentAvailable.flat();
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
             let bestScore = -Infinity;
@@ -64,7 +72,8 @@ class AI{
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
-                let score = this.minimax(depth - 1, childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1));
+                childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1)
+                let score = this.minimax(depth - 1, childAvailable);
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
                 if (score > bestScore)
@@ -84,7 +93,8 @@ class AI{
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
-                let score = this.minimax(depth - 1, childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1));
+                childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1)
+                let score = this.minimax(depth - 1, childAvailable);
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
                 if (score > bestScore)
