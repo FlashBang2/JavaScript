@@ -51,11 +51,9 @@ class AI{
     minimax(depth,...currentAvailable)
     {
         let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
-        console.log(this.matrix.getValueMatrix());
-        console.log(this.matrix.validate());
         if (this.matrix.validate() != null) {return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)};
         if (depth == 0 || currentAvailable.length == 0) return 0;
-        currentAvailable = currentAvailable.flat();
+        currentAvailable = currentAvailable.flat(2);
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
             let bestScore = -Infinity;
@@ -65,8 +63,7 @@ class AI{
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
-                childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1);
-                let score = this.minimax(depth - 1, childAvailable);
+                let score = this.minimax(depth - 1, childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1));
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
                 if (score > bestScore)
@@ -86,8 +83,7 @@ class AI{
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
-                childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1);
-                let score = this.minimax(depth - 1, childAvailable);
+                let score = this.minimax(depth - 1, childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1));
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
                 if (score > bestScore)
