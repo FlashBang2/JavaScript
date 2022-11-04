@@ -53,7 +53,8 @@ class AI{
         let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
         if (this.matrix.validate() != null) {return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)};
         if (depth == 0 || currentAvailable.length == 0) return 0;
-        currentAvailable = currentAvailable.flat(2);
+        for (let i = 0; i <= 5-depth; i++)
+        currentAvailable = currentAvailable.flat();
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
             let bestScore = -Infinity;
