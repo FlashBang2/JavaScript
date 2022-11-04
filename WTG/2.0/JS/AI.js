@@ -50,13 +50,15 @@ class AI{
 
     minimax(depth,...currentAvailable)
     {
+        let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
+        console.log(this.matrix.getValueMatrix());
+        console.log(this.matrix.validate());
         if (this.matrix.validate() != null) {return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)};
         if (depth == 0 || currentAvailable.length == 0) return 0;
-        let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
+        currentAvailable = currentAvailable.flat();
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
             let bestScore = -Infinity;
-            currentAvailable = currentAvailable.flat();
             for (let element of currentAvailable)
             {
                 let x = element.x;
