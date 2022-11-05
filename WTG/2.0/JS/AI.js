@@ -64,7 +64,6 @@ class AI{
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "DQL"):
                 break;
         }
-        console.log(this.chartConfig)
         var my_chart = new Treant(this.chartConfig);
     }
 
@@ -73,11 +72,7 @@ class AI{
         for (let i = 0; i <= 5-depth; i++){
             currentAvailable = currentAvailable.flat();
         }
-        //console.log(currentAvailable, "currentAvailableaft")
         let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
-        //console.log(childAvailable, "childAvailable")
-        //console.log(this.matrix.getValueMatrix(), depth)
-        console.log(this.matrix.validate(), "score")
         if (this.matrix.validate() != null) {
             
             return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)
@@ -131,7 +126,7 @@ class AI{
                 parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
-                if (score > bestScore)
+                if (score < bestScore)
                 {
                     if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
                     bestScore = score;
