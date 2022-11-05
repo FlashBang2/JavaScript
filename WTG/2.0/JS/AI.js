@@ -68,16 +68,13 @@ class AI{
         var my_chart = new Treant(this.chartConfig);
     }
 
-    minimax(depth,  parentDrawnNode,...currentAvailable)
+    minimax(depth,  parentDrawnNode, ...currentAvailable)
     {
         for (let i = 0; i <= 5-depth; i++){
             currentAvailable = currentAvailable.flat();
         }
         let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
-        if (this.matrix.validate() != null) {
-            
-            return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)
-        };
+        if (this.matrix.validate() != null) { return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)};
         if (depth == 0 || currentAvailable.length == 0) return 0;
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
@@ -93,7 +90,7 @@ class AI{
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
-                childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1)
+                childAvailable.splice(childAvailable.findIndex(object => {return object.x == x && object.y == y}),1)
                 let score = this.minimax(depth - 1, childDrawnNode, childAvailable);
                 childDrawnNode.text.name=score;
                 parentDrawnNode.children.push(childDrawnNode);
@@ -121,7 +118,7 @@ class AI{
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
-                childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1)
+                childAvailable.splice(childAvailable.findIndex(object => {return object.x == x && object.y == y}),1)
                 let score = this.minimax(depth - 1, childDrawnNode, childAvailable);
                 childDrawnNode.text.name=score;
                 parentDrawnNode.children.push(childDrawnNode);
