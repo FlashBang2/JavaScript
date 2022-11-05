@@ -7,6 +7,18 @@ class AI{
         this.AI = AIType;
         this.depth = parseInt(depth, 10);
         this.alphaBetaPrunning = alphabetaPrunning;
+
+        this.chartConfig = {
+            chart: {
+                container: "#tree-simple",
+                connectors:{
+                    type:"bCurve",
+                    style: {stroke: 'white'}
+                },
+                nodeStructure: null,
+
+            }
+        }
     }
 
     move()
@@ -26,7 +38,12 @@ class AI{
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "Minimax"):
                 this.maximizingPlayer = this.matrix.getSide();
-                this.minimax(this.depth,this.matrix.availabeMoves);
+                let rootDrawnNode;
+                rootDrawnNode = {
+                    text: { name: "Start X"},
+                    children: []
+                }
+                this.minimax(this.depth, rootDrawnNode ,this.matrix.availabeMoves);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].value = this.matrix.getSide();
@@ -34,6 +51,7 @@ class AI{
                 this.matrix.getWinner() !== null ? this.matrix.announceWinner() : this.matrix.gamesContinues();
                 this.matrix.blockPlayerInteraction = false;
                 this.matrix.availabeMoves.splice(this.matrix.availabeMoves.indexOf(this.matrix.availabeMoves.find((a) => {return a.x === this.bestMove.x && a.y === this.bestMove.y})),1);
+                this.chartConfig.nodeStructure=rootDrawnNode;
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "NegaMax"):
                 break;
@@ -46,9 +64,11 @@ class AI{
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "DQL"):
                 break;
         }
+        console.log(this.chartConfig)
+        var my_chart = new Treant(this.chartConfig);
     }
 
-    minimax(depth,...currentAvailable)
+    minimax(depth,  parentDrawnNode,...currentAvailable)
     {
         for (let i = 0; i <= 5-depth; i++){
             currentAvailable = currentAvailable.flat();
@@ -68,12 +88,19 @@ class AI{
             let bestScore = -Infinity;
             for (let element of currentAvailable)
             {
+                let childDrawnNode = {
+                    parent: parentDrawnNode,
+                    text: { name: "MAX " + this.maximizingPlayer + " " + element.x + "," + element.y},
+                    children: []
+                }
                 let x = element.x;
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
                 childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1)
-                let score = this.minimax(depth - 1, childAvailable);
+                let score = this.minimax(depth - 1, childDrawnNode, childAvailable);
+                childDrawnNode.text.name=score;
+                parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
                 if (score > bestScore)
@@ -89,12 +116,19 @@ class AI{
             let bestScore = Infinity;
             for (let element of currentAvailable)
             {
+                let childDrawnNode = {
+                    parent: parentDrawnNode,
+                    text: { name: "MAX " + this.maximizingPlayer + " " + element.x + "," + element.y},
+                    children: []
+                }
                 let x = element.x;
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
                 childAvailable.splice(this.matrix.availabeMoves.findIndex(object => {return object.x == x && object.y == y}),1)
-                let score = this.minimax(depth - 1, childAvailable);
+                let score = this.minimax(depth - 1, childDrawnNode, childAvailable);
+                childDrawnNode.text.name=score;
+                parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
                 if (score > bestScore)
