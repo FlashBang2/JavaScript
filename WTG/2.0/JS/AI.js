@@ -43,7 +43,7 @@ class AI{
                     text: { name: "Start X"},
                     children: []
                 }
-                this.minimax(this.depth, rootDrawnNode ,this.matrix.availabeMoves);
+                let score=this.minimax(this.depth, rootDrawnNode ,this.matrix.availabeMoves);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].value = this.matrix.getSide();
@@ -51,6 +51,7 @@ class AI{
                 this.matrix.getWinner() !== null ? this.matrix.announceWinner() : this.matrix.gamesContinues();
                 this.matrix.blockPlayerInteraction = false;
                 this.matrix.availabeMoves.splice(this.matrix.availabeMoves.indexOf(this.matrix.availabeMoves.find((a) => {return a.x === this.bestMove.x && a.y === this.bestMove.y})),1);
+                rootDrawnNode.text.name=score;
                 this.chartConfig.nodeStructure=rootDrawnNode;
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "NegaMax"):
