@@ -90,12 +90,14 @@ class AI{
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
-                childAvailable.splice(childAvailable.findIndex(object => {return object.x == x && object.y == y}),1)
+                let index = childAvailable.findIndex(object => {return object.x == x && object.y == y});
+                childAvailable.splice(index,1)
                 let score = this.minimax(depth - 1, childDrawnNode, childAvailable);
                 childDrawnNode.text.name=score;
                 parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
+                childAvailable.splice(index,0,{x,y});
                 if (score > bestScore)
                 {
                     if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
@@ -118,12 +120,14 @@ class AI{
                 let y = element.y;
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
-                childAvailable.splice(childAvailable.findIndex(object => {return object.x == x && object.y == y}),1)
+                let index = childAvailable.findIndex(object => {return object.x == x && object.y == y});
+                childAvailable.splice(index,1)
                 let score = this.minimax(depth - 1, childDrawnNode, childAvailable);
                 childDrawnNode.text.name=score;
                 parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
+                childAvailable.splice(index,0,{x,y});
                 if (score < bestScore)
                 {
                     if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
