@@ -127,10 +127,10 @@ class AI{
                     document.querySelector("#display-player").innerText = this.matrix.getSide();
                     this.matrix.setBlockPlayerInteraction();
                 }
-                console.log( rootDrawnNode);
                 this.chartConfig.nodeStructure=rootDrawnNode;
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "NegaMax"):
+
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "PNS"):
                 break;
@@ -141,22 +141,15 @@ class AI{
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "DQL"):
                 break;
         }
-        console.log(this.chartConfig)
-        var my_chart = new Treant(this.chartConfig);
+        new Treant(this.chartConfig);
     }
 
     minimax(depth, i, p, parentDrawnNode)
     {
         let array = this.matrix.getAvailabeSpots();
         this.matrix.validate();
-        if (this.matrix.getWinner() != null)
-            {
-                return this.matrix.getWinner() == this.maximizingPlayer ? 1 : -1;
-            }
-        if (array.length == 0 || depth == 0)
-            {
-                return 0;
-            }
+        if (this.matrix.getWinner() != null) return this.matrix.getWinner() == this.maximizingPlayer ? 1 + depth : -(1 + depth);
+        if (array.length == 0 || depth == 0) return 0;
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
             let bestScore = -Infinity
@@ -167,7 +160,6 @@ class AI{
                     text: { name: "MAX " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
                     children: []
                 }
-                //sparentDrawnNode.children.push(childDrawnNode);
                 if (this.maximizingPlayer == 'X')
                 {
                     this.matrix.Xbits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1;
@@ -224,7 +216,6 @@ class AI{
                     text: { name: "MIN " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
                     children: []
                 }
-                //parentDrawnNode.children.push(childDrawnNode);
                 if (this.maximizingPlayer != 'O')
                 {
                     this.matrix.Obits[ this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1;
