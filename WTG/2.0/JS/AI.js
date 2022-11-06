@@ -8,8 +8,6 @@ class AI{
         this.AI = AIType;
         this.depth = depth;
         this.alphaBetaPrunning = alphabetaPrunning;
-        this.alpha = -Infinity;
-        this.beta = Infinity;
         
         this.chartConfig = {
             chart: {
@@ -30,6 +28,8 @@ class AI{
 
         let array = this.matrix.getAvailabeSpots();
         this.bestScore = -Infinity;
+        this.alpha = -Infinity;
+        this.beta = Infinity;
         switch (true)
         {
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "Random"):
@@ -130,7 +130,7 @@ class AI{
                 this.chartConfig.nodeStructure=rootDrawnNode;
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "NegaMax"):
-
+                
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "PNS"):
                 break;
