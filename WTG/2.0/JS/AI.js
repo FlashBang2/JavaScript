@@ -74,7 +74,9 @@ class AI{
             currentAvailable = currentAvailable.flat();
         }
         let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
-        if (this.matrix.validate() != null) { return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)};
+        this.matrix.setSide();
+        if (this.matrix.validate() != null) { this.matrix.setSide(); return this.matrix.validate() == this.maximizingPlayer ? 1 + depth : -(1 + depth)};
+        this.matrix.setSide();
         if (depth == 0 || currentAvailable.length == 0) return 0;
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
