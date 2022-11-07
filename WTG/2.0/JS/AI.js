@@ -122,8 +122,8 @@ class AI{
                     if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
                     bestScore = score;
                 }
-                if (this.alphaBetaPrunning == true) this.alpha = Math.max(this.alpha, score);
-                if (this.beta <= this.alpha && this.alphaBetaPrunning == 'true') break;
+                if (this.alphaBetaPrunning == 'true') this.alpha = Math.max(this.alpha, score);
+                if ((this.beta <= this.alpha) && this.alphaBetaPrunning == 'true') break;
             }
             return bestScore;
         }
@@ -155,7 +155,7 @@ class AI{
                     bestScore = score;
                 }
                 if (this.alphaBetaPrunning == 'true') this.beta = Math.min(this.beta, score);
-                if (this.beta <= this.alpha && this.alphaBetaPrunning == 'true') break;
+                if ((this.beta <= this.alpha) && this.alphaBetaPrunning == 'true') break;
             }
             return bestScore;
         }
