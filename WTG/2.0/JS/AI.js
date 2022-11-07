@@ -192,7 +192,6 @@ class AI{
             this.matrix.getMatrix()[x][y].value = '';
             this.matrix.setSide();
             childAvailable.splice(index, 0, {x,y});
-            console.log(score);
             if (score > bestScore)
             {
                 if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
