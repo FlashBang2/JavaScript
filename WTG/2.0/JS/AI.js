@@ -36,7 +36,7 @@ class AI{
                 let indices = array[Math.floor(Math.random() * array.length)];
                 this.matrix.getMatrix()[indices.x][indices.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[indices.x][indices.y].DOM.classList.add(`player${this.matrix.getSide()}`);
-                this.matrix.getSide() == 'X' ? this.matrix.Xbits[ this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1: this.matrix.Obits[ this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1;
+                this.matrix.getSide() == 'X' ? this.matrix.Xbits[indices.x][indices.y] = 1: this.matrix.Obits[indices.x][indices.y] = 1;
                 this.matrix.validate();
                 if (this.matrix.getWinner() != null)
                 {
@@ -61,7 +61,7 @@ class AI{
                 {
                     if (this.maximizingPlayer == 'X')
                     {
-                        this.matrix.Xbits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1;
+                        this.matrix.Xbits[indices.x][indices.y] = 1;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
@@ -70,7 +70,7 @@ class AI{
                             children: []
                         }*/
                         let score = this.minimax(this.depth);
-                        this.matrix.Xbits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
+                        this.matrix.Xbits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
@@ -85,7 +85,7 @@ class AI{
                     }
                     else
                     {
-                        this.matrix.Obits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1;
+                        this.matrix.Obits[indices.x][indices.y] = 1;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
@@ -94,7 +94,7 @@ class AI{
                             children: []
                         }*/
                         let score = this.minimax(this.depth);
-                        this.matrix.Obits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
+                        this.matrix.Obits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
@@ -110,7 +110,7 @@ class AI{
                 /*rootDrawnNode.text.name=this.bestScore;*/
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
-                this.matrix.getSide() == 'X' ? this.matrix.Xbits[ this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].getRow()][ this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].getColumn()] = 1: this.matrix.Obits[ this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].getRow()][ this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].getColumn()] = 1;
+                this.matrix.getSide() == 'X' ? this.matrix.Xbits[this.bestMove.x][this.bestMove.y] = 1: this.matrix.Obits[this.bestMove.x][this.bestMove.y] = 1;
                 this.matrix.validate();
                 if (this.matrix.getWinner() != null)
                 {
@@ -160,16 +160,17 @@ class AI{
                     text: { name: "MAX " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
                     children: []
                 }*/
+                if (this.cutMoves(indices)) continue;
                 if (this.maximizingPlayer == 'X')
                 {
-                    this.matrix.Xbits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1;
+                    this.matrix.Xbits[indices.x][indices.y] = 1;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     let score = this.minimax(depth - 1);
                     /*childDrawnNode.text.name=score;
                     parentDrawnNode.children.push(childDrawnNode);*/
-                    this.matrix.Xbits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
+                    this.matrix.Xbits[indices.x][indices.y] = 0;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
@@ -183,14 +184,14 @@ class AI{
                 }
                 else
                 {
-                    this.matrix.Obits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1;
+                    this.matrix.Obits[indices.x][indices.y] = 1;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     let score = this.minimax(depth - 1);
                     /*childDrawnNode.text.name=score;
                     parentDrawnNode.children.push(childDrawnNode);*/
-                    this.matrix.Obits[this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
+                    this.matrix.Obits[indices.x][indices.y] = 0;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
@@ -216,16 +217,17 @@ class AI{
                     text: { name: "MIN " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
                     children: []
                 }*/
+                if (this.cutMoves(indices)) continue;
                 if (this.maximizingPlayer != 'O')
                 {
-                    this.matrix.Obits[ this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1;
+                    this.matrix.Obits[indices.x][indices.y] = 1;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     let score = this.minimax(depth - 1);
                     /*childDrawnNode.text.name=score;
                     parentDrawnNode.children.push(childDrawnNode);*/
-                    this.matrix.Obits[ this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
+                    this.matrix.Obits[indices.x][indices.y] = 0;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
@@ -239,14 +241,14 @@ class AI{
                 }
                 else
                 {
-                    this.matrix.Xbits[ this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 1;
+                    this.matrix.Xbits[indices.x][indices.y] = 1;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     let score = this.minimax(depth - 1);
                     /*childDrawnNode.text.name=score;
                     parentDrawnNode.children.push(childDrawnNode);*/
-                    this.matrix.Xbits[ this.matrix.getMatrix()[indices.x][indices.y].getRow()][ this.matrix.getMatrix()[indices.x][indices.y].getColumn()] = 0;
+                    this.matrix.Xbits[indices.x][indices.y] = 0;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
@@ -261,6 +263,87 @@ class AI{
             }
             return bestScore;
         }
+    }
+
+    cutMoves(indices)
+    {
+        //Corners
+
+        if (indices.x == 0 && indices.y == 0)
+        {
+            if ((this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][indices.y + 1]) == '' && 
+                (this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][indices.y + 1] == '') && 
+                (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x +1][indices.y] == '')) return true; 
+        }
+        if (indices.x == this.matrix.boardSize && indices.y == this.matrix.boardSize)
+        {
+            if ((this.matrix.Xbits[this.matrix.boardSize - 1][this.matrix.boardSize - 1] == '' || this.matrix.Obits[this.matrix.boardSize - 1][this.matrix.boardSize - 1] == '') &&
+                (this.matrix.Xbits[this.matrix.boardSize - 1][this.matrix.boardSize] == '' || this.matrix.Obits[this.matrix.boardSize -1][this.matrix.boardSize] == '') &&
+                (this.matrix.Xbits[this.matrix.boardSize][this.matrix.boardSize - 1] == '' || this.matrix.Obits[this.matrix.boardSize][this.matrix.boardSize - 1] == '')) return true;
+        }
+        if (indices.x == this.matrix.boardSize && indices.y == 0)
+        {
+            if ((this.matrix.Xbits[this.matrix.boardSize - 1][indices.y + 1] == '' || this.matrix.Obits[this.matrix.boardSize - 1][indices.y + 1] == '') &&
+                (this.matrix.Xbits[this.matrix.boardSize - 1][indices.y] == '' || this.matrix.Obits[this.matrix.boardSize - 1][indices.y] == '') &&
+                (this.matrix.Xbits[this.matrix.boardSize][indices.y + 1] == '' || this.matrix.Obits[this.matrix.boardSize][indices.y + 1] == '')) return true;
+        }
+        if (indices.x == 0 && indices.y == this.matrix.boardSize)
+        {
+            if ((this.matrix.Xbits[indices.x + 1][this.matrix.boardSize - 1] == '' || this.matrix.Obits[indices.x + 1][this.matrix.boardSize - 1] == '') &&
+                (this.matrix.Xbits[indices.x + 1][this.matrix.boardSize] == '' || this.matrix.Obits[indices.x + 1][this.matrix.boardSize] == '') &&
+                (this.matrix.Xbits[indices.x][this.matrix.boardSize - 1] == '' || this.matrix.Obits[indices.x][this.matrix.boardSize -1] == '')) return true;
+        }
+
+        //Borders
+
+        if(indices.x == 0 && indices.y > 0 && indices.y < this.matrix.boardSize)
+        {
+            if ((this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '') &&
+                (this.matrix.Xbits[indices.x + 1][indices.y - 1] == '' || this.matrix.Obits[indices.x + 1][indices.y - 1] == '') &&
+                (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x + 1][indices.y] == '') &&
+                (this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][indices.y + 1] == '') &&
+                (this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][indices.y + 1] == '')) return true;
+        }
+        if (indices.x > 0 && indices.x < this.matrix.boardSize && indices.y == 0)
+        {
+            if ((this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][indices.y + 1] == '') &&
+                (this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][indices.y + 1] == '') &&
+                (this.matrix.Xbits[indices.x - 1][indices.y + 1] == '' || this.matrix.Obits[indices.x - 1][indices.y + 1] == '') &&
+                (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x + 1][indices.y] == '') &&
+                (this.matrix.Xbits[indices.x - 1][indices.y] == '' || this.matrix.Obits[indices.x - 1][indices.y] == '')) return true;
+        }
+        if (indices.y == this.matrix.boardSize && indices.x > 0 && indices.x < this.matrix.boardSize)
+        {
+            if ((this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '') &&
+                (this.matrix.Xbits[indices.x + 1][indices.y - 1] == '' || this.matrix.Obits[indices.x + 1][indices.y - 1] == '') &&
+                (this.matrix.Xbits[indices.x - 1][indices.y - 1] == '' || this.matrix.Obits[indices.x - 1][indices.y - 1] == '') &&
+                (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x + 1][indices.y] == '') &&
+                (this.matrix.Xbits[indices.x - 1][indices.y] == '' || this.matrix.Obits[indices.x - 1][indices.y] == '')) return true; 
+        }
+        if (indices.x == this.matrix.boardSize && indices.y > 0 && indices.y < this.matrix.boardSize)
+        {
+            if ((this.matrix.Xbits[indices.x - 1][indices.y] == '' || this.matrix.Obits[indices.x - 1][indices.y] == '') &&
+                (this.matrix.Xbits[indices.x - 1][indices.y + 1] == '' || this.matrix.Obits[indices.x - 1][indices.y + 1] == '') &&
+                (this.matrix.Xbits[indices.x - 1][indices.y - 1] == '' || this.matrix.Obits[indices.x - 1][indices.y - 1] == '') &&
+                (this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '') &&
+                (this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '')) return true;
+        }
+
+        //Inside
+
+        if (indices.x > 0 && indices.x < this.matrix.boardSize && indices.y > 0 && indices.y < this.matrix.boardSize)
+        {
+            if  ((this.matrix.Xbits[indices.x - 1][indices.y - 1] == '' || this.matrix.Obits[indices.x - 1][indices.y -1] == '') &&
+                 (this.matrix.Xbits[indices.x - 1][indices.y + 1] == '' || this.matrix.Obits[indices.x - 1][indices.y + 1] == '') &&
+                 (this.matrix.Xbits[indices.x - 1][indices.y] == '' || this.matrix.Obits[indices.x - 1][indices.y] == '') &&
+                 (this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][ indices.y + 1] == '') &&
+                 (this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '') &&
+                 (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x + 1][indices.y] == '') &&
+                 (this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][ indices.y + 1] == '') &&
+                 (this.matrix.Xbits[indices.x + 1][indices.y - 1] == '' || this.matrix.Obits[indices.x + 1][indices.y - 1] == '')) return true;
+        }
+
+        return false;
     }
 
     negamax(depth)

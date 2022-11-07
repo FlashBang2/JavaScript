@@ -9,16 +9,17 @@ class Board{
         this.winner = null;
         this.isGameActive = true;
         this.blockPlayerInteraction = false;
+        this.boardSize = boardSize;
 
-        this.tiles.style.maxWidth = `${50*boardSize}px`;
-        for(let x = 0;x < boardSize;x++)
+        this.tiles.style.maxWidth = `${50*this.boardSize}px`;
+        for(let x = 0;x < this.boardSize;x++)
         {
             let row = [];
             let Xrow = [];
             let Orow = [];
-            this.tiles.style.gridTemplateColumns += `${100/boardSize}% `;
-            this.tiles.style.gridTemplateRows += `${100/boardSize}%`;
-            for (let y = 0;y < boardSize;y++)
+            this.tiles.style.gridTemplateColumns += `${100/this.boardSize}% `;
+            this.tiles.style.gridTemplateRows += `${100/this.boardSize}%`;
+            for (let y = 0;y < this.boardSize;y++)
             {
                 let square = new Square(x, y);
                 if (document.querySelector("#settings").value != "AIvAI")

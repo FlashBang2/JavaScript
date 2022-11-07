@@ -127,7 +127,7 @@ window.addEventListener("DOMContentLoaded", () =>{
                 {
                     square.DOM.innerText = board.getSide();
                     square.DOM.classList.add(`player${board.getSide()}`);
-                    board.getSide() == 'X' ? board.Xbits[square.getRow()][square.getColumn()] = 1: board.Obits[square.getRow()][square.getColumn()] = 1;
+                    board.getSide() == 'X' ? board.Xbits[square.getRow()][square.getColumn()] = 1 : board.Obits[square.getRow()][square.getColumn()] = 1;
                     board.validate();
                     if (board.getWinner() != null)
                     {
