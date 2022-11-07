@@ -58,12 +58,12 @@ class AI{
                 this.chartConfig.nodeStructure = rootDrawnNode;
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "NegaMax"):
-                rootDrawnNoe = {
+                rootDrawnNode = {
                     text: { name: "Start X" },
                     children: []
                 }
-                score = this.negamax(this.depth, this.matrix.availabeMoves);
-                this.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
+                score = this.negamax(this.depth, rootDrawnNode, this.matrix.availabeMoves);
+                this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.winner = this.matrix.validate();
                 this.matrix.getWinner() !== null ? this.matrix.announceWinner() : this.matrix.gamesContinues();
@@ -81,7 +81,7 @@ class AI{
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "DQL"):
                 break;
         }
-        var my_chart = new Treant(this.chartConfig);
+        new Treant(this.chartConfig);
     }
 
     minimax(depth,  parentDrawnNode, ...currentAvailable)
@@ -163,13 +163,13 @@ class AI{
 
     negamax(depth, parentDrawnNode , ...currentAvailable)
     {
-        for (let i = 0; i <= 5-depth; i++)
+        for (let i = 0; i <= 5 - depth; i++)
         {
             currentAvailable = currentAvailable.flat();
         }
         let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
         this.matrix.setSide();
-        if (this.matrix.validate() != null) {this.matrix.setSide(); return 1 + depth};
+        if (this.matrix.validate() != null) {this.matrix.setSide(); return -(1 + depth)};
         this.matrix.setSide();
         if (depth == 0 || currentAvailable.length == 0) return 0;
         let bestScore = -Infinity;
@@ -192,7 +192,8 @@ class AI{
             this.matrix.getMatrix()[x][y].value = '';
             this.matrix.setSide();
             childAvailable.splice(index, 0, {x,y});
-            if (score < bestScore)
+            console.log(score);
+            if (score > bestScore)
             {
                 if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
                 bestScore = score;
@@ -200,7 +201,7 @@ class AI{
             if (this.alphaBetaPrunning == true) this.alpha = Math.max(score, this.alpha);
             if (this.alphaBetaPrunning == true && this.alpha >= this.beta) break;
         }
-
+        return bestScore;
     }
 
     PNS()
