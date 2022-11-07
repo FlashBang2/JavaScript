@@ -24,6 +24,8 @@ class AI{
     move()
     {
         this.bestScore = -Infinity;
+        this.alpha = -Infinity; 
+        this.beta = Infinity;
         switch (true)
         {
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "Random"):
@@ -105,6 +107,8 @@ class AI{
                     if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
                     bestScore = score;
                 }
+                if (this.alphaBetaPrunning == true) this.alpha = Math.max(alpha, score);
+                if (this.beta <= this.alpha && this.alphaBetaPrunning == true) break;
             }
             return bestScore;
         }
@@ -135,6 +139,8 @@ class AI{
                     if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
                     bestScore = score;
                 }
+                if (this.alphaBetaPrunning == true) this.beta = Math.min(beta, score);
+                if (this.beta <= this.alpha && this.alphaBetaPrunning == true) break;
             }
             return bestScore;
         }
