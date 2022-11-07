@@ -62,7 +62,7 @@ class AI{
                     text: { name: "Start X" },
                     children: []
                 }
-                score = this.negamax(this.depth, rootDrawnNode, this.matrix.availabeMoves);
+                score = this.negamax(this.depth, rootDrawnNode, this.alpha, this.beta, this.matrix.availabeMoves);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.winner = this.matrix.validate();
@@ -123,7 +123,7 @@ class AI{
                     bestScore = score;
                 }
                 if (this.alphaBetaPrunning == true) this.alpha = Math.max(this.alpha, score);
-                if (this.beta <= this.alpha && this.alphaBetaPrunning == true) break;
+                if (this.beta <= this.alpha && this.alphaBetaPrunning == 'true') break;
             }
             return bestScore;
         }
@@ -154,14 +154,14 @@ class AI{
                     if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
                     bestScore = score;
                 }
-                if (this.alphaBetaPrunning == true) this.beta = Math.min(this.beta, score);
-                if (this.beta <= this.alpha && this.alphaBetaPrunning == true) break;
+                if (this.alphaBetaPrunning == 'true') this.beta = Math.min(this.beta, score);
+                if (this.beta <= this.alpha && this.alphaBetaPrunning == 'true') break;
             }
             return bestScore;
         }
     }
 
-    negamax(depth, parentDrawnNode , ...currentAvailable)
+    negamax(depth, parentDrawnNode, alpha, beta, ...currentAvailable)
     {
         for (let i = 0; i <= 5 - depth; i++)
         {
@@ -186,7 +186,7 @@ class AI{
             this.matrix.setSide();
             let index = childAvailable.findIndex(object => {return object.x == x && object.y == y});
             childAvailable.splice(index,1);
-            let score = -(this.negamax(depth - 1, childDrawnNode, childAvailable));
+            let score = -(this.negamax(depth - 1, childDrawnNode, -alpha, -beta, childAvailable));
             childDrawnNode.text.name = score;
             parentDrawnNode.children.push(childDrawnNode);
             this.matrix.getMatrix()[x][y].value = '';
@@ -196,9 +196,10 @@ class AI{
             {
                 if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
                 bestScore = score;
+                if (this.alphaBetaPrunning == 'true') alpha = Math.max(score, alpha);;
+                if (this.alphaBetaPrunning == 'true' && alpha >= beta) break;
             }
-            if (this.alphaBetaPrunning == true) this.alpha = Math.max(score, this.alpha);
-            if (this.alphaBetaPrunning == true && this.alpha >= this.beta) break;
+            
         }
         return bestScore;
     }
@@ -220,6 +221,6 @@ class AI{
 
     DQL()
     {
-        
+
     }
 }
