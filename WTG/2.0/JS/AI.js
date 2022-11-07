@@ -304,7 +304,7 @@ class AI{
                 (this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][indices.y + 1] == '') &&
                 (this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][indices.y + 1] == '')) return true;
         }
-        if (indices.x > 0 && indices.x < this.matrix.boardSize && indices.y == 0)
+        if (indices.x > 0 && indices.x < this.matrix.boardSize - 1 && indices.y == 0)
         {
             if ((this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][indices.y + 1] == '') &&
                 (this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][indices.y + 1] == '') &&
@@ -331,7 +331,7 @@ class AI{
 
         //Inside
 
-        if (indices.x > 0 && indices.x < this.matrix.boardSize && indices.y > 0 && indices.y < this.matrix.boardSize)
+        if (indices.x > 0 && indices.x < this.matrix.boardSize - 1 && indices.y > 0 && indices.y < this.matrix.boardSize - 1)
         {
             if  ((this.matrix.Xbits[indices.x - 1][indices.y - 1] == '' || this.matrix.Obits[indices.x - 1][indices.y -1] == '') &&
                  (this.matrix.Xbits[indices.x - 1][indices.y + 1] == '' || this.matrix.Obits[indices.x - 1][indices.y + 1] == '') &&
