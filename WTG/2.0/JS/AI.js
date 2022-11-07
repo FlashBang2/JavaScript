@@ -81,7 +81,7 @@ class AI{
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "DQL"):
                 break;
         }
-        new Treant(this.chartConfig);
+        //new Treant(this.chartConfig);
     }
 
     minimax(depth,  parentDrawnNode, alpha, beta, ...currentAvailable)
@@ -196,13 +196,14 @@ class AI{
             this.matrix.getMatrix()[x][y].value = '';
             this.matrix.setSide();
             childAvailable.splice(index, 0, {x,y});
+
             if (score > bestScore)
             {
-                if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
+                if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
                 bestScore = score;
-                if (this.alphaBetaPrunning == 'true') alpha = Math.max(score, alpha);;
-                if (this.alphaBetaPrunning == 'true' && alpha >= beta) break;
             }
+            if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+            if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
             
         }
         return bestScore;
