@@ -26,6 +26,7 @@ class AI{
         this.bestScore = -Infinity;
         this.alpha = -Infinity; 
         this.beta = Infinity;
+        let rootDrawnNode, score;
         switch (true)
         {
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "Random"):
@@ -40,12 +41,12 @@ class AI{
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "Minimax"):
                 this.maximizingPlayer = this.matrix.getSide();
-                let rootDrawnNode;
+                
                 rootDrawnNode = {
-                    text: { name: "Start X"},
+                    text: { name: "Start X" },
                     children: []
                 }
-                let score=this.minimax(this.depth, rootDrawnNode ,this.matrix.availabeMoves);
+                score = this.minimax(this.depth, rootDrawnNode ,this.matrix.availabeMoves);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].value = this.matrix.getSide();
@@ -53,10 +54,23 @@ class AI{
                 this.matrix.getWinner() !== null ? this.matrix.announceWinner() : this.matrix.gamesContinues();
                 this.matrix.blockPlayerInteraction = false;
                 this.matrix.availabeMoves.splice(this.matrix.availabeMoves.indexOf(this.matrix.availabeMoves.find((a) => {return a.x === this.bestMove.x && a.y === this.bestMove.y})),1);
-                rootDrawnNode.text.name=score;
-                this.chartConfig.nodeStructure=rootDrawnNode;
+                rootDrawnNode.text.name = score;
+                this.chartConfig.nodeStructure = rootDrawnNode;
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "NegaMax"):
+                rootDrawnNoe = {
+                    text: { name: "Start X" },
+                    children: []
+                }
+                score = this.negamax(this.depth, this.matrix.availabeMoves);
+                this.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
+                this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
+                this.matrix.winner = this.matrix.validate();
+                this.matrix.getWinner() !== null ? this.matrix.announceWinner() : this.matrix.gamesContinues();
+                this.matrix.blockPlayerInteraction = false;
+                this.matrix.availabeMoves.splice(this.matrix.availabeMoves.indexOf(this.matrix.availabeMoves.find((a) => {return a.x === this.bestMove.x && a.y === this.bestMove.y})), 1);
+                rootDrawnNode.text.name = score;
+                this.chartConfig.nodeStructure = rootDrawnNode;
                 break;
             case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "PNS"):
                 break;
@@ -72,7 +86,8 @@ class AI{
 
     minimax(depth,  parentDrawnNode, ...currentAvailable)
     {
-        for (let i = 0; i <= 5-depth; i++){
+        for (let i = 0; i <= 5-depth; i++)
+        {
             currentAvailable = currentAvailable.flat();
         }
         let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
@@ -107,7 +122,7 @@ class AI{
                     if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
                     bestScore = score;
                 }
-                if (this.alphaBetaPrunning == true) this.alpha = Math.max(alpha, score);
+                if (this.alphaBetaPrunning == true) this.alpha = Math.max(this.alpha, score);
                 if (this.beta <= this.alpha && this.alphaBetaPrunning == true) break;
             }
             return bestScore;
@@ -127,28 +142,65 @@ class AI{
                 this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
                 this.matrix.setSide();
                 let index = childAvailable.findIndex(object => {return object.x == x && object.y == y});
-                childAvailable.splice(index,1)
+                childAvailable.splice(index,1);
                 let score = this.minimax(depth - 1, childDrawnNode, childAvailable);
                 childDrawnNode.text.name=score;
                 parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.getMatrix()[x][y].value = '';
                 this.matrix.setSide();
-                childAvailable.splice(index,0,{x,y});
+                childAvailable.splice(index, 0, {x,y});
                 if (score < bestScore)
                 {
                     if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
                     bestScore = score;
                 }
-                if (this.alphaBetaPrunning == true) this.beta = Math.min(beta, score);
+                if (this.alphaBetaPrunning == true) this.beta = Math.min(this.beta, score);
                 if (this.beta <= this.alpha && this.alphaBetaPrunning == true) break;
             }
             return bestScore;
         }
     }
 
-    negamax()
+    negamax(depth, parentDrawnNode , ...currentAvailable)
     {
-       
+        for (let i = 0; i <= 5-depth; i++)
+        {
+            currentAvailable = currentAvailable.flat();
+        }
+        let childAvailable = JSON.parse(JSON.stringify(currentAvailable));
+        this.matrix.setSide();
+        if (this.matrix.validate() != null) {this.matrix.setSide(); return 1 + depth};
+        this.matrix.setSide();
+        if (depth == 0 || currentAvailable.length == 0) return 0;
+        let bestScore = -Infinity;
+        for (let element of currentAvailable)
+        {
+            let childDrawnNode = {
+                parent: parentDrawnNode,
+                text: { name: "NEGA " + " " + element.x + "," + element.y},
+                children: []
+            }
+            let x = element.x;
+            let y = element.y;
+            this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
+            this.matrix.setSide();
+            let index = childAvailable.findIndex(object => {return object.x == x && object.y == y});
+            childAvailable.splice(index,1);
+            let score = -(this.negamax(depth - 1, childDrawnNode, childAvailable));
+            childDrawnNode.text.name = score;
+            parentDrawnNode.children.push(childDrawnNode);
+            this.matrix.getMatrix()[x][y].value = '';
+            this.matrix.setSide();
+            childAvailable.splice(index, 0, {x,y});
+            if (score < bestScore)
+            {
+                if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
+                bestScore = score;
+            }
+            if (this.alphaBetaPrunning == true) this.alpha = Math.max(score, this.alpha);
+            if (this.alphaBetaPrunning == true && this.alpha >= this.beta) break;
+        }
+
     }
 
     PNS()
