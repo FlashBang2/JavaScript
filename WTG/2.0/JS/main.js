@@ -144,7 +144,6 @@ window.addEventListener("DOMContentLoaded", () =>{
                         displayPlayer.innerText = board.getSide();
                         board.setBlockPlayerInteraction();
                         setTimeout(playervsAIHelper,1000);
-                        console.log(board.getAvailabeSpots());
                         if (board.getAvailabeSpots().length == 0)
                         {
                             board.isGameActive = false;

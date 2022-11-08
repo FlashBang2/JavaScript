@@ -160,6 +160,7 @@ class AI{
                     text: { name: "MAX " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
                     children: []
                 }*/
+                if (this.matrix.getMatrix()[indices.x][indices.y] == 1) continue;
                 if (this.maximizingPlayer == 'X')
                 {
                     this.matrix.Xbits[indices.x][indices.y] = 1;
