@@ -160,7 +160,6 @@ class AI{
                     text: { name: "MAX " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
                     children: []
                 }*/
-                if (this.cutMoves(indices)) continue;
                 if (this.maximizingPlayer == 'X')
                 {
                     this.matrix.Xbits[indices.x][indices.y] = 1;
@@ -217,7 +216,6 @@ class AI{
                     text: { name: "MIN " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
                     children: []
                 }*/
-                if (this.cutMoves(indices)) continue;
                 if (this.maximizingPlayer != 'O')
                 {
                     this.matrix.Obits[indices.x][indices.y] = 1;
@@ -264,7 +262,7 @@ class AI{
             return bestScore;
         }
     }
-
+/*
     cutMoves(indices)
     {
         //Corners
@@ -344,7 +342,7 @@ class AI{
         }
 
         return false;
-    }
+    }*/
 
     negamax(depth)
     {
