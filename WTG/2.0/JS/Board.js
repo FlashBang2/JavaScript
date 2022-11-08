@@ -94,7 +94,8 @@ class Board{
                     if (this.matrix[x][y + 1].getValue() == 1 || array.includes({x:x,y:y + 1})) continue;
                     array.push({x:x,y: y + 1});
                 }
-                if (x == 0 && y == this.matrix.boardSize)
+                console.log(this.boardSize)
+                if (x == 0 && y == this.boardSize - 1)
                 {
                     if (this.matrix[x + 1][y].getValue() == 1 || array.includes({x:x + 1,y:y})) continue;
                     array.push({x:x + 1,y:y});
@@ -103,7 +104,7 @@ class Board{
                     if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x,y: y - 1})) continue;
                     array.push({x:x,y:y - 1});
                 }
-                if (x == this.matrix.boardSize && y == this.matrix.boardSize)
+                if (x == this.boardSize - 1 && y == this.boardSize - 1)
                 {
                     if (this.matrix[x - 1][y - 1].getValue() == 1 || array.includes({x:x - 1,y: y - 1})) continue;
                     array.push({x:x - 1, y:y - 1});
@@ -112,7 +113,7 @@ class Board{
                     if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x, y: y - 1})) continue;
                     array.push({x:x, y:y - 1});
                 }
-                if (x == this.matri.boardSize && y == 0)
+                if (x == this.boardSize - 1 && y == 0)
                 {
                     if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1,y:y})) continue;
                     array.push({x:x - 1, y:y});
@@ -124,7 +125,7 @@ class Board{
 
                 //Borders
                 
-                if (x == 0 && y > 0 && y < this.matrix.boardSize)
+                if (x == 0 && y > 0 && y < this.boardSize - 2)
                 {
                     if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x,y:y - 1})) continue;
                     array.push({x:x,y:y - 1});
@@ -137,7 +138,7 @@ class Board{
                     if (this.matrix[x + 1][y - 1].getValue() == 1 || array.includes({x:x + 1,y:y - 1})) continue;
                     array.push({x:x + 1,y:y - 1});
                 }
-                if (x > 0 && x < this.matrix.boardSize && y == 0)
+                if (x > 0 && x < this.boardSize - 2 && y == 0)
                 {
                     if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1,y:y})) continue;
                     array.push({x:x - 1,y:y});
@@ -150,7 +151,7 @@ class Board{
                     if (this.matrix[x + 1][y + 1].getValue() == 1 || array.includes({x:x + 1,y:y + 1})) continue;
                     array.push({x:x + 1,y:y + 1});
                 }
-                if (y == this.matrix.boardSize && x > 0 && x < this.matrix.boardSize)
+                if (y == this.boardSize - 1 && x > 0 && x < this.boardSize - 2)
                 {
                     if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1,y:y})) continue;
                     array.push({x:x - 1,y:y});
@@ -163,7 +164,7 @@ class Board{
                     if (this.matrix[x][y + 1].getValue() == 1 || array.includes({x:x,y:y + 1})) continue;
                     array.push({x:x,y:y + 1});
                 }
-                if (x == this.matrix.boardSize && y > 0 && y < this.matrix.boardSize)
+                if (x == this.boardSize - 1 && y > 0 && y < this.boardSize - 2)
                 {
                     if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x,y:y - 1})) continue;
                     array.push({x:x,y:y - 1});
@@ -179,7 +180,7 @@ class Board{
 
                 //Inside
 
-                if (x > 0 && x < this.matrix.boardSize && y > 0 && y < this.matrix.boardSize)
+                if (x > 0 && x < this.boardSize - 2 && y > 0 && y < this.boardSize - 2)
                 {
                     if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1,y:y})) continue;
                     array.push({x:x - 1,y:y});
@@ -200,6 +201,7 @@ class Board{
                 }
             }
         }
+        console.log(array);
         return array;
     }
 
