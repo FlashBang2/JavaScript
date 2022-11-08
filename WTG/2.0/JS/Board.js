@@ -87,38 +87,38 @@ class Board{
 
                 if (x == 0 && y == 0)
                 {
-                    if (this.matrix[x + 1][y + 1].getValue() == 1 || array.includes({x:x + 1, y:y + 1})) continue;
+                    if ((this.matrix[x + 1][y + 1].getValue() != 1) || array.includes({x:x + 1, y:y + 1})) 
                     array.push({x:x + 1, y: y + 1});
-                    if (this.matrix[x + 1][y].getValue() == 1 || array.includes({x:x + 1, y:y})) continue;
+                    if ((this.matrix[x + 1][y].getValue() != 1) || array.includes({x:x + 1, y:y})) 
                     array.push({x:x + 1, y:y});
-                    if (this.matrix[x][y + 1].getValue() == 1 || array.includes({x:x,y:y + 1})) continue;
+                    if ((this.matrix[x][y + 1].getValue() != 1 )|| array.includes({x:x,y:y + 1})) 
                     array.push({x:x,y: y + 1});
                 }
                 if (x == 0 && y == this.boardSize - 1)
                 {
-                    if (this.matrix[x + 1][y].getValue() == 1 || array.includes({x:x + 1,y:y})) continue;
+                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
                     array.push({x:x + 1,y:y});
-                    if (this.matrix[x + 1][y - 1].getValue() == 1 || array.includes({x:x + 1,y: y - 1})) continue;
+                    if (this.matrix[x + 1][y - 1].getValue() != 1 || array.includes({x:x + 1,y: y - 1})) 
                     array.push({x:x + 1,y:y - 1});
-                    if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x,y: y - 1})) continue;
+                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y: y - 1})) 
                     array.push({x:x,y:y - 1});
                 }
                 if (x == this.boardSize - 1 && y == this.boardSize - 1)
                 {
-                    if (this.matrix[x - 1][y - 1].getValue() == 1 || array.includes({x:x - 1,y: y - 1})) continue;
+                    if (this.matrix[x - 1][y - 1].getValue() != 1 || array.includes({x:x - 1,y: y - 1})) 
                     array.push({x:x - 1, y:y - 1});
-                    if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1, y:y})) continue;
+                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1, y:y})) 
                     array.push({x:x - 1, y:y});
-                    if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x, y: y - 1})) continue;
+                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x, y: y - 1})) 
                     array.push({x:x, y:y - 1});
                 }
                 if (x == this.boardSize - 1 && y == 0)
                 {
-                    if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1,y:y})) continue;
+                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
                     array.push({x:x - 1, y:y});
-                    if (this.matrix[x - 1][y + 1].getValue() == 1 || array.includes({x:x - 1, y:y + 1})) continue;
+                    if (this.matrix[x - 1][y + 1].getValue() != 1 || array.includes({x:x - 1, y:y + 1})) 
                     array.push({x:x - 1,y:y + 1});
-                    if (this.matrix[x][y + 1].getValue() || array.includes({x:x,y: y + 1})) continue;
+                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y: y + 1})) 
                     array.push({x:x,y: y + 1});
                 }
 
@@ -126,54 +126,54 @@ class Board{
                 
                 if (x == 0 && y > 0 && y < this.boardSize - 1)
                 {
-                    if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x,y:y - 1})) continue;
+                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y:y - 1})) 
                     array.push({x:x,y:y - 1});
-                    if (this.matrix[x][y + 1].getValue() == 1 || array.includes({x:x,y:y + 1})) continue;
+                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y:y + 1})) 
                     array.push({x:x,y:y + 1});
-                    if (this.matrix[x + 1][y].getValue() == 1 || array.includes({x:x + 1,y:y})) continue;
+                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
                     array.push({x:x + 1,y:y});
-                    if (this.matrix[x + 1][y + 1].getValue() == 1 || array.includes({x:x + 1, y:y + 1})) continue;
+                    if (this.matrix[x + 1][y + 1].getValue() != 1 || array.includes({x:x + 1, y:y + 1})) 
                     array.push({x:x + 1, y:y + 1});
-                    if (this.matrix[x + 1][y - 1].getValue() == 1 || array.includes({x:x + 1,y:y - 1})) continue;
+                    if (this.matrix[x + 1][y - 1].getValue() != 1 || array.includes({x:x + 1,y:y - 1})) 
                     array.push({x:x + 1,y:y - 1});
                 }
                 if (x > 0 && x < this.boardSize - 1 && y == 0)
                 {
-                    if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1,y:y})) continue;
+                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
                     array.push({x:x - 1,y:y});
-                    if (this.matrix[x + 1][y].getValue() == 1 || array.includes({x:x + 1,y:y})) continue;
+                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
                     array.push({x:x + 1,y:y});
-                    if (this.matrix[x][y + 1].getValue() == 1 || array.includes({x:x,y: y + 1})) continue;
+                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y: y + 1})) 
                     array.push({x:x,y: y + 1});
-                    if (this.matrix[x - 1][y + 1].getValue() == 1 || array.includes({x:x - 1,y:y + 1})) continue;
+                    if (this.matrix[x - 1][y + 1].getValue() != 1 || array.includes({x:x - 1,y:y + 1})) 
                     array.push({x:x - 1,y:y + 1});
-                    if (this.matrix[x + 1][y + 1].getValue() == 1 || array.includes({x:x + 1,y:y + 1})) continue;
+                    if (this.matrix[x + 1][y + 1].getValue() != 1 || array.includes({x:x + 1,y:y + 1})) 
                     array.push({x:x + 1,y:y + 1});
                 }
                 if (y == this.boardSize - 1 && x > 0 && x < this.boardSize - 1)
                 {
-                    if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1,y:y})) continue;
+                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
                     array.push({x:x - 1,y:y});
-                    if (this.matrix[x + 1][y].getValue() == 1 || array.includes({x:x + 1,y:y})) continue;
+                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
                     array.push({x:x + 1,y:y});
-                    if (this.matrix[x - 1][y - 1].getValue() == 1 || array.includes({x:x - 1,y:y - 1})) continue;
+                    if (this.matrix[x - 1][y - 1].getValue() != 1 || array.includes({x:x - 1,y:y - 1})) 
                     array.push({x:x - 1,y:y - 1});
-                    if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x,y:y - 1})) continue;
+                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y:y - 1})) 
                     array.push({x:x,y:y - 1});
-                    if (this.matrix[x + 1][y - 1].getValue() == 1 || array.includes({x:x + 1,y:y - 1})) continue;
+                    if (this.matrix[x + 1][y - 1].getValue() != 1 || array.includes({x:x + 1,y:y - 1})) 
                     array.push({x:x + 1,y:y - 1});
                 }
                 if (x == this.boardSize - 1 && y > 0 && y < this.boardSize - 1)
                 {
-                    if (this.matrix[x][y + 1].getValue() == 1 || array.includes({x:x,y:y + 1})) continue;
+                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y:y + 1})) 
                     array.push({x:x,y:y + 1});
-                    if (this.matrix[x - 1][y - 1].getValue() == 1 || array.includes({x:x - 1,y:y - 1})) continue;
+                    if (this.matrix[x - 1][y - 1].getValue() != 1 || array.includes({x:x - 1,y:y - 1})) 
                     array.push({x:x - 1,y:y - 1});
-                    if (this.matrix[x - 1][y + 1].getValue() == 1 || array.includes({x:x - 1,y:y + 1})) continue;
+                    if (this.matrix[x - 1][y + 1].getValue() != 1 || array.includes({x:x - 1,y:y + 1})) 
                     array.push({x:x - 1,y:y + 1});
-                    if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1,y:y})) continue;
+                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
                     array.push({x:x - 1,y:y});
-                    if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x,y:y - 1})) continue;
+                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y:y - 1})) 
                     array.push({x:x,y:y - 1});
                 }
 
@@ -181,21 +181,21 @@ class Board{
 
                 if (x > 0 && x < this.boardSize - 1 && y > 0 && y < this.boardSize - 1)
                 {
-                    if (this.matrix[x - 1][y].getValue() == 1 || array.includes({x:x - 1,y:y})) continue;
+                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
                     array.push({x:x - 1,y:y});
-                    if (this.matrix[x - 1][y + 1].getValue() == 1 || array.includes({x:x - 1,y:y + 1})) continue;
+                    if (this.matrix[x - 1][y + 1].getValue() != 1 || array.includes({x:x - 1,y:y + 1})) 
                     array.push({x:x - 1,y:y + 1});
-                    if (this.matrix[x - 1][y - 1].getValue() == 1 || array.includes({x:x - 1,y:y - 1})) continue;
+                    if (this.matrix[x - 1][y - 1].getValue() != 1 || array.includes({x:x - 1,y:y - 1})) 
                     array.push({x:x - 1,y:y - 1});
-                    if (this.matrix[x][y + 1].getValue() == 1 || array.includes({x:x,y:y + 1})) continue;
+                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y:y + 1})) 
                     array.push({x:x,y:y + 1});
-                    if (this.matrix[x][y - 1].getValue() == 1 || array.includes({x:x,y:y - 1})) continue;
+                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y:y - 1})) 
                     array.push({x:x,y:y - 1});
-                    if (this.matrix[x + 1][y].getValue() == 1 || array.includes({x:x + 1,y:y})) continue;
+                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
                     array.push({x:x + 1,y:y});
-                    if (this.matrix[x + 1][y + 1].getValue() == 1 || array.includes({x:x + 1,y:y + 1})) continue;
+                    if (this.matrix[x + 1][y + 1].getValue() != 1 || array.includes({x:x + 1,y:y + 1})) 
                     array.push({x:x + 1,y:y + 1});
-                    if (this.matrix[x + 1][y - 1].getValue() == 1 || array.includes({x:x + 1,y:y - 1})) continue;
+                    if (this.matrix[x + 1][y - 1].getValue() != 1 || array.includes({x:x + 1,y:y - 1})) 
                     array.push({x:x + 1,y:y - 1});
                 }
             }
