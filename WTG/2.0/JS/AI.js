@@ -27,6 +27,7 @@ class AI{
     {
 
         let array = this.matrix.getAvailabeSpots();
+        let rootDrawnNode;
         this.bestScore = -Infinity;
         this.alpha = -Infinity;
         this.beta = Infinity;
@@ -56,9 +57,9 @@ class AI{
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "Minimax"):
                 this.maximizingPlayer = this.matrix.getSide();
-                let rootDrawnNode;
                 for (let [index,indices] of array.entries())
                 {
+                    if (this.matrix.getMatrix()[indices.x][indices.y].getValue() == 1) continue;
                     if (this.maximizingPlayer == 'X')
                     {
                         this.matrix.Xbits[indices.x][indices.y] = 1;
@@ -107,8 +108,8 @@ class AI{
                         }
                     }
                 }
-                rootDrawnNode.text.name=this.bestScore;
-                this.chartConfig.nodeStructure=rootDrawnNode;
+                rootDrawnNode.text.name = this.bestScore;
+                this.chartConfig.nodeStructure = rootDrawnNode;
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getSide() == 'X' ? this.matrix.Xbits[this.bestMove.x][this.bestMove.y] = 1: this.matrix.Obits[this.bestMove.x][this.bestMove.y] = 1;
@@ -128,10 +129,82 @@ class AI{
                     document.querySelector("#display-player").innerText = this.matrix.getSide();
                     this.matrix.setBlockPlayerInteraction();
                 }
-               
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "NegaMax"):
-                
+                this.maximizingPlayer = this.matrix.getSide();
+                for (let [index,indices] of array.entries())
+                {
+                    console.log(array);
+                    if (this.matrix.getMatrix()[indices.x][indices.y].getValue() == 1) continue;
+                    if (this.matrix.getSide() == 'X')
+                    {
+                        this.matrix.Xbits[indices.x][indices.y] = 1;
+                        this.matrix.getMatrix()[indices.x][indices.y].setValue();
+                        this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
+                        this.matrix.setSide();
+                        rootDrawnNode = {
+                            text: { name: "Start X"},
+                            children: []
+                        }
+                        let score = -(this.negamax(this.depth, rootDrawnNode));
+                        this.matrix.Xbits[indices.x][indices.y] = 0;
+                        this.matrix.getMatrix()[indices.x][indices.y].setValue();
+                        this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
+                        this.matrix.setSide();
+                        console.log(score);
+                        if (score > this.bestScore)
+                        {
+                            this.bestScore = score;
+                            let x = indices.x;
+                            let y = indices.y;
+                            this.bestMove = {x, y};
+                        }
+                    }
+                    else
+                    {
+                        this.matrix.Obits[indices.x][indices.y] = 1;
+                        this.matrix.getMatrix()[indices.x][indices.y].setValue();
+                        this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
+                        this.matrix.setSide();
+                        rootDrawnNode = {
+                            text: { name: "Start O"},
+                            children: []
+                        }
+                        let score = -(this.negamax(this.depth, rootDrawnNode));
+                        this.matrix.Obits[indices.x][indices.y] = 0;
+                        this.matrix.getMatrix()[indices.x][indices.y].setValue();
+                        this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
+                        this.matrix.setSide();
+                        if (score > this.bestScore)
+                        {
+                            this.bestScore = score;
+                            let x = indices.x;
+                            let y = indices.y;
+                            this.bestMove = {x, y};
+                        }
+                    }
+                }
+                rootDrawnNode.text.name = this.bestScore;
+                this.chartConfig.nodeStructure = rootDrawnNode;
+                this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
+                this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
+                this.matrix.getSide() == 'X' ? this.matrix.Xbits[this.bestMove.x][this.bestMove.y] = 1: this.matrix.Obits[this.bestMove.x][this.bestMove.y] = 1;
+                this.matrix.validate();
+                if (this.matrix.getWinner() != null)
+                {
+                    this.matrix.isGameActive = false;
+                    this.matrix.getWinner() == 'X' ? document.querySelector("#display").innerHTML = "Player <span class='playerX'>X</span> Won" : document.querySelector("#display").innerHTML = "Player <span class='playerO'>O</span> Won";
+                }
+                else
+                {
+                    this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setValue();
+                    this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setOccupied();
+                    document.querySelector("#display-player").classList.remove(`player${this.matrix.getSide()}`);
+                    this.matrix.setSide();
+                    document.querySelector("#display-player").classList.add(`player${this.matrix.getSide()}`);
+                    document.querySelector("#display-player").innerText = this.matrix.getSide();
+                    this.matrix.setBlockPlayerInteraction();
+                }
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "PNS"):
                 break;
@@ -345,8 +418,64 @@ class AI{
         return false;
     }*/
 
-    negamax(depth)
+    negamax(depth,parentDrawnNode)
     {
+        let array = this.matrix.getAvailabeSpots();
+        this.matrix.validate();
+        if (this.matrix.getWinner() != null) return this.matrix.getWinner() == this.maximizingPlayer ? 1 + depth : -(1 + depth);
+        if (array.length == 0 || depth == 0) return 0;
+        if (this.matrix.getSide() == 'X')
+        {
+            let bestScore = -Infinity
+            for (let [index,indices] of array.entries())
+            {
+                let childDrawnNode = {
+                    parent: parentDrawnNode,
+                    text: { name: "NEGA " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
+                    children: []
+                }
+                this.matrix.Xbits[indices.x][indices.y] = 1;
+                this.matrix.getMatrix()[indices.x][indices.y].setValue();
+                this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
+                this.matrix.setSide();
+                let score = -(this.negamax(depth - 1, childDrawnNode));
+                this.matrix.Xbits[indices.x][indices.y] = 0;
+                this.matrix.getMatrix()[indices.x][indices.y].setValue();
+                this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
+                this.matrix.setSide();
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                }
+            }
+            return bestScore;
+        }
+        else
+        {
+            let bestScore = -Infinity
+            for (let [index,indices] of array.entries())
+            {
+                let childDrawnNode = {
+                    parent: parentDrawnNode,
+                    text: { name: "NEGA " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
+                    children: []
+                }
+                this.matrix.Xbits[indices.x][indices.y] = 1;
+                this.matrix.getMatrix()[indices.x][indices.y].setValue();
+                this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
+                this.matrix.setSide();
+                let score = -(this.negamax(depth - 1, childDrawnNode));
+                this.matrix.Xbits[indices.x][indices.y] = 0;
+                this.matrix.getMatrix()[indices.x][indices.y].setValue();
+                this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
+                this.matrix.setSide();
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                }
+            }
+            return bestScore;
+        }
 
     }
 
