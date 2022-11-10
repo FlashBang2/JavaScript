@@ -13,6 +13,7 @@
 	    <script src = "../treant-js-master/Treant.js"></script>
     </head>
     <body id = "main">
+        <div style = "color:white; font-size: 30px; margin-left: 80px;"> Board Size &emsp;&emsp;&ensp; Modes &emsp;&emsp; Rules</div>
         <input class = 'Tool' id = "boardSize" type = "number" value = 3 min = 3 />
         <select class = 'Tool' id = "settings">
             <option value = "PvP"> PvP </option>
@@ -28,14 +29,18 @@
         <button class = 'Tool' id = "confirm"> Confirm </button>
         </br> </br>
         <div id = "AISettings">
+        <div style = "color:white; font-size: 30px;"> Player Side &nbsp; AlphaBetaPrunning &nbsp; Depth &emsp;&emsp;&emsp; AI Type </div>
+        &emsp;
         <select class = 'Tool' id = "side">
             <option> O </option>
             <option> X </option>
         </select>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
         <select class = 'Tool' id = "AlphaBetaPrunning">
             <option value = "true"> Enable </option>
             <option value = "false"> Disable </option>
         </select>
+        &emsp;&emsp;&emsp;&emsp;&emsp;
         <select class = 'Tool' id = "Depth">
             <option> 1 </option>
             <option> 2 </option>
@@ -43,6 +48,7 @@
             <option> 4 </option>
             <option> 5 </option> 
         </select>
+        &emsp;
         <select class = 'Tool' id = "AIType">
             <option value = "Random"> Random </option>
             <option value = "Minimax"> Minimax </option>
@@ -55,6 +61,7 @@
         </div>
         </br> </br>
         <div id = "AISettings2">
+        <div style = "color:white; font-size: 30px;"> Player Side &nbsp; AlphaBetaPrunning &nbsp; Depth &emsp;&emsp;&emsp; AI Type </div>
             <select class = 'Tool' id = "AlphaBetaPrunning2">
                 <option value = true> Enable </option>
                 <option value = false> Disable </option>
