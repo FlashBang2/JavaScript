@@ -13,7 +13,8 @@
 	    <script src = "../treant-js-master/Treant.js"></script>
     </head>
     <body id = "main">
-        <div style = "color:white; font-size: 30px; margin-left: 80px;"> Board Size &emsp;&emsp;&ensp; Modes &emsp;&emsp; Rules</div>
+        <div id="TextTree" style = "color:white; font-size: 30px; margin-left: 80px;"> Board Size &emsp;&emsp; Modes &emsp;&emsp; Rules &emsp; Tree Drawing</div>
+        <div id="TextNotTree" style = "color:white; font-size: 30px; margin-left: 80px;"> Board Size &emsp;&emsp; Modes &emsp;&emsp; Rules</div></body></html></br>
         <input class = 'Tool' id = "boardSize" type = "number" value = 3 min = 3 />
         <select class = 'Tool' id = "settings">
             <option value = "PvP"> PvP </option>
@@ -25,6 +26,10 @@
             <option hidden = true class = "rule" value = "Gomoku">        Gomoku         </option>
             <option hidden = true class = "rule" value = "GomokuPro">     GomokuPro      </option>
             <option hidden = true class = "rule" value = "GomokuSwap2">   GomokuSwap2    </option>
+        </select>
+        <select class = 'Tool' id = "TreeDrawing">
+            <option value = "true"> Enable </option>
+            <option value = "false"> Disable </option>
         </select>
         <button class = 'Tool' id = "confirm"> Confirm </button>
         </br> </br>

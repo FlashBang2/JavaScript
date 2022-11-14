@@ -5,6 +5,8 @@ window.addEventListener("DOMContentLoaded", () =>{
     const Text = document.querySelector("#Text");
     const Text2 = document.querySelector("#Text2");
     const Text3 = document.querySelector("#Text3");
+    const TextTree = document.querySelector("#TextTree");
+    const TextNotTree = document.querySelector("#TextNotTree");
     const boardSize = document.querySelector("#boardSize");
     const settings = document.querySelector("#settings");
 
@@ -53,13 +55,19 @@ window.addEventListener("DOMContentLoaded", () =>{
             case "PvP":
                 AISettings.style.display = "none";
                 AISettings2.style.display = "none";
+                TextNotTree.style.display = "inline";
+                TextTree.style.display = "none";
+                document.querySelector('#TreeDrawing').style.display = "none";
                 break;
             case "PvAI":
                 AISettings.style.display = "inline";
                 Text.style.display = "inline";
                 Text2.style.display = "none";
                 Text3.style.display = "none";
+                TextNotTree.style.display = "none";
+                TextTree.style.display = "inline";
                 document.querySelector("#side").style.display = "inline";
+                document.querySelector('#TreeDrawing').style.display = "inline";
                 AISettings2.style.display = "none";
                 break;
             case "AIvAI":
@@ -67,8 +75,11 @@ window.addEventListener("DOMContentLoaded", () =>{
                 AISettings2.style.display = "inline";
                 Text2.style.display = "inline";
                 Text3.style.display = "inline";
+                TextNotTree.style.display = "none";
+                TextTree.style.display = "inline";
                 Text.style.display = "none";
                 document.querySelector('#side').style.display = "none";
+                document.querySelector('#TreeDrawing').style.display = "inline";
                 break;
         }
     }

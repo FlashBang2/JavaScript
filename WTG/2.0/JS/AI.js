@@ -215,7 +215,9 @@ class AI{
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "DQL"):
                 break;
         }
-        new Treant(this.chartConfig);
+        if (document.querySelector('#TreeDrawing').value== true) {
+            new Treant(this.chartConfig);
+        }
     }
 
     minimax(depth, parentDrawnNode)
