@@ -15,10 +15,9 @@ class AI{
                 connectors:{
                     type:"bCurve",
                     style: {stroke: 'white'}
-                },
-                nodeStructure: null,
-
-            }
+                }
+            },
+            nodeStructure: null,
         }
 
     }
@@ -215,7 +214,7 @@ class AI{
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "DQL"):
                 break;
         }
-        if (document.querySelector('#TreeDrawing').value== true) {
+        if (document.querySelector('#TreeDrawing').value== "true") {
             new Treant(this.chartConfig);
         }
     }

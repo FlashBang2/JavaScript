@@ -16,6 +16,18 @@ window.addEventListener("DOMContentLoaded", () =>{
     let ai = null;
     let ai2 = null;
     let delay = null;
+    let chartConfig1 = {
+        chart: {
+            container: "#tree-simple",
+            connectors:{
+                type:"bCurve",
+                style: {stroke: 'black'}
+            }},
+            nodeStructure:  {
+                
+            }
+
+        }
 
     const generateBoard = () =>{
         const AIType = document.querySelector('#AIType').value;
@@ -47,6 +59,9 @@ window.addEventListener("DOMContentLoaded", () =>{
                 clearInterval(delay);
             delay = setInterval(botvsbot,1000);
         }
+        
+        new Treant(chartConfig1);
+        
     }
 
     const showAISettings = () =>{
