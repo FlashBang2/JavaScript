@@ -29,13 +29,15 @@
         <button class = 'Tool' id = "confirm"> Confirm </button>
         </br> </br>
         <div id = "AISettings">
-        <div style = "color:white; font-size: 30px;"> Player Side &nbsp; AlphaBetaPrunning &nbsp; Depth &emsp;&emsp;&emsp; AI Type </div>
+            <div id = "Text" style = "color:white; font-size: 30px;"> Player Side &nbsp; AlphaBetaPrunning &nbsp; Depth &emsp;&emsp;&emsp; AI Type </div>
+            <div id = "Text2" style = "color:white; font-size: 30px;">  AlphaBetaPrunning &nbsp;&emsp;&emsp; Depth &emsp;&emsp;&emsp; AI Type </div>
+        </br> 
         &emsp;
         <select class = 'Tool' id = "side">
             <option> O </option>
             <option> X </option>
         </select>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        &emsp;&emsp;&emsp;&emsp;&emsp;
         <select class = 'Tool' id = "AlphaBetaPrunning">
             <option value = "true"> Enable </option>
             <option value = "false"> Disable </option>
@@ -61,11 +63,13 @@
         </div>
         </br> </br>
         <div id = "AISettings2">
-        <div style = "color:white; font-size: 30px;"> Player Side &nbsp; AlphaBetaPrunning &nbsp; Depth &emsp;&emsp;&emsp; AI Type </div>
+            <div id = "Text3" style = "color:white; font-size: 30px;">  AlphaBetaPrunning &nbsp;&emsp;&emsp; Depth &emsp;&emsp;&emsp; AI Type </div> </br>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             <select class = 'Tool' id = "AlphaBetaPrunning2">
                 <option value = true> Enable </option>
                 <option value = false> Disable </option>
             </select>
+            &emsp;&emsp;&emsp;&emsp;&emsp;
             <select class = 'Tool' id = "Depth2">
                 <option > 1 </option>
                 <option > 2 </option>
@@ -73,6 +77,7 @@
                 <option > 4 </option>
                 <option > 5 </option> 
             </select>
+            &emsp;
             <select class = 'Tool' id = "AIType2">
                 <option> Random </option>
                 <option> Minimax </option>

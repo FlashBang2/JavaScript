@@ -34,6 +34,18 @@
     display: none;
 }
 
+#Text{
+    display: none;
+}
+
+#Text2{
+    display: none;
+}
+
+#Text3{
+    display: none;
+}
+
 #mainTitle {
     text-align: center;
     font-size: 40px;

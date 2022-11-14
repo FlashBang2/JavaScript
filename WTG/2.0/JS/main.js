@@ -2,6 +2,9 @@ window.addEventListener("DOMContentLoaded", () =>{
     const confirm = document.querySelector("#confirm");
     const AISettings = document.querySelector("#AISettings");
     const AISettings2 = document.querySelector("#AISettings2");
+    const Text = document.querySelector("#Text");
+    const Text2 = document.querySelector("#Text2");
+    const Text3 = document.querySelector("#Text3");
     const boardSize = document.querySelector("#boardSize");
     const settings = document.querySelector("#settings");
 
@@ -53,12 +56,18 @@ window.addEventListener("DOMContentLoaded", () =>{
                 break;
             case "PvAI":
                 AISettings.style.display = "inline";
+                Text.style.display = "inline";
+                Text2.style.display = "none";
+                Text3.style.display = "none";
                 document.querySelector("#side").style.display = "inline";
                 AISettings2.style.display = "none";
                 break;
             case "AIvAI":
                 AISettings.style.display = "inline";
                 AISettings2.style.display = "inline";
+                Text2.style.display = "inline";
+                Text3.style.display = "inline";
+                Text.style.display = "none";
                 document.querySelector('#side').style.display = "none";
                 break;
         }
