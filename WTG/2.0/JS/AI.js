@@ -133,7 +133,6 @@ class AI{
                 this.maximizingPlayer = this.matrix.getSide();
                 for (let [index,indices] of array.entries())
                 {
-                    console.log(array);
                     if (this.matrix.getMatrix()[indices.x][indices.y].getValue() == 1) continue;
                     if (this.matrix.getSide() == 'X')
                     {
@@ -150,7 +149,6 @@ class AI{
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        console.log(score);
                         if (score > this.bestScore)
                         {
                             this.bestScore = score;
@@ -461,12 +459,12 @@ class AI{
                     text: { name: "NEGA " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
                     children: []
                 }
-                this.matrix.Xbits[indices.x][indices.y] = 1;
+                this.matrix.Obits[indices.x][indices.y] = 1;
                 this.matrix.getMatrix()[indices.x][indices.y].setValue();
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
                 let score = -(this.negamax(depth - 1, childDrawnNode));
-                this.matrix.Xbits[indices.x][indices.y] = 0;
+                this.matrix.Obits[indices.x][indices.y] = 0;
                 this.matrix.getMatrix()[indices.x][indices.y].setValue();
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
