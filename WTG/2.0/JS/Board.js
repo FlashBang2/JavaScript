@@ -12,18 +12,15 @@ class Board{
         this.boardSize = boardSize;
 
         this.tiles.style.maxWidth = `${50*this.boardSize}px`;
-        for(let x = 0;x < this.boardSize;x++)
-        {
+        for(let x = 0;x < this.boardSize;x++){
             let row = [];
             let Xrow = [];
             let Orow = [];
             this.tiles.style.gridTemplateColumns += `${100/this.boardSize}% `;
             this.tiles.style.gridTemplateRows += `${100/this.boardSize}%`;
-            for (let y = 0;y < this.boardSize;y++)
-            {
+            for (let y = 0;y < this.boardSize;y++){
                 let square = new Square(x, y);
-                if (document.querySelector("#settings").value != "AIvAI")
-                    square.setOnClick(() =>turnOrder(square));
+                if (document.querySelector("#settings").value != "AIvAI") square.setOnClick(() =>turnOrder(square));
                 this.tiles.append(square.DOM);
                 row.push(square);
                 Xrow.push(0);
@@ -74,129 +71,26 @@ class Board{
         }, []);
     }
 
+    alreadyInIt(array, X, Y)
+    {
+        for (let element of array){
+            if (element.x == X && element.y == Y) return true;
+        }
+        return false;
+    }
+
     getAvailabeSpots()
     {
         let array = [];
-        for (let x = 0;x < this.matrix.length;x++)
-        {
-            for (let y = 0;y < this.matrix[0].length;y++)
-            {
-                if (this.matrix[x][y].getValue() != 1) continue;
-
-                //Corners
-
-                if (x == 0 && y == 0)
-                {
-                    if ((this.matrix[x + 1][y + 1].getValue() != 1) || array.includes({x:x + 1, y:y + 1})) 
-                    array.push({x:x + 1, y: y + 1});
-                    if ((this.matrix[x + 1][y].getValue() != 1) || array.includes({x:x + 1, y:y})) 
-                    array.push({x:x + 1, y:y});
-                    if ((this.matrix[x][y + 1].getValue() != 1 )|| array.includes({x:x,y:y + 1})) 
-                    array.push({x:x,y: y + 1});
-                }
-                if (x == 0 && y == this.boardSize - 1)
-                {
-                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
-                    array.push({x:x + 1,y:y});
-                    if (this.matrix[x + 1][y - 1].getValue() != 1 || array.includes({x:x + 1,y: y - 1})) 
-                    array.push({x:x + 1,y:y - 1});
-                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y: y - 1})) 
-                    array.push({x:x,y:y - 1});
-                }
-                if (x == this.boardSize - 1 && y == this.boardSize - 1)
-                {
-                    if (this.matrix[x - 1][y - 1].getValue() != 1 || array.includes({x:x - 1,y: y - 1})) 
-                    array.push({x:x - 1, y:y - 1});
-                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1, y:y})) 
-                    array.push({x:x - 1, y:y});
-                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x, y: y - 1})) 
-                    array.push({x:x, y:y - 1});
-                }
-                if (x == this.boardSize - 1 && y == 0)
-                {
-                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
-                    array.push({x:x - 1, y:y});
-                    if (this.matrix[x - 1][y + 1].getValue() != 1 || array.includes({x:x - 1, y:y + 1})) 
-                    array.push({x:x - 1,y:y + 1});
-                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y: y + 1})) 
-                    array.push({x:x,y: y + 1});
-                }
-
-                //Borders
-                
-                if (x == 0 && y > 0 && y < this.boardSize - 1)
-                {
-                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y:y - 1})) 
-                    array.push({x:x,y:y - 1});
-                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y:y + 1})) 
-                    array.push({x:x,y:y + 1});
-                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
-                    array.push({x:x + 1,y:y});
-                    if (this.matrix[x + 1][y + 1].getValue() != 1 || array.includes({x:x + 1, y:y + 1})) 
-                    array.push({x:x + 1, y:y + 1});
-                    if (this.matrix[x + 1][y - 1].getValue() != 1 || array.includes({x:x + 1,y:y - 1})) 
-                    array.push({x:x + 1,y:y - 1});
-                }
-                if (x > 0 && x < this.boardSize - 1 && y == 0)
-                {
-                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
-                    array.push({x:x - 1,y:y});
-                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
-                    array.push({x:x + 1,y:y});
-                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y: y + 1})) 
-                    array.push({x:x,y: y + 1});
-                    if (this.matrix[x - 1][y + 1].getValue() != 1 || array.includes({x:x - 1,y:y + 1})) 
-                    array.push({x:x - 1,y:y + 1});
-                    if (this.matrix[x + 1][y + 1].getValue() != 1 || array.includes({x:x + 1,y:y + 1})) 
-                    array.push({x:x + 1,y:y + 1});
-                }
-                if (y == this.boardSize - 1 && x > 0 && x < this.boardSize - 1)
-                {
-                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
-                    array.push({x:x - 1,y:y});
-                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
-                    array.push({x:x + 1,y:y});
-                    if (this.matrix[x - 1][y - 1].getValue() != 1 || array.includes({x:x - 1,y:y - 1})) 
-                    array.push({x:x - 1,y:y - 1});
-                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y:y - 1})) 
-                    array.push({x:x,y:y - 1});
-                    if (this.matrix[x + 1][y - 1].getValue() != 1 || array.includes({x:x + 1,y:y - 1})) 
-                    array.push({x:x + 1,y:y - 1});
-                }
-                if (x == this.boardSize - 1 && y > 0 && y < this.boardSize - 1)
-                {
-                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y:y + 1})) 
-                    array.push({x:x,y:y + 1});
-                    if (this.matrix[x - 1][y - 1].getValue() != 1 || array.includes({x:x - 1,y:y - 1})) 
-                    array.push({x:x - 1,y:y - 1});
-                    if (this.matrix[x - 1][y + 1].getValue() != 1 || array.includes({x:x - 1,y:y + 1})) 
-                    array.push({x:x - 1,y:y + 1});
-                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
-                    array.push({x:x - 1,y:y});
-                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y:y - 1})) 
-                    array.push({x:x,y:y - 1});
-                }
-
-                //Inside
-
-                if (x > 0 && x < this.boardSize - 1 && y > 0 && y < this.boardSize - 1)
-                {
-                    if (this.matrix[x - 1][y].getValue() != 1 || array.includes({x:x - 1,y:y})) 
-                    array.push({x:x - 1,y:y});
-                    if (this.matrix[x - 1][y + 1].getValue() != 1 || array.includes({x:x - 1,y:y + 1})) 
-                    array.push({x:x - 1,y:y + 1});
-                    if (this.matrix[x - 1][y - 1].getValue() != 1 || array.includes({x:x - 1,y:y - 1})) 
-                    array.push({x:x - 1,y:y - 1});
-                    if (this.matrix[x][y + 1].getValue() != 1 || array.includes({x:x,y:y + 1})) 
-                    array.push({x:x,y:y + 1});
-                    if (this.matrix[x][y - 1].getValue() != 1 || array.includes({x:x,y:y - 1})) 
-                    array.push({x:x,y:y - 1});
-                    if (this.matrix[x + 1][y].getValue() != 1 || array.includes({x:x + 1,y:y})) 
-                    array.push({x:x + 1,y:y});
-                    if (this.matrix[x + 1][y + 1].getValue() != 1 || array.includes({x:x + 1,y:y + 1})) 
-                    array.push({x:x + 1,y:y + 1});
-                    if (this.matrix[x + 1][y - 1].getValue() != 1 || array.includes({x:x + 1,y:y - 1})) 
-                    array.push({x:x + 1,y:y - 1});
+        for (let x = 0;x < this.matrix.length;x++){
+            for (let y = 0;y < this.matrix[0].length;y++){
+                if (this.matrix[x][y].getValue() == 0) continue;
+                for (let i = x - 1;i <= x + 1;i++){
+                    for (let j = y - 1;j <= y + 1;j++){
+                        if (i >= 0 && j >= 0 && i < this.boardSize && j < this.boardSize && this.matrix[i][j].getValue() == 0 && !this.alreadyInIt(array,i,j)){
+                            array.push({x:i,y:j});
+                        }
+                    }
                 }
             }
         }
@@ -213,8 +107,7 @@ class Board{
         switch (document.querySelector("#rules").value)
         {
             case "Standard":
-                for(let x = 0;x <= this.matrix.length - 3;x++)
-                {
+                for(let x = 0;x <= this.matrix.length - 3;x++){
                     if ((parseInt(this.Xbits[x].join(""),2) & parseInt(this.Xbits[x + 1].join(""),2) & parseInt(this.Xbits[x + 2].join(""),2)) ||
                         (parseInt(flipedX[x].join(""),2) & parseInt(flipedX[x + 1].join(""),2) & parseInt(flipedX[x + 2].join(""),2)) ||
                         (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) << 1 & parseInt(this.Xbits[x + 2].join(''),2) << 2) ||
@@ -228,8 +121,7 @@ class Board{
                 }
                 break;
             case "Gomoku":
-                for(let x = 0;x <= this.matrix.length - 5;x++)
-                {
+                for(let x = 0;x <= this.matrix.length - 5;x++){
                     if ((parseInt(this.Xbits[x].join(""),2) & parseInt(this.Xbits[x + 1].join(""),2) & parseInt(this.Xbits[x + 2].join(""),2) & parseInt(this.Xbits[x + 3].join(""),2) & parseInt(this.Xbits[x + 4].join(""),2)) ||
                         (parseInt(flipedX[x].join(""),2) & parseInt(flipedX[x + 1].join(""),2) & parseInt(flipedX[x + 2].join(""),2) & parseInt(flipedX[x + 3].join(""),2) & parseInt(flipedX[x + 4].join(""),2)) ||
                         (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) << 1 & parseInt(this.Xbits[x + 2].join(''),2) << 2 & parseInt(this.Xbits[x + 3].join(""),2) << 3 & parseInt(this.Xbits[x + 4].join(""),2) << 4) ||
@@ -253,10 +145,8 @@ class Board{
 
     remove()
     {
-        for (let row of this.matrix)
-        {
-            for(let element of row)
-            {
+        for (let row of this.matrix){
+            for(let element of row){
                 element.DOM.remove();
             }
         }
