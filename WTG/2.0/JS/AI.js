@@ -69,7 +69,7 @@ class AI{
                             text: { name: "Start X"},
                             children: []
                         }
-                        let score = this.minimax(this.depth, rootDrawnNode);
+                        let score = this.minimax(this.depth, rootDrawnNode, this.alpha, this.beta);
                         this.matrix.Xbits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -93,7 +93,7 @@ class AI{
                             text: { name: "Start O"},
                             children: []
                         }
-                        let score = this.minimax(this.depth, rootDrawnNode);
+                        let score = this.minimax(this.depth, rootDrawnNode, this.alpha, this.beta);
                         this.matrix.Obits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -217,7 +217,7 @@ class AI{
         }
     }
 
-    minimax(depth, parentDrawnNode)
+    minimax(depth, parentDrawnNode, alpha, beta)
     {
         let array = this.matrix.getAvailabeSpots();
         this.matrix.validate();
@@ -247,12 +247,13 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.max(bestScore, score);
-                    if (this.alphaBetaPrunning === 'true')
+                    if (score > bestScore)
                     {
-                        this.alpha = Math.max(this.alpha, bestScore);
-                        if (this.beta < this.alpha)
-                            break; 
+                        if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
+                        bestScore = score;
                     }
+                    if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                    if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
                 }
                 else
                 {
@@ -268,12 +269,13 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.max(bestScore, score);
-                    if (this.alphaBetaPrunning === 'true')
+                    if (score > bestScore)
                     {
-                        this.alpha = Math.max(this.alpha, bestScore);
-                        if (this.beta < this.alpha)
-                            break; 
+                        if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
+                        bestScore = score;
                     }
+                    if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                    if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
                 }
                 
             }
@@ -303,12 +305,13 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.min(bestScore, score);
-                    if (this.alphaBetaPrunning === 'true')
+                    if (score < bestScore)
                     {
-                        this.beta = Math.min(this.beta, bestScore);
-                        if (this.beta < this.alpha)
-                            break; 
+                        if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
+                        bestScore = score;
                     }
+                    if (this.alphaBetaPrunning == 'true') {beta = Math.min(beta, score);}
+                    if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
                 }
                 else
                 {
@@ -324,12 +327,13 @@ class AI{
                     this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     this.matrix.setSide();
                     bestScore = Math.min(bestScore, score);
-                    if (this.alphaBetaPrunning === 'true')
+                    if (score < bestScore)
                     {
-                        this.beta = Math.min(this.beta, bestScore);
-                        if (this.beta < this.alpha)
-                            break; 
+                        if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y}};
+                        bestScore = score;
                     }
+                    if (this.alphaBetaPrunning == 'true') {beta = Math.min(beta, score);}
+                    if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
                 }
             }
             return bestScore;
