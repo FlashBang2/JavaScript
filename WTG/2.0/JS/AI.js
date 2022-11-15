@@ -144,7 +144,7 @@ class AI{
                             text: { name: "Start X"},
                             children: []
                         }
-                        let score = -(this.negamax(this.depth, rootDrawnNode));
+                        let score = -(this.negamax(this.depth, rootDrawnNode, this.alpha, this.beta));
                         this.matrix.Xbits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -167,7 +167,7 @@ class AI{
                             text: { name: "Start O"},
                             children: []
                         }
-                        let score = -(this.negamax(this.depth, rootDrawnNode));
+                        let score = -(this.negamax(this.depth, rootDrawnNode, this.alpha, this.beta));
                         this.matrix.Obits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -421,7 +421,7 @@ class AI{
         return false;
     }*/
 
-    negamax(depth,parentDrawnNode)
+    negamax(depth,parentDrawnNode, alpha, beta)
     {
         let array = this.matrix.getAvailabeSpots();
         this.matrix.validate();
@@ -449,9 +449,11 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
                 if (score > bestScore)
-                {
-                    bestScore = score;
-                }
+                    {
+                        bestScore = score;
+                    }
+                    if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                    if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
             }
             return bestScore;
         }
@@ -480,6 +482,8 @@ class AI{
                 {
                     bestScore = score;
                 }
+                if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
             }
             return bestScore;
         }
