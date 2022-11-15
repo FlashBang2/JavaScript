@@ -442,6 +442,8 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
                 let score = -(this.negamax(depth - 1, childDrawnNode));
+                childDrawnNode.text.name=score;
+                parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.Xbits[indices.x][indices.y] = 0;
                 this.matrix.getMatrix()[indices.x][indices.y].setValue();
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -468,6 +470,8 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
                 let score = -(this.negamax(depth - 1, childDrawnNode));
+                childDrawnNode.text.name=score;
+                parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.Obits[indices.x][indices.y] = 0;
                 this.matrix.getMatrix()[indices.x][indices.y].setValue();
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
