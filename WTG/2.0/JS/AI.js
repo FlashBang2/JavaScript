@@ -464,7 +464,7 @@ class AI{
         this.matrix.setSide()
         this.matrix.validate();
         this.matrix.setSide()
-        if (this.matrix.getWinner() != null) return this.matrix.getWinner() == this.maximizingPlayer ? (1 + depth) : -(1 + depth);
+        if (this.matrix.getWinner() != null) return this.matrix.getWinner() == this.maximizingPlayer ? -(1 + depth) : -(1 + depth);
         if (array.length == 0 || depth == 0) return 0;
         if (this.matrix.getSide() == 'X')
         {
