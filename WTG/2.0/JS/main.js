@@ -145,6 +145,8 @@ window.addEventListener("DOMContentLoaded", () =>{
                     square.DOM.innerText = board.getSide();
                     square.DOM.classList.add(`player${board.getSide()}`);
                     board.getSide() == 'X' ? board.Xbits[square.getRow()][square.getColumn()] = 1: board.Obits[square.getRow()][square.getColumn()] = 1;
+                    square.setValue();
+                    square.setOccupied();
                     board.validate();
                     if (board.getWinner() != null)
                     {
@@ -153,8 +155,6 @@ window.addEventListener("DOMContentLoaded", () =>{
                     }
                     else
                     {
-                        square.setValue();
-                        square.setOccupied();
                         displayPlayer.classList.remove(`player${board.getSide()}`);
                         board.setSide();
                         displayPlayer.classList.add(`player${board.getSide()}`);
@@ -174,6 +174,8 @@ window.addEventListener("DOMContentLoaded", () =>{
                     square.DOM.innerText = board.getSide();
                     square.DOM.classList.add(`player${board.getSide()}`);
                     board.getSide() == 'X' ? board.Xbits[square.getRow()][square.getColumn()] = 1 : board.Obits[square.getRow()][square.getColumn()] = 1;
+                    square.setValue();
+                    square.setOccupied();
                     board.validate();
                     if (board.getWinner() != null)
                     {
@@ -182,8 +184,6 @@ window.addEventListener("DOMContentLoaded", () =>{
                     }
                     else
                     {
-                        square.setValue();
-                        square.setOccupied();
                         displayPlayer.classList.remove(`player${board.getSide()}`);
                         board.setSide();
                         displayPlayer.classList.add(`player${board.getSide()}`);

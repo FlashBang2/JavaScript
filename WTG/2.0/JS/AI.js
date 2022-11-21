@@ -127,6 +127,8 @@ class AI{
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getSide() == 'X' ? this.matrix.Xbits[this.bestMove.x][this.bestMove.y] = 1: this.matrix.Obits[this.bestMove.x][this.bestMove.y] = 1;
+                this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setValue();
+                this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setOccupied();
                 this.matrix.validate();
                 if (this.matrix.getWinner() != null)
                 {
@@ -135,8 +137,6 @@ class AI{
                 }
                 else
                 {
-                    this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setValue();
-                    this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setOccupied();
                     document.querySelector("#display-player").classList.remove(`player${this.matrix.getSide()}`);
                     this.matrix.setSide();
                     document.querySelector("#display-player").classList.add(`player${this.matrix.getSide()}`);
@@ -216,6 +216,8 @@ class AI{
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getSide() == 'X' ? this.matrix.Xbits[this.bestMove.x][this.bestMove.y] = 1: this.matrix.Obits[this.bestMove.x][this.bestMove.y] = 1;
+                this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setValue();
+                this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setOccupied();
                 this.matrix.validate();
                 if (this.matrix.getWinner() != null)
                 {
@@ -224,8 +226,6 @@ class AI{
                 }
                 else
                 {
-                    this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setValue();
-                    this.matrix.getMatrix()[this.bestMove.x][this.bestMove.y].setOccupied();
                     document.querySelector("#display-player").classList.remove(`player${this.matrix.getSide()}`);
                     this.matrix.setSide();
                     document.querySelector("#display-player").classList.add(`player${this.matrix.getSide()}`);

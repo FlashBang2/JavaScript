@@ -176,28 +176,52 @@ class Board{
                                     return 1000;
                                 }
                             }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.matrix[x + 4][y].getValue() == 0){
+                                    return 100;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.Xbits[x][y + 3] == 1 && this.matrix[x][y + 4].getValue() == 0){
+                                    return 100;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
+                                if(this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.Xbits[x + 3][y + 3] == 1 && this.matrix[x + 4][y + 4].getValue() == 0){
+                                    return 100;
+                                }
+                            }
+                            if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
+                                if(this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.matrix[x + 4][y - 4].getValue() == 0){
+                                    return 100;
+                                }
+                            }
                         }
                         else{
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if (this.Obits[x][y] == 1 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.Obits[x + 4][y] == 1){
+                                    console.log('hi');
                                     this.winner = 'O';
                                     return 10000;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5){
                                 if (this.Obits[x][y] == 1 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.Obits[x][y + 4] == 1){
+                                    console.log('hi');
                                     this.winner = 'O';
                                     return 10000;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
                                 if (this.Obits[x][y] == 1 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.Obits[x + 4][y + 4] == 1){
+                                    console.log('hi');
                                     this.winner = 'O';
                                     return 10000;
                                 }
                             }
                             if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if (this.Obits[x][y] == 1 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.Obits[x + 4][y - 4] == 1){
+                                    console.log('hi');
                                     this.winner = 'O';
                                     return 10000;
                                 }
@@ -222,26 +246,29 @@ class Board{
                                     return 1000;
                                 }
                             }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.matrix[x + 4][y].getValue() == 0){
+                                    return 100;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.matrix[x][y + 4].getValue() == 0){
+                                    return 100;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
+                                if(this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.matrix[x + 4][y + 4].getValue() == 0){
+                                    return 100;
+                                }
+                            }
+                            if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
+                                if(this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.matrix[x + 4][y - 4].getValue() == 0){
+                                    return 100;
+                                }
+                            }
                         }
                     }
                 }
-                /*for(let x = 0;x <= this.matrix.length - 5;x++){
-                    
-                    if (this.getSide() == 'X'){
-                        if ((parseInt(this.Xbits[x].join(""),2) & parseInt(this.Xbits[x + 1].join(""),2) & parseInt(this.Xbits[x + 2].join(""),2) & parseInt(this.Xbits[x + 3].join(""),2) & parseInt(this.Xbits[x + 4].join(""),2)) ||
-                        (parseInt(flipedX[x].join(""),2) & parseInt(flipedX[x + 1].join(""),2) & parseInt(flipedX[x + 2].join(""),2) & parseInt(flipedX[x + 3].join(""),2) & parseInt(flipedX[x + 4].join(""),2)) ||
-                        (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) << 1 & parseInt(this.Xbits[x + 2].join(''),2) << 2 & parseInt(this.Xbits[x + 3].join(""),2) << 3 & parseInt(this.Xbits[x + 4].join(""),2) << 4) ||
-                        (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) >> 1 & parseInt(this.Xbits[x + 2].join(''),2) >> 2 & parseInt(this.Xbits[x + 3].join(""),2) >> 3 & parseInt(this.Xbits[x + 4].join(""),2) >> 4) != 0)
-                        this.winner = 'X'; //return 10000
-                    }
-                    else{
-                        if ((parseInt(this.Obits[x].join(""),2) & parseInt(this.Obits[x + 1].join(""),2) & parseInt(this.Obits[x + 2].join(""),2) & parseInt(this.Obits[x + 3].join(""),2) & parseInt(this.Obits[x + 4].join(""),2)) ||
-                        (parseInt(flipedO[x].join(""),2) & parseInt(flipedO[x + 1].join(""),2) & parseInt(flipedO[x + 2].join(""),2) & parseInt(flipedO[x + 3].join(""),2) & parseInt(flipedO[x + 4].join(""),2)) ||
-                        (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) << 1 & parseInt(this.Obits[x + 2].join(''),2) << 2 & parseInt(this.Obits[x + 3].join(""),2) << 3 & parseInt(this.Obits[x + 4].join(""),2) << 4) ||
-                        (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) >> 1 & parseInt(this.Obits[x + 2].join(''),2) >> 2 & parseInt(this.Obits[x + 3].join(""),2) >> 3 & parseInt(this.Obits[x + 4].join(""),2) >> 4) != 0)
-                        {this.winner = 'O'; console.log(this.Obits[x])} //return 10000 
-                    }  
-                }*/
                 return 0;
             case "GomokuPro":
 
