@@ -1,0 +1,25 @@
+{ "frames": {
+    "0": {
+     "frame": { "x": 0, "y": 0, "w": 32, "h": 96 },
+     "rotated": false,
+     "trimmed": false,
+     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 96 },
+     "sourceSize": { "w": 32, "h": 96 },
+     "duration": 250
+    },
+    "1": {
+     "frame": { "x": 32, "y": 0, "w": 32, "h": 96 },
+     "rotated": false,
+     "trimmed": false,
+     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 96 },
+     "sourceSize": { "w": 32, "h": 96 },
+     "duration": 200
+    }
+  },
+  "meta": {
+   "frameTags": [
+    { "name": "dywanLoop", "from": 0, "to": 1, "direction": "forward" }
+   ]
+  }
+ }
+ 
