@@ -488,9 +488,7 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
                 if (score > bestScore)
-                    {
-                        bestScore = score;
-                    }
+                    {bestScore = score;}
                     if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
                     if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
             }
