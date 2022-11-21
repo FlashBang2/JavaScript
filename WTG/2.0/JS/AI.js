@@ -247,7 +247,7 @@ class AI{
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "DQL"):
                 break;
         }
-        if (document.querySelector('#TreeDrawing').value== "true") {
+        if (document.querySelector('#TreeDrawing').value== "true" && this.AI != "Random") {
             new Treant(this.chartConfig);
         }
     }
