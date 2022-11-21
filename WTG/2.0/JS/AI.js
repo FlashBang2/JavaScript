@@ -6,7 +6,7 @@ class AI{
         this.bestScore = -Infinity;
         this.maximizingPlayer = null;
         this.AI = AIType;
-        this.depth = depth;
+        this.depth = parseInt(depth, 10);
         this.alphaBetaPrunning = alphabetaPrunning;
         
         this.chartConfig = {
@@ -61,20 +61,27 @@ class AI{
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "Minimax"):
                 this.maximizingPlayer = this.matrix.getSide();
+                rootDrawnNode = {
+                    text: { name: "Start"},
+                    children: []
+                }
                 for (let [index,indices] of array.entries())
                 {
                     if (this.matrix.getMatrix()[indices.x][indices.y].getValue() == 1) continue;
                     if (this.maximizingPlayer == 'X')
                     {
+                        let childDrawnNode = {
+                            parent: rootDrawnNode,
+                            text: { name: "MAX " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
+                            children: []
+                        }
                         this.matrix.Xbits[indices.x][indices.y] = 1;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        rootDrawnNode = {
-                            text: { name: "Start X"},
-                            children: []
-                        }
-                        let score = this.minimax(this.depth, rootDrawnNode, this.alpha, this.beta);
+                        let score = this.minimax(this.depth, childDrawnNode, this.alpha, this.beta);
+                        childDrawnNode.text.name = score;
+                        rootDrawnNode.children.push(childDrawnNode);
                         this.matrix.Xbits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -90,15 +97,18 @@ class AI{
                     }
                     else
                     {
+                        let childDrawnNode = {
+                            parent: rootDrawnNode,
+                            text: { name: "MAX " + 'O' + " " + indices.x + "," + indices.y},
+                            children: []
+                        }
                         this.matrix.Obits[indices.x][indices.y] = 1;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        rootDrawnNode = {
-                            text: { name: "Start O"},
-                            children: []
-                        }
-                        let score = this.minimax(this.depth, rootDrawnNode, this.alpha, this.beta);
+                        let score = this.minimax(this.depth, childDrawnNode, this.alpha, this.beta);
+                        childDrawnNode.text.name = score;
+                        rootDrawnNode.children.push(childDrawnNode);
                         this.matrix.Obits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -141,20 +151,27 @@ class AI{
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "NegaMax"):
                 this.maximizingPlayer = this.matrix.getSide();
+                rootDrawnNode = {
+                    text: { name: "Start X"},
+                    children: []
+                }
                 for (let [index,indices] of array.entries())
                 {
                     if (this.matrix.getMatrix()[indices.x][indices.y].getValue() == 1) continue;
                     if (this.matrix.getSide() == 'X')
                     {
+                        let childDrawnNode = {
+                            parent: rootDrawnNode,
+                            text: { name: "MAX " + this.maximizingPlayer + " " + indices.x + "," + indices.y},
+                            children: []
+                        }
                         this.matrix.Xbits[indices.x][indices.y] = 1;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        rootDrawnNode = {
-                            text: { name: "Start X"},
-                            children: []
-                        }
-                        let score = -(this.negamax(this.depth, rootDrawnNode, this.alpha, this.beta));
+                        let score = -(this.negamax(this.depth, childDrawnNode, this.alpha, this.beta));
+                        childDrawnNode.text.name = score;
+                        rootDrawnNode.children.push(childDrawnNode);
                         this.matrix.Xbits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -169,15 +186,18 @@ class AI{
                     }
                     else
                     {
+                        let childDrawnNode = {
+                            parent: rootDrawnNode,
+                            text: { name: "MAX " + 'O' + " " + indices.x + "," + indices.y},
+                            children: []
+                        }
                         this.matrix.Obits[indices.x][indices.y] = 1;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        rootDrawnNode = {
-                            text: { name: "Start O"},
-                            children: []
-                        }
-                        let score = -(this.negamax(this.depth, rootDrawnNode, this.alpha, this.beta));
+                        let score = -(this.negamax(this.depth, childDrawnNode, this.alpha, this.beta));
+                        childDrawnNode.text.name = score;
+                        rootDrawnNode.children.push(childDrawnNode);
                         this.matrix.Obits[indices.x][indices.y] = 0;
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
@@ -444,7 +464,7 @@ class AI{
         this.matrix.setSide()
         this.matrix.validate();
         this.matrix.setSide()
-        if (this.matrix.getWinner() != null) return this.matrix.getWinner() == this.maximizingPlayer ? 1 + depth : -(1 + depth);
+        if (this.matrix.getWinner() != null) return this.matrix.getWinner() == this.maximizingPlayer ? (1 + depth) : -(1 + depth);
         if (array.length == 0 || depth == 0) return 0;
         if (this.matrix.getSide() == 'X')
         {
@@ -497,10 +517,7 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setValue();
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
-                if (score > bestScore)
-                {
-                    bestScore = score;
-                }
+                if (score > bestScore){ bestScore = score;}
                 if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
                 if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
             }
