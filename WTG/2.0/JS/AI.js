@@ -256,10 +256,11 @@ class AI{
     {
         let array = this.matrix.getAvailabeSpots();
         this.matrix.setSide()
-        this.matrix.validate();
+        let heuristic = this.matrix.validate()
         this.matrix.setSide()
-        if (this.matrix.getWinner() != null) return this.matrix.getWinner() == this.maximizingPlayer ? 1 + depth : -(1 + depth);
-        if (array.length == 0 || depth == 0) return 0;
+        if (this.matrix.getWinner() != null) {return this.matrix.getWinner() == this.maximizingPlayer ? heuristic + depth : -(heuristic + depth); }
+        if (depth == 0) {return this.matrix.getWinner() == this.maximizingPlayer ? heuristic : -(heuristic)}
+        if (array.length == 0) return 0;
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
             let bestScore = -Infinity
@@ -461,11 +462,12 @@ class AI{
     negamax(depth,parentDrawnNode, alpha, beta)
     {
         let array = this.matrix.getAvailabeSpots();
-        this.matrix.setSide()
-        this.matrix.validate();
-        this.matrix.setSide()
-        if (this.matrix.getWinner() != null) return this.matrix.getWinner() == this.maximizingPlayer ? -(1 + depth) : -(1 + depth);
-        if (array.length == 0 || depth == 0) return 0;
+        this.matrix.setSide();
+        let heuristic = this.matrix.validate();
+        this.matrix.setSide();
+        if (this.matrix.getWinner() != null) {return -(heuristic + depth)}
+        if (depth == 0) { return -(heuristic)}
+        if (array.length == 0) return 0;
         if (this.matrix.getSide() == 'X')
         {
             let bestScore = -Infinity
