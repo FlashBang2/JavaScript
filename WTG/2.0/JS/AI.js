@@ -3,37 +3,40 @@ class AI{
     {
         this.matrix = board;
         this.bestMove = {};
-        this.bestScore = -Infinity;
         this.maximizingPlayer = null;
         this.AI = AIType;
         this.depth = parseInt(depth, 10);
         this.alphaBetaPrunning = alphabetaPrunning;
-        
         this.chartConfig = {
             chart: {
                 container: "#tree-simple",
                 connectors:{
                     type:"bCurve",
                     style: {stroke: 'white'}
+
                 }
             },
             nodeStructure: null,
         }
+
 
     }
 
     move()
     {
 
+
         let array = this.matrix.getAvailabeSpots();
         let rootDrawnNode;
         this.bestScore = -Infinity;
         this.alpha = -Infinity;
         this.beta = Infinity;
+
         switch (true)
         {
-            case (array.length > 0 && this.matrix.isGameActive && this.AI == "Random"):
-                let indices = array[Math.floor(Math.random() * array.length)];
+            case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "Random"):
+                let indices = this.matrix.availabeMoves[Math.floor(Math.random() * this.matrix.availabeMoves.length)];
+                this.matrix.availabeMoves.splice(this.matrix.availabeMoves.indexOf(indices), 1);
                 this.matrix.getMatrix()[indices.x][indices.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[indices.x][indices.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getSide() == 'X' ? this.matrix.Xbits[indices.x][indices.y] = 1: this.matrix.Obits[indices.x][indices.y] = 1;
@@ -58,8 +61,9 @@ class AI{
                             display.innerHTML = "TIE";
                         }
                 }
+
                 break;
-            case (array.length > 0 && this.matrix.isGameActive && this.AI == "Minimax"):
+            case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "Minimax"):
                 this.maximizingPlayer = this.matrix.getSide();
                 rootDrawnNode = {
                     text: { name: "Start"},
@@ -93,6 +97,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
+                        if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                        if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
 
                     }
                     else
@@ -120,6 +126,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
+                        if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                        if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
                     }
                 }
                 rootDrawnNode.text.name = this.bestScore;
@@ -183,6 +191,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
+                        if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                        if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
                     }
                     else
                     {
@@ -209,6 +219,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
+                        if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                        if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
                     }
                 }
                 rootDrawnNode.text.name = this.bestScore;
@@ -237,14 +249,15 @@ class AI{
                             display.innerHTML = "TIE";
                         }
                 }
+
                 break;
-            case (array.length > 0 && this.matrix.isGameActive && this.AI == "PNS"):
+            case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "PNS"):
                 break;
-            case (array.length > 0 && this.matrix.isGameActive && this.AI == "MCS"):
+            case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "MCS"):
                 break;
-            case (array.length > 0 && this.matrix.isGameActive && this.AI == "MCST"):
+            case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "MCST"):
                 break;
-            case (array.length > 0 && this.matrix.isGameActive && this.AI == "DQL"):
+            case (this.matrix.availabeMoves.length > 0 && !this.matrix.isGameStoped && this.AI == "DQL"):
                 break;
         }
         if (document.querySelector('#TreeDrawing').value== "true" && this.AI != "Random") {
@@ -261,10 +274,11 @@ class AI{
         if (this.matrix.getWinner() != null) {return this.matrix.getWinner() == this.maximizingPlayer ? heuristic + depth : -(heuristic + depth); }
         if (depth == 0) {return this.matrix.getWinner() == this.maximizingPlayer ? heuristic : -(heuristic)}
         if (array.length == 0) return 0;
+
         if (this.matrix.getSide() == this.maximizingPlayer)
         {
-            let bestScore = -Infinity
-            for (let [index,indices] of array.entries())
+            let bestScore = -Infinity;
+            for (let element of currentAvailable)
             {
                 let childDrawnNode = {
                     parent: parentDrawnNode,
@@ -292,8 +306,21 @@ class AI{
                     }
                     if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
                     if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
+
                 }
-                else
+                let x = element.x;
+                let y = element.y;
+                this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
+                this.matrix.setSide();
+                let index = childAvailable.findIndex(object => {return object.x == x && object.y == y});
+                childAvailable.splice(index,1)
+                let score = this.minimax(depth - 1, childDrawnNode, alpha, beta, childAvailable);
+                childDrawnNode.text.name=score;
+                parentDrawnNode.children.push(childDrawnNode);
+                this.matrix.getMatrix()[x][y].value = '';
+                this.matrix.setSide();
+                childAvailable.splice(index,0,{x,y});
+                if (score > bestScore)
                 {
                     this.matrix.Obits[indices.x][indices.y] = 1;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
@@ -315,14 +342,16 @@ class AI{
                     if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
                     if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
                 }
-                
+                if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
             }
+            
             return bestScore;
         }
         else
         {
-            let bestScore = Infinity
-            for (let [index,indices] of array.entries())
+            let bestScore = Infinity;
+            for (let element of currentAvailable)
             {
                 let childDrawnNode = {
                     parent: parentDrawnNode,
@@ -351,7 +380,19 @@ class AI{
                     if (this.alphaBetaPrunning == 'true') {beta = Math.min(beta, score);}
                     if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
                 }
-                else
+                let x = element.x;
+                let y = element.y;
+                this.matrix.getMatrix()[x][y].value = this.matrix.getSide();
+                this.matrix.setSide();
+                let index = childAvailable.findIndex(object => {return object.x == x && object.y == y});
+                childAvailable.splice(index,1);
+                let score = this.minimax(depth - 1, childDrawnNode, alpha, beta, childAvailable);
+                childDrawnNode.text.name=score;
+                parentDrawnNode.children.push(childDrawnNode);
+                this.matrix.getMatrix()[x][y].value = '';
+                this.matrix.setSide();
+                childAvailable.splice(index, 0, {x,y});
+                if (score < bestScore)
                 {
                     this.matrix.Xbits[indices.x][indices.y] = 1;
                     this.matrix.getMatrix()[indices.x][indices.y].setValue();
@@ -373,6 +414,11 @@ class AI{
                     if (this.alphaBetaPrunning == 'true') {beta = Math.min(beta, score);}
                     if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
                 }
+                
+                if (this.alphaBetaPrunning == 'true') {beta = Math.min(beta, score);}
+                
+                if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { 
+                    break;}
             }
             return bestScore;
         }
@@ -524,12 +570,21 @@ class AI{
             return bestScore;
         }
 
+            if (score > bestScore)
+            {
+                if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
+                bestScore = score;
+            }
+            if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+            if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
+            
+        }
+        return bestScore;
     }
 
     PNS()
     {
 
     }
-
-    
+   
 }

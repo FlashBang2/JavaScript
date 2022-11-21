@@ -4,11 +4,11 @@ class Board{
         this.matrix = [];
         this.tiles = document.querySelector("#container");
         this.side = document.querySelector('#side').value;
-        this.Xbits = [];
-        this.Obits = [];
+        this.rules = document.querySelector("#rules").value;
         this.winner = null;
-        this.isGameActive = true;
+        this.isGameStoped = false;
         this.blockPlayerInteraction = false;
+
         this.boardSize = boardSize;
 
         this.tiles.style.maxWidth = `${50*this.boardSize}px`;
@@ -19,27 +19,20 @@ class Board{
             this.tiles.style.gridTemplateColumns += `${100/this.boardSize}% `;
             this.tiles.style.gridTemplateRows += `${100/this.boardSize}%`;
             for (let y = 0;y < this.boardSize;y++){
+
                 let square = new Square(x, y);
                 if (document.querySelector("#settings").value != "AIvAI") square.setOnClick(() =>turnOrder(square));
                 this.tiles.append(square.DOM);
                 row.push(square);
-                Xrow.push(0);
-                Orow.push(0);
+                this.availabeMoves.push({x,y});
             }
             this.matrix.push(row);
-            this.Xbits.push(Xrow);
-            this.Obits.push(Orow);
         }
     }
 
     setSide()
     {
         this.side = this.side == 'X' ? 'O' : 'X';
-    }
-
-    setBlockPlayerInteraction()
-    {
-        this.blockPlayerInteraction = this.blockPlayerInteraction == false ? true : false;
     }
 
     getSide()
@@ -71,6 +64,7 @@ class Board{
         }, []);
     }
 
+
     alreadyInIt(array, X, Y)
     {
         for (let element of array){
@@ -97,16 +91,42 @@ class Board{
         return array;
     }
 
-    validate()
+    gamesContinues()
     {
-        let flipedX = this.Xbits.reduce((prev, next) => next.map((item, i) =>
-        (prev[i] || []).concat(next[i])), []);
-        let flipedO = this.Obits.reduce((prev, next) => next.map((item, i) =>
-        (prev[i] || []).concat(next[i])), []);
-        this.winner = null;
-        switch (document.querySelector("#rules").value)
+        document.querySelector("#display-player").classList.remove(`player${this.side}`);
+        this.setSide();
+        document.querySelector("#display-player").classList.add(`player${this.side}`);
+        document.querySelector("#display-player").innerText = this.side;
+        if (this.availabeMoves.length != 0) return;
+        this.isGameStoped = false;
+        document.querySelector("#display").innerHTML = "TIE";
+    }
+
+    getLength(x, y, dirX, dirY)
+    {
+        if (x < 0 || x >= this.size || y < 0 || y >= this.size) return 0;
+        if (this.matrix[x][y].value !== this.side) return 0;
+        return 1 + this.getLength(x + dirX, y + dirY, dirX, dirY);
+    }
+
+    getMaxLength(x,y)
+    {
+        if (this.matrix[x][y].value !== this.side) return 0;
+        return Math.max(
+            1 + this.getLength(x + 1, y, 1, 0) + this.getLength(x - 1, y, -1, 0),
+            1 + this.getLength(x, y + 1, 0, 1) + this.getLength(x, y - 1, 0, -1),
+            1 + this.getLength(x + 1, y + 1, 1, 1) + this.getLength(x - 1, y - 1, -1, -1),
+            1 + this.getLength(x - 1, y + 1, -1, 1) + this.getLength(x + 1, y - 1, 1, -1)
+        );
+    }
+
+    validate()
+    {   
+        let length = 0;
+        switch (this.rules)
         {
             case "Standard":
+
                 for(let x = 0;x <= this.matrix.length - 3;x++){
                     if (this.getSide() == 'X'){
                         if ((parseInt(this.Xbits[x].join(""),2) & parseInt(this.Xbits[x + 1].join(""),2) & parseInt(this.Xbits[x + 2].join(""),2)) ||
@@ -266,13 +286,14 @@ class Board{
                     }
                 }
                 return 0;
+
             case "GomokuPro":
 
                 break;
             case "GomokuSwap2":
 
                 break;
-        } 
+        }
     }
 
     remove()
