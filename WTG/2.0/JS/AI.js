@@ -93,8 +93,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
-                        if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
-                        if (( this.alpha >= this.beta ) && this.alphaBetaPrunning == 'true'){ break;}
+                        /*if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
+                        if (( this.alpha >= this.beta ) && this.alphaBetaPrunning == 'true'){ break;}*/
 
                     }
                     else
@@ -122,8 +122,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
-                        if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
-                        if (( this.alpha >= this.beta ) && this.alphaBetaPrunning == 'true'){ break;}
+                        /*if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
+                        if (( this.alpha >= this.beta ) && this.alphaBetaPrunning == 'true'){ break;}*/
                     }
                 }
                 rootDrawnNode.text.name = this.bestScore;
@@ -187,8 +187,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
-                        if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
-                        if (( this.alpha >= this.beta ) && this.alphaBetaPrunning == 'true') { break;}
+                        /*if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
+                        if (( this.alpha >= this.beta ) && this.alphaBetaPrunning == 'true') { break;}*/
                     }
                     else
                     {
@@ -215,8 +215,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
-                        if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
-                        if ((this.alpha >= this.beta ) && this.alphaBetaPrunning == 'true') { break;}
+                        /*if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
+                        if ((this.alpha >= this.beta ) && this.alphaBetaPrunning == 'true') { break;}*/
                     }
                 }
                 rootDrawnNode.text.name = this.bestScore;
