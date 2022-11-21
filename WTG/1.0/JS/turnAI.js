@@ -50,7 +50,6 @@ const turnAI = (board, currentPlayer) =>{
             }
             board[tile.x][tile.y].DOM.innerText = '';
             board[tile.x][tile.y].DOM.classList.remove(`player${currentPlayer}`);
-            console.log(score);
             if (score > bestScore)
             {
                 bestScore = score;

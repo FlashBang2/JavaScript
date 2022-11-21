@@ -34,6 +34,30 @@
     display: none;
 }
 
+#Text{
+    display: none;
+}
+
+#Text2{
+    display: none;
+}
+
+#Text3{
+    display: none;
+}
+
+#TextTree{
+    display: none;
+}
+
+#TextNotTree{
+    display: inline;
+}
+
+#TreeDrawing{
+    display: none;
+}
+
 #mainTitle {
     text-align: center;
     font-size: 40px;

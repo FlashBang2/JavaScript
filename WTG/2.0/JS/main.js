@@ -2,6 +2,12 @@ window.addEventListener("DOMContentLoaded", () =>{
     const confirm = document.querySelector("#confirm");
     const AISettings = document.querySelector("#AISettings");
     const AISettings2 = document.querySelector("#AISettings2");
+    const Text = document.querySelector("#Text");
+    const Text2 = document.querySelector("#Text2");
+    const Text3 = document.querySelector("#Text3");
+    const TextTree = document.querySelector("#TextTree");
+    const TextNotTree = document.querySelector("#TextNotTree");
+    const boardSize = document.querySelector("#boardSize");
     const settings = document.querySelector("#settings");
     const boardSize = document.querySelector("#boardSize");
 
@@ -11,8 +17,24 @@ window.addEventListener("DOMContentLoaded", () =>{
     let ai = null;
     let ai2 = null;
     let delay = null;
+    let x = null;
+    let y = null;
+    let chartConfig1 = {
+        chart: {
+            container: "#tree-simple",
+            connectors:{
+                type:"bCurve",
+                style: {stroke: 'black'}
+            }},
+            nodeStructure:  {
+                
+            }
+
+        }
 
     const generateBoard = () =>{
+        x = Math.floor(Math.random() * (boardSize.value - 1));
+        y = Math.floor(Math.random() * (boardSize.value - 1));
         const AIType = document.querySelector('#AIType').value;
         const AIType2 = document.querySelector('#AIType2').value;
         const depth = document.querySelector('#Depth').value;
@@ -27,7 +49,9 @@ window.addEventListener("DOMContentLoaded", () =>{
         {
             board.setSide();
             board.setBlockPlayerInteraction();
-            setTimeout(ai.move(),1000);
+            board.getMatrix()[x][y].setValue();
+            setTimeout(playervsAIHelper,1000);
+            setTimeout(clear,1001);
         }
         display = document.querySelector("#display");
         display.style.display = "block";
@@ -35,9 +59,20 @@ window.addEventListener("DOMContentLoaded", () =>{
         displayPlayer = document.querySelector("#display-player");
         displayPlayer.classList.add(`player${board.getSide()}`);
         displayPlayer.innerText = board.getSide();
-        if (settings.value != "AIvAI") return
-        if (delay != null) clearInterval(delay);
-        delay = setInterval(botvsbot,1000);
+        if (settings.value == "AIvAI")
+        {
+            if (delay != null) clearInterval(delay);
+            board.getMatrix()[x][y].setValue();
+            delay = setInterval(botvsbot,1000);
+            setTimeout(clear,1001);
+        }
+        
+        new Treant(chartConfig1);
+        
+    }
+    const clear = () => {
+        
+        board.getMatrix()[x][y].setValue();
     }
 
     const showAISettings = () =>{
@@ -46,16 +81,31 @@ window.addEventListener("DOMContentLoaded", () =>{
             case "PvP":
                 AISettings.style.display = "none";
                 AISettings2.style.display = "none";
+                TextNotTree.style.display = "inline";
+                TextTree.style.display = "none";
+                document.querySelector('#TreeDrawing').style.display = "none";
                 break;
             case "PvAI":
                 AISettings.style.display = "inline";
+                Text.style.display = "inline";
+                Text2.style.display = "none";
+                Text3.style.display = "none";
+                TextNotTree.style.display = "none";
+                TextTree.style.display = "inline";
                 document.querySelector("#side").style.display = "inline";
+                document.querySelector('#TreeDrawing').style.display = "inline";
                 AISettings2.style.display = "none";
                 break;
             case "AIvAI":
                 AISettings.style.display = "inline";
                 AISettings2.style.display = "inline";
+                Text2.style.display = "inline";
+                Text3.style.display = "inline";
+                TextNotTree.style.display = "none";
+                TextTree.style.display = "inline";
+                Text.style.display = "none";
                 document.querySelector('#side').style.display = "none";
+                document.querySelector('#TreeDrawing').style.display = "inline";
                 break;
         }
     }
@@ -91,25 +141,64 @@ window.addEventListener("DOMContentLoaded", () =>{
         switch(settings.value)
         {
             case "PvP":
-                if (board.isGameStoped || square.value != '') return;
-                square.DOM.innerText = board.getSide();
-                square.DOM.classList.add(`player${board.getSide()}`);
-                board.matrix[x][y].value = board.getSide();
-                board.availabeMoves.splice(board.availabeMoves.indexOf(board.availabeMoves.find((a) => {return a.x === x && a.y === y})),1);
-                board.winner = board.validate();
-                board.getWinner() !== null ? board.announceWinner() : board.gamesContinues();
+                if (!square.Occupied && board.isGameActive)
+                {
+                    square.DOM.innerText = board.getSide();
+                    square.DOM.classList.add(`player${board.getSide()}`);
+                    board.getSide() == 'X' ? board.Xbits[square.getRow()][square.getColumn()] = 1: board.Obits[square.getRow()][square.getColumn()] = 1;
+                    square.setValue();
+                    square.setOccupied();
+                    board.validate();
+                    if (board.getWinner() != null)
+                    {
+                        board.isGameActive = false;
+                        board.getWinner() == 'X' ? display.innerHTML = "Player <span class='playerX'>X</span> Won" : display.innerHTML = "Player <span class='playerO'>O</span> Won";
+                    }
+                    else
+                    {
+                        displayPlayer.classList.remove(`player${board.getSide()}`);
+                        board.setSide();
+                        displayPlayer.classList.add(`player${board.getSide()}`);
+                        displayPlayer.innerText = board.getSide();
+                        if (board.getAvailabeSpots().length == 0)
+                        {
+                            board.isGameActive = false;
+                            display.innerHTML = "TIE";
+                        }
+                        
+                    }
+                }
                 break;
             case "PvAI":
-                if (board.isGameStoped || square.value != '' || board.blockPlayerInteraction) return;
-                square.DOM.innerText = board.getSide();
-                square.DOM.classList.add(`player${board.getSide()}`);
-                board.matrix[x][y].value = board.getSide();
-                board.availabeMoves.splice(board.availabeMoves.indexOf(board.availabeMoves.find((a) => {return a.x === x && a.y === y})),1);
-                board.winner = board.validate();
-                board.getWinner() !== null ? board.announceWinner() : board.gamesContinues();
-                board.blockPlayerInteraction = true;
-                setTimeout(helper,1000);
-                break;         
+                if (!square.Occupied && board.isGameActive && !board.blockPlayerInteraction)
+                {
+                    square.DOM.innerText = board.getSide();
+                    square.DOM.classList.add(`player${board.getSide()}`);
+                    board.getSide() == 'X' ? board.Xbits[square.getRow()][square.getColumn()] = 1 : board.Obits[square.getRow()][square.getColumn()] = 1;
+                    square.setValue();
+                    square.setOccupied();
+                    board.validate();
+                    if (board.getWinner() != null)
+                    {
+                        board.isGameActive = false;
+                        board.getWinner() == 'X' ? display.innerHTML = "Player <span class='playerX'>X</span> Won" : display.innerHTML = "Player <span class='playerO'>O</span> Won";
+                    }
+                    else
+                    {
+                        displayPlayer.classList.remove(`player${board.getSide()}`);
+                        board.setSide();
+                        displayPlayer.classList.add(`player${board.getSide()}`);
+                        displayPlayer.innerText = board.getSide();
+                        board.setBlockPlayerInteraction();
+                        setTimeout(playervsAIHelper,1000);
+                        if (board.getAvailabeSpots().length == 0)
+                        {
+                            board.isGameActive = false;
+                            display.innerHTML = "TIE";
+                        }
+                    }
+                }
+                break;
         }
     }
 
