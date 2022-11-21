@@ -93,6 +93,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
+                        if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                        if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
 
                     }
                     else
@@ -120,6 +122,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
+                        if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                        if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
                     }
                 }
                 rootDrawnNode.text.name = this.bestScore;
@@ -183,6 +187,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
+                        if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                        if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
                     }
                     else
                     {
@@ -209,6 +215,8 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
+                        if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                        if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
                     }
                 }
                 rootDrawnNode.text.name = this.bestScore;
