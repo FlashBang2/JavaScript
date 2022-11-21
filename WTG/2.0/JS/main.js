@@ -45,7 +45,9 @@ window.addEventListener("DOMContentLoaded", () =>{
         {
             board.setSide();
             board.setBlockPlayerInteraction();
+            board.getMatrix()[Math.floor(board.boardSize/2)][Math.floor(board.boardSize/2)].setValue();
             setTimeout(playervsAIHelper,1000);
+            setTimeout(clear,1001);
         }
         display = document.querySelector("#display");
         display.style.display = "block";
@@ -55,13 +57,17 @@ window.addEventListener("DOMContentLoaded", () =>{
         displayPlayer.innerText = board.getSide();
         if (settings.value == "AIvAI")
         {
-            if (delay != null)
-                clearInterval(delay);
+            if (delay != null) clearInterval(delay);
+            board.getMatrix()[Math.floor(board.boardSize/2)][Math.floor(board.boardSize/2)].setValue();
             delay = setInterval(botvsbot,1000);
+            setTimeout(clear,1001);
         }
         
         new Treant(chartConfig1);
         
+    }
+    const clear = () => {
+        board.getMatrix()[Math.floor(board.boardSize/2)][Math.floor(board.boardSize/2)].setValue();
     }
 
     const showAISettings = () =>{
@@ -179,6 +185,7 @@ window.addEventListener("DOMContentLoaded", () =>{
                         displayPlayer.innerText = board.getSide();
                         board.setBlockPlayerInteraction();
                         setTimeout(playervsAIHelper,1000);
+                        console.log(board.getAvailabeSpots());
                         if (board.getAvailabeSpots().length == 0)
                         {
                             board.isGameActive = false;
