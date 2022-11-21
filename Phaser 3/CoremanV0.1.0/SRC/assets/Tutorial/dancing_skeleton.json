@@ -1,0 +1,150 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "1": {
+    "frame": { "x": 960, "y": 0, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "2": {
+    "frame": { "x": 1920, "y": 0, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "3": {
+    "frame": { "x": 0, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "4": {
+    "frame": { "x": 960, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "5": {
+    "frame": { "x": 1920, "y": 540, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "6": {
+    "frame": { "x": 0, "y": 1080, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "7": {
+    "frame": { "x": 960, "y": 1080, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "8": {
+    "frame": { "x": 1920, "y": 1080, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "9": {
+    "frame": { "x": 0, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "10": {
+    "frame": { "x": 960, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "11": {
+    "frame": { "x": 1920, "y": 1620, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "12": {
+    "frame": { "x": 0, "y": 2160, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "13": {
+    "frame": { "x": 960, "y": 2160, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "14": {
+    "frame": { "x": 1920, "y": 2160, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "15": {
+    "frame": { "x": 0, "y": 2700, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   },
+   "16": {
+    "frame": { "x": 960, "y": 2700, "w": 960, "h": 540 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 960, "h": 540 },
+    "sourceSize": { "w": 960, "h": 540 },
+    "duration": 350
+   }
+ },
+ "meta": {
+  "app": "https://github.com/LibreSprite/LibreSprite/",
+  "version": "1.2-973d0e3d-SDL",
+  "image": "C:\\Users\\PC\\OneDrive\\Pulpit\\mockup\\gra 2.0\\cutscenka\\dancing_skeleton.png",
+  "format": "RGBA8888",
+  "size": { "w": 2880, "h": 3240 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Loop", "from": 0, "to": 16, "direction": "forward" }
+  ]
+ }
+}

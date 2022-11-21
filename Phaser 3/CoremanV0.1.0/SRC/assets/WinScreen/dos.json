@@ -1,0 +1,92 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   },
+   "1": {
+    "frame": { "x": 600, "y": 0, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   },
+   "2": {
+    "frame": { "x": 0, "y": 177, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   },
+   "3": {
+    "frame": { "x": 600, "y": 177, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   },
+   "4": {
+    "frame": { "x": 0, "y": 354, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   },
+   "5": {
+    "frame": { "x": 600, "y": 354, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   },
+   "6": {
+    "frame": { "x": 0, "y": 531, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   },
+   "7": {
+    "frame": { "x": 600, "y": 531, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   },
+   "8": {
+    "frame": { "x": 0, "y": 708, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   },
+   "9": {
+    "frame": { "x": 600, "y": 708, "w": 600, "h": 177 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 600, "h": 177 },
+    "sourceSize": { "w": 600, "h": 177 },
+    "duration": 180
+   }
+ },
+ "meta": {
+  "size": { "w": 1200, "h": 885 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Start", "from": 0, "to": 1, "direction": "forward" },
+   { "name": "credits", "from": 2, "to": 8, "direction": "forward" },
+   { "name": "hold", "from": 9, "to": 9, "direction": "forward" }
+  ]
+ }
+}
