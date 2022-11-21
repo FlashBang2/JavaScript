@@ -9,6 +9,7 @@ window.addEventListener("DOMContentLoaded", () =>{
     const TextNotTree = document.querySelector("#TextNotTree");
     const boardSize = document.querySelector("#boardSize");
     const settings = document.querySelector("#settings");
+    const boardSize = document.querySelector("#boardSize");
 
     let displayPlayer = null;
     let display = null;
@@ -40,8 +41,7 @@ window.addEventListener("DOMContentLoaded", () =>{
         const depth2 = document.querySelector('#Depth2').value;
         const alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning').value;
         const AlphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2').value;
-        if (board != null)
-            board = board.remove();
+        if (board != null) board = board.remove();
         board = new Board(boardSize.value, turnOrder);
         ai = new AI(board,AIType,depth,alphaBetaPrunning);
         ai2 = new AI(board,AIType2,depth2,AlphaBetaPrunning2);
@@ -112,31 +112,32 @@ window.addEventListener("DOMContentLoaded", () =>{
 
     const moreRules = () =>{
         
-        if (boardSize.value >= 15)
+        if (boardSize.value < 15)
         {
             for (let element of document.querySelectorAll(".rule"))
             {
-                element.hidden = false;
+                element.hidden = true;
             }
         }
         else
         {
             for (let element of document.querySelectorAll(".rule"))
             {
-                element.hidden = true;
+                element.hidden = false;
             }
         }   
     }
 
     const botvsbot = () =>{
-        if (board.getAvailabeSpots().length == 0 || !board.isGameActive)
-            clearInterval(delay);
+        if (board.availabeMoves.length == 0 || board.isGameStoped) clearInterval(delay);
         ai.move();
         ai2.move();
     }
 
     const turnOrder = (square) =>{
         
+        let x = square.getRow();
+        let y = square.getColumn();
         switch(settings.value)
         {
             case "PvP":
@@ -199,10 +200,9 @@ window.addEventListener("DOMContentLoaded", () =>{
                 }
                 break;
         }
-        
     }
 
-    const playervsAIHelper = () =>{
+    const helper = () =>{
         ai.move();
     }
 
