@@ -218,24 +218,28 @@ class Board{
                         else{
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if (this.Obits[x][y] == 1 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.Obits[x + 4][y] == 1){
+                                    console.log('hi');
                                     this.winner = 'O';
                                     return 10000;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5){
                                 if (this.Obits[x][y] == 1 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.Obits[x][y + 4] == 1){
+                                    console.log('hi');
                                     this.winner = 'O';
                                     return 10000;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
                                 if (this.Obits[x][y] == 1 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.Obits[x + 4][y + 4] == 1){
+                                    console.log('hi');
                                     this.winner = 'O';
                                     return 10000;
                                 }
                             }
                             if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if (this.Obits[x][y] == 1 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.Obits[x + 4][y - 4] == 1){
+                                    console.log('hi');
                                     this.winner = 'O';
                                     return 10000;
                                 }
