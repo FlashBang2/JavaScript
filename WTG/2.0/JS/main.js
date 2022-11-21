@@ -16,6 +16,8 @@ window.addEventListener("DOMContentLoaded", () =>{
     let ai = null;
     let ai2 = null;
     let delay = null;
+    let x = null;
+    let y = null;
     let chartConfig1 = {
         chart: {
             container: "#tree-simple",
@@ -30,6 +32,8 @@ window.addEventListener("DOMContentLoaded", () =>{
         }
 
     const generateBoard = () =>{
+        x = Math.floor(Math.random() * (boardSize.value - 1));
+        y = Math.floor(Math.random() * (boardSize.value - 1));
         const AIType = document.querySelector('#AIType').value;
         const AIType2 = document.querySelector('#AIType2').value;
         const depth = document.querySelector('#Depth').value;
@@ -45,7 +49,7 @@ window.addEventListener("DOMContentLoaded", () =>{
         {
             board.setSide();
             board.setBlockPlayerInteraction();
-            board.getMatrix()[Math.floor(board.boardSize/2)][Math.floor(board.boardSize/2)].setValue();
+            board.getMatrix()[x][y].setValue();
             setTimeout(playervsAIHelper,1000);
             setTimeout(clear,1001);
         }
@@ -58,7 +62,7 @@ window.addEventListener("DOMContentLoaded", () =>{
         if (settings.value == "AIvAI")
         {
             if (delay != null) clearInterval(delay);
-            board.getMatrix()[Math.floor(board.boardSize/2)][Math.floor(board.boardSize/2)].setValue();
+            board.getMatrix()[x][y].setValue();
             delay = setInterval(botvsbot,1000);
             setTimeout(clear,1001);
         }
@@ -67,7 +71,8 @@ window.addEventListener("DOMContentLoaded", () =>{
         
     }
     const clear = () => {
-        board.getMatrix()[Math.floor(board.boardSize/2)][Math.floor(board.boardSize/2)].setValue();
+        
+        board.getMatrix()[x][y].setValue();
     }
 
     const showAISettings = () =>{
@@ -185,7 +190,6 @@ window.addEventListener("DOMContentLoaded", () =>{
                         displayPlayer.innerText = board.getSide();
                         board.setBlockPlayerInteraction();
                         setTimeout(playervsAIHelper,1000);
-                        console.log(board.getAvailabeSpots());
                         if (board.getAvailabeSpots().length == 0)
                         {
                             board.isGameActive = false;

@@ -211,6 +211,11 @@ class AI{
                     document.querySelector("#display-player").classList.add(`player${this.matrix.getSide()}`);
                     document.querySelector("#display-player").innerText = this.matrix.getSide();
                     this.matrix.setBlockPlayerInteraction();
+                    if (this.matrix.getAvailabeSpots().length == 0)
+                        {
+                            this.matrix.isGameActive = false;
+                            display.innerHTML = "TIE";
+                        }
                 }
                 break;
             case (array.length > 0 && this.matrix.isGameActive && this.AI == "PNS"):
