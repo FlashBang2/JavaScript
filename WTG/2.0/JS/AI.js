@@ -37,6 +37,8 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[indices.x][indices.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getSide() == 'X' ? this.matrix.Xbits[indices.x][indices.y] = 1: this.matrix.Obits[indices.x][indices.y] = 1;
+                this.matrix.getMatrix()[indices.x][indices.y].setValue();
+                this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.validate();
                 if (this.matrix.getWinner() != null)
                 {
@@ -45,8 +47,6 @@ class AI{
                 }
                 else
                 {
-                    this.matrix.getMatrix()[indices.x][indices.y].setValue();
-                    this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                     document.querySelector("#display-player").classList.remove(`player${this.matrix.getSide()}`);
                     this.matrix.setSide();
                     document.querySelector("#display-player").classList.add(`player${this.matrix.getSide()}`);
