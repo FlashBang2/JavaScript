@@ -561,19 +561,7 @@ class AI{
             }
             return bestScore;
         }
-
-            if (score > bestScore)
-            {
-                if (depth == this.depth) {this.bestScore = score; this.bestMove = {x,y};};
-                bestScore = score;
-            }
-            if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
-            if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
-            
-        }
-        return bestScore;
     }
-
     PNS()
     {
 

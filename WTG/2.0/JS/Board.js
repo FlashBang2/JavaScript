@@ -8,9 +8,7 @@ class Board{
         this.winner = null;
         this.isGameStoped = false;
         this.blockPlayerInteraction = false;
-
         this.boardSize = boardSize;
-
         this.tiles.style.maxWidth = `${50*this.boardSize}px`;
         for(let x = 0;x < this.boardSize;x++){
             let row = [];

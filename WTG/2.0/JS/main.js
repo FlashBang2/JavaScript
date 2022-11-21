@@ -9,7 +9,6 @@ window.addEventListener("DOMContentLoaded", () =>{
     const TextNotTree = document.querySelector("#TextNotTree");
     const boardSize = document.querySelector("#boardSize");
     const settings = document.querySelector("#settings");
-    const boardSize = document.querySelector("#boardSize");
 
     let displayPlayer = null;
     let display = null;
