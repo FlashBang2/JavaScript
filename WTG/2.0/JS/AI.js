@@ -180,7 +180,6 @@ class AI{
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        console.log(score,indices);
                         if (score > this.bestScore)
                         {
                             this.bestScore = score;
@@ -475,7 +474,6 @@ class AI{
             this.beta = -this.alpha;
             this.alpha = -this.beta;
         }
-        console.log(this.alpha,this.beta);
         let array = this.matrix.getAvailabeSpots();
         this.matrix.setSide();
         let heuristic = this.matrix.validate();
@@ -504,11 +502,9 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setValue();
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
-                if (score > bestScore)
-                    {bestScore = score;}
-                    if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
-                    console.log(this.alpha,this.beta);
-                    if (( this.alpha > this.beta ) && this.alphaBetaPrunning == 'true') { break;}
+                if (score > bestScore) {bestScore = score;}
+                if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
+                if (( this.alpha > this.beta ) && this.alphaBetaPrunning == 'true') { break;}
             }
             return bestScore;
         }
@@ -535,7 +531,6 @@ class AI{
                 this.matrix.setSide();
                 if (score > bestScore){ bestScore = score;}
                 if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
-                console.log(this.alpha,this.beta);
                 if (( this.alpha > this.beta ) && this.alphaBetaPrunning == 'true'){ break;}
             }
             return bestScore;

@@ -129,233 +129,262 @@ class Board{
                 }
                 return 0;
             case "Gomoku":
+                let combo = {};
                 for (let x = 0;x < this.matrix.length;x++){
                     for (let y = 0;y < this.matrix.length;y++){
                         if (this.getSide() == 'X'){
-                            if (x >= 0 && x <= this.matrix.length - 5){
-                                if ((parseInt(this.Xbits[x].join(""),2) & parseInt(this.Xbits[x + 1].join(""),2) & parseInt(this.Xbits[x + 2].join(""),2) & parseInt(this.Xbits[x + 3].join(""),2) & parseInt(this.Xbits[x + 4].join(""),2)) ||
-                                    (parseInt(flipedX[x].join(""),2) & parseInt(flipedX[x + 1].join(""),2) & parseInt(flipedX[x + 2].join(""),2) & parseInt(flipedX[x + 3].join(""),2) & parseInt(flipedX[x + 4].join(""),2)) ||
-                                    (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) << 1 & parseInt(this.Xbits[x + 2].join(''),2) << 2 & parseInt(this.Xbits[x + 3].join(""),2) << 3 & parseInt(this.Xbits[x + 4].join(""),2) << 4) ||
-                                    (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) >> 1 & parseInt(this.Xbits[x + 2].join(''),2) >> 2 & parseInt(this.Xbits[x + 3].join(""),2) >> 3 & parseInt(this.Xbits[x + 4].join(""),2) >> 4) != 0){
-                                    this.winner = 'X';
-                                    return 10000;
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
+                                if ((this.Xbits[x][y] == 1 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.Xbits[x + 4][y] == 1)){
+                                    combo.xw = true;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5) {
+                                if (this.Xbits[x][y] == 1 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.Xbits[x][y + 3] == 1 && this.Xbits[x][y + 4] == 1){
+                                    combo.xw = true;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
+                                if (this.Xbits[x][y] == 1 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.Xbits[x + 3][y + 3] == 1 && this.Xbits[x + 4][y + 4] == 1){
+                                    combo.xw = true;
+                                }
+                            }
+                            if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
+                                if (this.Xbits[x][y] == 1 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.Xbits[x + 4][y - 4] == 1){
+                                    combo.xw = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.Xbits[x + 4][y] == 1 && this.matrix[x + 5][y].getValue() == 0){
-                                    return 1000;
+                                    combo.uc4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.Xbits[x][y + 3] == 1 && this.Xbits[x][y + 4] == 1 && this.matrix[x][y + 5].getValue() == 0){
-                                    return 1000;
+                                    combo.uc4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.Xbits[x + 3][y + 3] == 1 && this.Xbits[x + 4][y + 4] == 1 && this.matrix[x + 5][y + 5].getValue() == 0){
-                                    return 1000;
+                                    combo.uc4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.Xbits[x + 4][y - 4] == 1 && this.matrix[x + 5][y - 5].getValue() == 0){
-                                    return 1000;
+                                    combo.uc4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.Obits[x][y] == 1 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.Xbits[x + 4][y] == 1 && this.matrix[x + 5][y].getValue() == 0){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
                                 if (this.Obits[x][y] == 1 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.Xbits[x][y + 3] == 1 && this.Xbits[x][y + 4] == 1 && this.matrix[x][y + 5].getValue() == 0){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
                                 if (this.Obits[x][y] == 1 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.Xbits[x + 3][y + 3] == 1 && this.Xbits[x + 4][y + 4] == 1 && this.matrix[x + 5][y + 5].getValue() == 0){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.Obits[x][y] == 1 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.Xbits[x + 4][y - 4] == 1 && this.matrix[x + 5][y - 5].getValue() == 0){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.Xbits[x + 4][y] == 1 && this.Obits[x + 5][y] == 1){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.Xbits[x][y + 3] == 1 && this.Xbits[x][y + 4] == 1 && this.Obits[x][y + 5] == 1){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.Xbits[x + 3][y + 3] == 1 && this.Xbits[x + 4][y + 4] == 1 && this.Obits[x + 5][y + 5] == 1){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.Xbits[x + 4][y - 4] == 1 && this.Obits[x + 5][y - 5] == 1){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.matrix[x + 4][y].getValue() == 0){
-                                    return 100;
+                                    combo.uc3 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.Xbits[x][y + 3] == 1 && this.matrix[x][y + 4].getValue() == 0){
-                                    return 100;
+                                    combo.uc3 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
                                 if(this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.Xbits[x + 3][y + 3] == 1 && this.matrix[x + 4][y + 4].getValue() == 0){
-                                    return 100;
+                                    combo.uc3 = true;
                                 }
                             }
                             if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if(this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.matrix[x + 4][y - 4].getValue() == 0){
-                                    return 100;
+                                    combo.uc3 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.matrix[x + 3][y].getValue() == 0){
-                                    return 10;
+                                    combo.uc2 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length  && y <= this.matrix.length - 4){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.matrix[x][y + 3].getValue() == 0){
-                                    return 10;
+                                    combo.uc2 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y <= this.matrix.length - 4){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.matrix[x + 3][y + 3].getValue() == 0){
-                                    return 10;
+                                    combo.uc2 = true;
                                 }
                             }
                             if (x >= 0 && y >= 3 && x <= this.matrix.length - 4 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.matrix[x + 3][y - 3].getValue() == 0){
-                                    return 10;
+                                    combo.uc2 = true;
                                 }
                             }
                         }
                         else{
-                            if (x >= 0 && x <= this.matrix.length - 5){
-                                if ((parseInt(this.Obits[x].join(""),2) & parseInt(this.Obits[x + 1].join(""),2) & parseInt(this.Obits[x + 2].join(""),2) & parseInt(this.Obits[x + 3].join(""),2) & parseInt(this.Obits[x + 4].join(""),2)) ||
-                                    (parseInt(flipedO[x].join(""),2) & parseInt(flipedO[x + 1].join(""),2) & parseInt(flipedO[x + 2].join(""),2) & parseInt(flipedO[x + 3].join(""),2) & parseInt(flipedO[x + 4].join(""),2)) ||
-                                    (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) << 1 & parseInt(this.Obits[x + 2].join(''),2) << 2 & parseInt(this.Obits[x + 3].join(""),2) << 3 & parseInt(this.Obits[x + 4].join(""),2) << 4) ||
-                                    (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) >> 1 & parseInt(this.Obits[x + 2].join(''),2) >> 2 & parseInt(this.Obits[x + 3].join(""),2) >> 3 & parseInt(this.Obits[x + 4].join(""),2) >> 4) != 0){
-                                    this.winner = 'O';
-                                    return 10000;
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
+                                if ((this.Obits[x][y] == 1 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.Obits[x + 4][y] == 1)){
+                                    combo.ow = true;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5) {
+                                if (this.Obits[x][y] == 1 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.Obits[x][y + 4] == 1){
+                                    combo.ow = true;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
+                                if (this.Obits[x][y] == 1 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.Obits[x + 4][y + 4] == 1){
+                                    combo.ow = true;
+                                }
+                            }
+                            if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
+                                if (this.Obits[x][y] == 1 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.Obits[x + 4][y - 4] == 1){
+                                    combo.ow = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.Obits[x + 4][y] == 1 && this.matrix[x + 5][y].getValue() == 0){
-                                    return 1000;
+                                    combo.uc4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.Obits[x][y + 4] == 1 && this.matrix[x][y + 5].getValue() == 0){
-                                    return 1000;
+                                    combo.uc4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.Obits[x + 4][y + 4] == 1 && this.matrix[x + 5][y + 5].getValue() == 0){
-                                    return 1000;
+                                    combo.uc4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.Obits[x + 4][y - 4] == 1 && this.matrix[x + 5][y - 5].getValue() == 0){
-                                    return 1000;
+                                    combo.uc4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.Xbits[x][y] == 1 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.Obits[x + 4][y] == 1 && this.matrix[x + 5][y].getValue() == 0){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
                                 if (this.Xbits[x][y] == 1 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.Obits[x][y + 4] == 1 && this.matrix[x][y + 5].getValue() == 0){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
                                 if (this.Xbits[x][y] == 1 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.Obits[x + 4][y + 4] == 1 && this.matrix[x + 5][y + 5].getValue() == 0){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.Xbits[x][y] == 1 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.Obits[x + 4][y - 4] == 1 && this.matrix[x + 5][y - 5].getValue() == 0){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.Obits[x + 4][y] == 1 && this.Xbits[x + 5][y] == 1){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.Obits[x][y + 4] == 1 && this.Xbits[x][y + 5] == 1){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.Obits[x + 4][y + 4] == 1 && this.Xbits[x + 5][y + 5] == 1){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.Obits[x + 4][y - 4] == 1 && this.Xbits[x + 5][y - 5] == 1){
-                                    return 500;
+                                    combo.c4 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.matrix[x + 4][y].getValue() == 0){
-                                    return 100;
+                                    combo.uc3 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.matrix[x][y + 4].getValue() == 0){
-                                    return 100;
+                                    combo.uc3 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.matrix[x + 4][y + 4].getValue() == 0){
-                                    return 100;
+                                    combo.uc3 = true;
                                 }
                             }
                             if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.matrix[x + 4][y - 4].getValue() == 0){
-                                    return 100;
+                                    combo.uc3 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.matrix[x + 3][y].getValue() == 0){
-                                    return 10;
+                                    combo.uc2 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x < this.matrix.length  && y <= this.matrix.length - 4){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.matrix[x][y + 3].getValue() == 0){
-                                    return 10;
+                                    combo.uc2 = true;
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y <= this.matrix.length - 4){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.matrix[x + 3][y + 3].getValue() == 0){
-                                    return 10;
+                                    combo.uc2 = true;
                                 }
                             }
                             if (x >= 0 && y >= 3 && x <= this.matrix.length - 4 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.matrix[x + 3][y - 3].getValue() == 0){
-                                    return 10;
+                                    combo.uc2 = true;
                                 }
                             }
                         }
                     }
                 }
-                return 0;
+                if (combo.xw == true) {this.winner = 'X'; return 10000}
+                else if (combo.ow == true) {this.winner = 'O'; return 10000}
+                else if (combo.uc4 == true) return 1000;
+                else if (combo.c4 == true) return 500;
+                else if (combo.uc3 == true) return 100;
+                else if (combo.uc2 == true) return 10;
+                else return 0;
             case "GomokuPro":
 
                 break;
