@@ -161,6 +161,46 @@ class Board{
                                     return 1000;
                                 }
                             }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
+                                if (this.Obits[x][y] == 1 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.Xbits[x + 4][y] == 1 && this.matrix[x + 5][y].getValue() == 0){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
+                                if (this.Obits[x][y] == 1 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.Xbits[x][y + 3] == 1 && this.Xbits[x][y + 4] == 1 && this.matrix[x][y + 5].getValue() == 0){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
+                                if (this.Obits[x][y] == 1 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.Xbits[x + 3][y + 3] == 1 && this.Xbits[x + 4][y + 4] == 1 && this.matrix[x + 5][y + 5].getValue() == 0){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
+                                if (this.Obits[x][y] == 1 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.Xbits[x + 4][y - 4] == 1 && this.matrix[x + 5][y - 5].getValue() == 0){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.Xbits[x + 4][y] == 1 && this.Obits[x + 5][y] == 1){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.Xbits[x][y + 3] == 1 && this.Xbits[x][y + 4] == 1 && this.Obits[x][y + 5] == 1){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.Xbits[x + 3][y + 3] == 1 && this.Xbits[x + 4][y + 4] == 1 && this.Obits[x + 5][y + 5] == 1){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.Xbits[x + 4][y - 4] == 1 && this.Obits[x + 5][y - 5] == 1){
+                                    return 500;
+                                }
+                            }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.matrix[x + 4][y].getValue() == 0){
                                     return 100;
@@ -179,6 +219,26 @@ class Board{
                             if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if(this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.matrix[x + 4][y - 4].getValue() == 0){
                                     return 100;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.matrix[x + 3][y].getValue() == 0){
+                                    return 10;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length  && y <= this.matrix.length - 4){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.matrix[x][y + 3].getValue() == 0){
+                                    return 10;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y <= this.matrix.length - 4){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.matrix[x + 3][y + 3].getValue() == 0){
+                                    return 10;
+                                }
+                            }
+                            if (x >= 0 && y >= 3 && x <= this.matrix.length - 4 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.matrix[x + 3][y - 3].getValue() == 0){
+                                    return 10;
                                 }
                             }
                         }
@@ -212,6 +272,46 @@ class Board{
                                     return 1000;
                                 }
                             }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
+                                if (this.Xbits[x][y] == 1 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.Obits[x + 4][y] == 1 && this.matrix[x + 5][y].getValue() == 0){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
+                                if (this.Xbits[x][y] == 1 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.Obits[x][y + 4] == 1 && this.matrix[x][y + 5].getValue() == 0){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
+                                if (this.Xbits[x][y] == 1 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.Obits[x + 4][y + 4] == 1 && this.matrix[x + 5][y + 5].getValue() == 0){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
+                                if (this.Xbits[x][y] == 1 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.Obits[x + 4][y - 4] == 1 && this.matrix[x + 5][y - 5].getValue() == 0){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.Obits[x + 4][y] == 1 && this.Xbits[x + 5][y] == 1){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.Obits[x][y + 4] == 1 && this.Xbits[x][y + 5] == 1){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.Obits[x + 4][y + 4] == 1 && this.Xbits[x + 5][y + 5] == 1){
+                                    return 500;
+                                }
+                            }
+                            if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.Obits[x + 4][y - 4] == 1 && this.Xbits[x + 5][y - 5] == 1){
+                                    return 500;
+                                }
+                            }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
                                 if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.matrix[x + 4][y].getValue() == 0){
                                     return 100;
@@ -223,13 +323,33 @@ class Board{
                                 }
                             }
                             if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
-                                if(this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.matrix[x + 4][y + 4].getValue() == 0){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.matrix[x + 4][y + 4].getValue() == 0){
                                     return 100;
                                 }
                             }
                             if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
-                                if(this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.matrix[x + 4][y - 4].getValue() == 0){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.matrix[x + 4][y - 4].getValue() == 0){
                                     return 100;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.matrix[x + 3][y].getValue() == 0){
+                                    return 10;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x < this.matrix.length  && y <= this.matrix.length - 4){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.matrix[x][y + 3].getValue() == 0){
+                                    return 10;
+                                }
+                            }
+                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y <= this.matrix.length - 4){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.matrix[x + 3][y + 3].getValue() == 0){
+                                    return 10;
+                                }
+                            }
+                            if (x >= 0 && y >= 3 && x <= this.matrix.length - 4 && y < this.matrix.length){
+                                if (this.matrix[x][y].getValue() == 0 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.matrix[x + 3][y - 3].getValue() == 0){
+                                    return 10;
                                 }
                             }
                         }

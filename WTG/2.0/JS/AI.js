@@ -189,7 +189,6 @@ class AI{
                             this.bestMove = {x, y};
                         }
                         if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(-this.alpha, score);}
-                        console.log(this.alpha,this.beta);
                         if (( this.alpha > this.beta ) && this.alphaBetaPrunning == 'true') {break;}
                     }
                     else
@@ -217,8 +216,7 @@ class AI{
                             let y = indices.y;
                             this.bestMove = {x, y};
                         }
-                        if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
-                        console.log(this.alpha,this.beta);
+                        if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(-this.alpha, score);}
                         if ((this.alpha > this.beta ) && this.alphaBetaPrunning == 'true') {break;}
                     }
                 }
@@ -509,6 +507,7 @@ class AI{
                 if (score > bestScore)
                     {bestScore = score;}
                     if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
+                    console.log(this.alpha,this.beta);
                     if (( this.alpha > this.beta ) && this.alphaBetaPrunning == 'true') { break;}
             }
             return bestScore;
@@ -536,6 +535,7 @@ class AI{
                 this.matrix.setSide();
                 if (score > bestScore){ bestScore = score;}
                 if (this.alphaBetaPrunning == 'true') {this.alpha = Math.max(this.alpha, score);}
+                console.log(this.alpha,this.beta);
                 if (( this.alpha > this.beta ) && this.alphaBetaPrunning == 'true'){ break;}
             }
             return bestScore;
