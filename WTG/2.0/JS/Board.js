@@ -188,7 +188,7 @@ class Board{
                                     (parseInt(flipedO[x].join(""),2) & parseInt(flipedO[x + 1].join(""),2) & parseInt(flipedO[x + 2].join(""),2) & parseInt(flipedO[x + 3].join(""),2) & parseInt(flipedO[x + 4].join(""),2)) ||
                                     (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) << 1 & parseInt(this.Obits[x + 2].join(''),2) << 2 & parseInt(this.Obits[x + 3].join(""),2) << 3 & parseInt(this.Obits[x + 4].join(""),2) << 4) ||
                                     (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) >> 1 & parseInt(this.Obits[x + 2].join(''),2) >> 2 & parseInt(this.Obits[x + 3].join(""),2) >> 3 & parseInt(this.Obits[x + 4].join(""),2) >> 4) != 0){
-                                    this.winner = 'X';
+                                    this.winner = 'O';
                                     return 10000;
                                 }
                             }
