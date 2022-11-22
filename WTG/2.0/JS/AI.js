@@ -173,7 +173,7 @@ class AI{
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        let score = -(this.negamax(this.depth, childDrawnNode, 1));
+                        let score = -(this.negamax(this.depth, childDrawnNode));
                         childDrawnNode.text.name = score;
                         rootDrawnNode.children.push(childDrawnNode);
                         this.matrix.Xbits[indices.x][indices.y] = 0;
@@ -201,7 +201,7 @@ class AI{
                         this.matrix.getMatrix()[indices.x][indices.y].setValue();
                         this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                         this.matrix.setSide();
-                        let score = -(this.negamax(this.depth, childDrawnNode, 1));
+                        let score = -(this.negamax(this.depth, childDrawnNode));
                         childDrawnNode.text.name = score;
                         rootDrawnNode.children.push(childDrawnNode);
                         this.matrix.Obits[indices.x][indices.y] = 0;
@@ -468,7 +468,7 @@ class AI{
         return false;
     }*/
 
-    negamax(depth,parentDrawnNode, sign)
+    negamax(depth,parentDrawnNode)
     {
         if (this.alphaBetaPrunning == 'true'){
             this.beta = -this.alpha;
@@ -478,8 +478,8 @@ class AI{
         this.matrix.setSide();
         let heuristic = this.matrix.validate();
         this.matrix.setSide();
-        if (this.matrix.getWinner() != null) {return sign*(heuristic + depth)}
-        if (depth == 0) {return sign*(heuristic)}
+        if (this.matrix.getWinner() != null) {return -(heuristic + depth)}
+        if (depth == 0) {return -(heuristic)}
         if (array.length == 0) return 0;
         if (this.matrix.getSide() == 'X')
         {
@@ -495,7 +495,7 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setValue();
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
-                let score = -(this.negamax(depth - 1, childDrawnNode, -(sign)));
+                let score = -(this.negamax(depth - 1, childDrawnNode));
                 childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.Xbits[indices.x][indices.y] = 0;
@@ -522,7 +522,7 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setValue();
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
-                let score = -(this.negamax(depth - 1, childDrawnNode, -(sign)));
+                let score = -(this.negamax(depth - 1, childDrawnNode));
                 childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
                 this.matrix.Obits[indices.x][indices.y] = 0;
