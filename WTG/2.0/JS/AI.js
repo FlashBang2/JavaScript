@@ -479,7 +479,7 @@ class AI{
         let heuristic = this.matrix.validate();
         this.matrix.setSide();
         if (this.matrix.getWinner() != null) {return -(heuristic + depth)}
-        if (depth == 0) { return -(heuristic)}
+        if (depth == 0) {return -(heuristic)}
         if (array.length == 0) return 0;
         if (this.matrix.getSide() == 'X')
         {
