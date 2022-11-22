@@ -132,26 +132,11 @@ class Board{
                 for (let x = 0;x < this.matrix.length;x++){
                     for (let y = 0;y < this.matrix.length;y++){
                         if (this.getSide() == 'X'){
-                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
-                                if ((this.Xbits[x][y] == 1 && this.Xbits[x + 1][y] == 1 && this.Xbits[x + 2][y] == 1 && this.Xbits[x + 3][y] == 1 && this.Xbits[x + 4][y] == 1)){
-                                    this.winner = 'X';
-                                    return 10000;
-                                }
-                            }
-                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5) {
-                                if (this.Xbits[x][y] == 1 && this.Xbits[x][y + 1] == 1 && this.Xbits[x][y + 2] == 1 && this.Xbits[x][y + 3] == 1 && this.Xbits[x][y + 4] == 1){
-                                    this.winner = 'X';
-                                    return 10000;
-                                }
-                            }
-                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
-                                if (this.Xbits[x][y] == 1 && this.Xbits[x + 1][y + 1] == 1 && this.Xbits[x + 2][y + 2] == 1 && this.Xbits[x + 3][y + 3] == 1 && this.Xbits[x + 4][y + 4] == 1){
-                                    this.winner = 'X';
-                                    return 10000;
-                                }
-                            }
-                            if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
-                                if (this.Xbits[x][y] == 1 && this.Xbits[x + 1][y - 1] == 1 && this.Xbits[x + 2][y - 2] == 1 && this.Xbits[x + 3][y - 3] == 1 && this.Xbits[x + 4][y - 4] == 1){
+                            if (x >= 0 && x <= this.matrix.length - 5){
+                                if ((parseInt(this.Xbits[x].join(""),2) & parseInt(this.Xbits[x + 1].join(""),2) & parseInt(this.Xbits[x + 2].join(""),2) & parseInt(this.Xbits[x + 3].join(""),2) & parseInt(this.Xbits[x + 4].join(""),2)) ||
+                                    (parseInt(flipedX[x].join(""),2) & parseInt(flipedX[x + 1].join(""),2) & parseInt(flipedX[x + 2].join(""),2) & parseInt(flipedX[x + 3].join(""),2) & parseInt(flipedX[x + 4].join(""),2)) ||
+                                    (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) << 1 & parseInt(this.Xbits[x + 2].join(''),2) << 2 & parseInt(this.Xbits[x + 3].join(""),2) << 3 & parseInt(this.Xbits[x + 4].join(""),2) << 4) ||
+                                    (parseInt(this.Xbits[x].join(''),2) & parseInt(this.Xbits[x + 1].join(''),2) >> 1 & parseInt(this.Xbits[x + 2].join(''),2) >> 2 & parseInt(this.Xbits[x + 3].join(""),2) >> 3 & parseInt(this.Xbits[x + 4].join(""),2) >> 4) != 0){
                                     this.winner = 'X';
                                     return 10000;
                                 }
@@ -198,27 +183,12 @@ class Board{
                             }
                         }
                         else{
-                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
-                                if (this.Obits[x][y] == 1 && this.Obits[x + 1][y] == 1 && this.Obits[x + 2][y] == 1 && this.Obits[x + 3][y] == 1 && this.Obits[x + 4][y] == 1){
-                                    this.winner = 'O';
-                                    return 10000;
-                                }
-                            }
-                            if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5){
-                                if (this.Obits[x][y] == 1 && this.Obits[x][y + 1] == 1 && this.Obits[x][y + 2] == 1 && this.Obits[x][y + 3] == 1 && this.Obits[x][y + 4] == 1){
-                                    this.winner = 'O';
-                                    return 10000;
-                                }
-                            }
-                            if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
-                                if (this.Obits[x][y] == 1 && this.Obits[x + 1][y + 1] == 1 && this.Obits[x + 2][y + 2] == 1 && this.Obits[x + 3][y + 3] == 1 && this.Obits[x + 4][y + 4] == 1){
-                                    this.winner = 'O';
-                                    return 10000;
-                                }
-                            }
-                            if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
-                                if (this.Obits[x][y] == 1 && this.Obits[x + 1][y - 1] == 1 && this.Obits[x + 2][y - 2] == 1 && this.Obits[x + 3][y - 3] == 1 && this.Obits[x + 4][y - 4] == 1){
-                                    this.winner = 'O';
+                            if (x >= 0 && x <= this.matrix.length - 5){
+                                if ((parseInt(this.Obits[x].join(""),2) & parseInt(this.Obits[x + 1].join(""),2) & parseInt(this.Obits[x + 2].join(""),2) & parseInt(this.Obits[x + 3].join(""),2) & parseInt(this.Obits[x + 4].join(""),2)) ||
+                                    (parseInt(flipedO[x].join(""),2) & parseInt(flipedO[x + 1].join(""),2) & parseInt(flipedO[x + 2].join(""),2) & parseInt(flipedO[x + 3].join(""),2) & parseInt(flipedO[x + 4].join(""),2)) ||
+                                    (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) << 1 & parseInt(this.Obits[x + 2].join(''),2) << 2 & parseInt(this.Obits[x + 3].join(""),2) << 3 & parseInt(this.Obits[x + 4].join(""),2) << 4) ||
+                                    (parseInt(this.Obits[x].join(''),2) & parseInt(this.Obits[x + 1].join(''),2) >> 1 & parseInt(this.Obits[x + 2].join(''),2) >> 2 & parseInt(this.Obits[x + 3].join(""),2) >> 3 & parseInt(this.Obits[x + 4].join(""),2) >> 4) != 0){
+                                    this.winner = 'X';
                                     return 10000;
                                 }
                             }
