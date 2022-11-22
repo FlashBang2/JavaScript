@@ -476,18 +476,34 @@ class AI{
         let heuristic = this.matrix.validate();
         this.matrix.setSide();
         if (this.matrix.getWinner() != null) {
-            if( this.maximizingPlayer=="X"){
-                return -(heuristic + depth)
+            if(document.querySelector('#side').value=="O"){
+                if( this.maximizingPlayer=="X"){
+                    return -(heuristic + depth)
+                }else{
+                    return (heuristic + depth)
+                }
             }else{
-                return (heuristic + depth)
+                if( this.maximizingPlayer=="O"){
+                    return -(heuristic + depth)
+                }else{
+                    return (heuristic + depth)
+                }
             }
             
         }
         if (depth == 0) {
-            if( this.maximizingPlayer=="X"){
-                return -(heuristic)
+            if(document.querySelector('#side').value=="O"){
+                if( this.maximizingPlayer=="X"){
+                    return -(heuristic)
+                }else{
+                    return (heuristic)
+                }
             }else{
-                return (heuristic)
+                if( this.maximizingPlayer=="O"){
+                    return -(heuristic)
+                }else{
+                    return (heuristic)
+                }
             }
         }
         if (array.length == 0) return 0;
