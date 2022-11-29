@@ -386,94 +386,10 @@ class AI{
             return bestScore;
         }
     }
-/*
-    cutMoves(indices)
-    {
-        //Corners
 
-        if (indices.x == 0 && indices.y == 0)
-        {
-            if ((this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][indices.y + 1]) == '' && 
-                (this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][indices.y + 1] == '') && 
-                (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x +1][indices.y] == '')) return true; 
-        }
-        if (indices.x == this.matrix.boardSize && indices.y == this.matrix.boardSize)
-        {
-            if ((this.matrix.Xbits[this.matrix.boardSize - 1][this.matrix.boardSize - 1] == '' || this.matrix.Obits[this.matrix.boardSize - 1][this.matrix.boardSize - 1] == '') &&
-                (this.matrix.Xbits[this.matrix.boardSize - 1][this.matrix.boardSize] == '' || this.matrix.Obits[this.matrix.boardSize -1][this.matrix.boardSize] == '') &&
-                (this.matrix.Xbits[this.matrix.boardSize][this.matrix.boardSize - 1] == '' || this.matrix.Obits[this.matrix.boardSize][this.matrix.boardSize - 1] == '')) return true;
-        }
-        if (indices.x == this.matrix.boardSize && indices.y == 0)
-        {
-            if ((this.matrix.Xbits[this.matrix.boardSize - 1][indices.y + 1] == '' || this.matrix.Obits[this.matrix.boardSize - 1][indices.y + 1] == '') &&
-                (this.matrix.Xbits[this.matrix.boardSize - 1][indices.y] == '' || this.matrix.Obits[this.matrix.boardSize - 1][indices.y] == '') &&
-                (this.matrix.Xbits[this.matrix.boardSize][indices.y + 1] == '' || this.matrix.Obits[this.matrix.boardSize][indices.y + 1] == '')) return true;
-        }
-        if (indices.x == 0 && indices.y == this.matrix.boardSize)
-        {
-            if ((this.matrix.Xbits[indices.x + 1][this.matrix.boardSize - 1] == '' || this.matrix.Obits[indices.x + 1][this.matrix.boardSize - 1] == '') &&
-                (this.matrix.Xbits[indices.x + 1][this.matrix.boardSize] == '' || this.matrix.Obits[indices.x + 1][this.matrix.boardSize] == '') &&
-                (this.matrix.Xbits[indices.x][this.matrix.boardSize - 1] == '' || this.matrix.Obits[indices.x][this.matrix.boardSize -1] == '')) return true;
-        }
-
-        //Borders
-
-        if(indices.x == 0 && indices.y > 0 && indices.y < this.matrix.boardSize)
-        {
-            if ((this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '') &&
-                (this.matrix.Xbits[indices.x + 1][indices.y - 1] == '' || this.matrix.Obits[indices.x + 1][indices.y - 1] == '') &&
-                (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x + 1][indices.y] == '') &&
-                (this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][indices.y + 1] == '') &&
-                (this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][indices.y + 1] == '')) return true;
-        }
-        if (indices.x > 0 && indices.x < this.matrix.boardSize - 1 && indices.y == 0)
-        {
-            if ((this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][indices.y + 1] == '') &&
-                (this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][indices.y + 1] == '') &&
-                (this.matrix.Xbits[indices.x - 1][indices.y + 1] == '' || this.matrix.Obits[indices.x - 1][indices.y + 1] == '') &&
-                (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x + 1][indices.y] == '') &&
-                (this.matrix.Xbits[indices.x - 1][indices.y] == '' || this.matrix.Obits[indices.x - 1][indices.y] == '')) return true;
-        }
-        if (indices.y == this.matrix.boardSize && indices.x > 0 && indices.x < this.matrix.boardSize)
-        {
-            if ((this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '') &&
-                (this.matrix.Xbits[indices.x + 1][indices.y - 1] == '' || this.matrix.Obits[indices.x + 1][indices.y - 1] == '') &&
-                (this.matrix.Xbits[indices.x - 1][indices.y - 1] == '' || this.matrix.Obits[indices.x - 1][indices.y - 1] == '') &&
-                (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x + 1][indices.y] == '') &&
-                (this.matrix.Xbits[indices.x - 1][indices.y] == '' || this.matrix.Obits[indices.x - 1][indices.y] == '')) return true; 
-        }
-        if (indices.x == this.matrix.boardSize && indices.y > 0 && indices.y < this.matrix.boardSize)
-        {
-            if ((this.matrix.Xbits[indices.x - 1][indices.y] == '' || this.matrix.Obits[indices.x - 1][indices.y] == '') &&
-                (this.matrix.Xbits[indices.x - 1][indices.y + 1] == '' || this.matrix.Obits[indices.x - 1][indices.y + 1] == '') &&
-                (this.matrix.Xbits[indices.x - 1][indices.y - 1] == '' || this.matrix.Obits[indices.x - 1][indices.y - 1] == '') &&
-                (this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '') &&
-                (this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '')) return true;
-        }
-
-        //Inside
-
-        if (indices.x > 0 && indices.x < this.matrix.boardSize - 1 && indices.y > 0 && indices.y < this.matrix.boardSize - 1)
-        {
-            if  ((this.matrix.Xbits[indices.x - 1][indices.y - 1] == '' || this.matrix.Obits[indices.x - 1][indices.y -1] == '') &&
-                 (this.matrix.Xbits[indices.x - 1][indices.y + 1] == '' || this.matrix.Obits[indices.x - 1][indices.y + 1] == '') &&
-                 (this.matrix.Xbits[indices.x - 1][indices.y] == '' || this.matrix.Obits[indices.x - 1][indices.y] == '') &&
-                 (this.matrix.Xbits[indices.x][indices.y + 1] == '' || this.matrix.Obits[indices.x][ indices.y + 1] == '') &&
-                 (this.matrix.Xbits[indices.x][indices.y - 1] == '' || this.matrix.Obits[indices.x][indices.y - 1] == '') &&
-                 (this.matrix.Xbits[indices.x + 1][indices.y] == '' || this.matrix.Obits[indices.x + 1][indices.y] == '') &&
-                 (this.matrix.Xbits[indices.x + 1][indices.y + 1] == '' || this.matrix.Obits[indices.x + 1][ indices.y + 1] == '') &&
-                 (this.matrix.Xbits[indices.x + 1][indices.y - 1] == '' || this.matrix.Obits[indices.x + 1][indices.y - 1] == '')) return true;
-        }
-
-        return false;
-    }*/
 
     negamax(depth,parentDrawnNode, alpha, beta)
     {
-        /*if (this.alphaBetaPrunning == 'true'){
-            this.beta = -this.alpha;
-            this.alpha = -this.beta;
-        }*/
         let array = this.matrix.getAvailabeSpots();
         this.matrix.setSide();
         let heuristic = this.matrix.validate();
@@ -569,6 +485,11 @@ class AI{
             return bestScore;
         }
 
+    }
+
+    MCST()
+    {
+        
     }
 
     PNS()
