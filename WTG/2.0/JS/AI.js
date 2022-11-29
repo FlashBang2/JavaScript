@@ -32,8 +32,14 @@ class AI{
         this.beta = Infinity;
         switch (true)
         {
-            case (array.length > 0 && this.matrix.isGameActive && this.AI == "Random"):
-                let indices = array[Math.floor(Math.random() * array.length)];
+            case (this.matrix.isGameActive && this.AI == "Random"):
+                let posibleIndices = [];
+                for (let x = 0;x < this.matrix.getMatrix().length;x++){
+                    for (let y = 0;y < this.matrix.getMatrix().length;y++){
+                        if (!this.matrix.getMatrix()[x][y].Occupied) posibleIndices.push({x:x,y:y})
+                    }
+                }
+                let indices = posibleIndices[Math.floor(Math.random() * posibleIndices.length)]
                 this.matrix.getMatrix()[indices.x][indices.y].DOM.innerText = this.matrix.getSide();
                 this.matrix.getMatrix()[indices.x][indices.y].DOM.classList.add(`player${this.matrix.getSide()}`);
                 this.matrix.getSide() == 'X' ? this.matrix.Xbits[indices.x][indices.y] = 1: this.matrix.Obits[indices.x][indices.y] = 1;
@@ -59,13 +65,13 @@ class AI{
                         }
                 }
                 break;
-            case (array.length > 0 && this.matrix.isGameActive && this.AI == "Minimax"):
+            case (this.matrix.isGameActive && this.AI == "Minimax"):
                 this.maximizingPlayer = this.matrix.getSide();
                 rootDrawnNode = {
                     text: { name: "Start"},
                     children: []
                 }
-                for (let [index,indices] of array.entries())
+                /*for (let [index,indices] of array.entries())
                 {
                     if (this.matrix.getMatrix()[indices.x][indices.y].getValue() == 1) continue;
                     if (this.maximizingPlayer == 'X')
@@ -151,9 +157,9 @@ class AI{
                             this.matrix.isGameActive = false;
                             display.innerHTML = "TIE";
                         }
-                }
+                }*/
                 break;
-            case (array.length > 0 && this.matrix.isGameActive && this.AI == "NegaMax"):
+            case (this.matrix.isGameActive && this.AI == "NegaMax"):
                 this.maximizingPlayer = this.matrix.getSide();
                 rootDrawnNode = {
                     text: { name: "Start X"},
@@ -489,7 +495,7 @@ class AI{
 
     MCST()
     {
-        
+
     }
 
     PNS()
