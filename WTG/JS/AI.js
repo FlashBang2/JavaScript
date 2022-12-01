@@ -22,8 +22,6 @@ class AI{
 
         let array = this.board.getAvailabeSpots(), rootDrawnNode;
         
-        this.bestScore = -Infinity, this.alpha = -Infinity, this.beta = Infinity;
-        
         switch (true) {
 
             case (this.board.isGameActive && this.AI == "Random"):
@@ -52,6 +50,7 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
+                this.minimax(this.depth);
                
                 break;
             case (this.matrix.isGameActive && this.AI == "NegaMax"):
@@ -77,12 +76,12 @@ class AI{
         }
     }
 
-    minimax() {
-       
+    minimax(depth, parentDrawnNode, alpha, beta) {
+        
     }
 
 
-    negamax(depth,parentDrawnNode, alpha, beta)
+    negamax(depth, parentDrawnNode, alpha, beta)
     {
         let array = this.matrix.getAvailabeSpots();
         this.matrix.setSide();
