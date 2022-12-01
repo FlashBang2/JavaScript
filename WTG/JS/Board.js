@@ -57,7 +57,7 @@ class Board{
         let array = [];
 
         for (let x = 0;x < this.matrix.length;x++) {
-            for (let y = 0;y < this.matrix[0].length;y++) {
+            for (let y = 0;y < this.matrix.length;y++) {
                 if (this.matrix[x][y].value == 0) continue;
                 for (let i = x - 1;i <= x + 1;i++) {
                     for (let j = y - 1;j <= y + 1;j++) {
@@ -81,6 +81,22 @@ class Board{
         return false;
     }
 
+    getLength(player,x,y,dirX,dirY) {
+        if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) return 0;
+        if (this.matrix[x][y].value !== player) return 0;
+        return 1 + this.getLength(player, x + dirX, y + dirY, dirX, dirY);
+    }
+
+    getMaxLength(player,x,y) {
+        if (this.matrix[x][y].value !== player) return 0;
+        return Math.max(
+            1 + this.getLength(player, x + 1, y, 1, 0) + this.getLength(player, x - 1, y, -1, 0),
+            1 + this.getLength(player, x, y + 1, 0, 1) + this.getLength(player, x, y - 1, 0, -1),
+            1 + this.getLength(player, x + 1, y + 1, 1, 1) + this.getLength(player, x - 1, y - 1, -1, -1),
+            1 + this.getLength(player, x - 1, y + 1, -1, 1) + this.getLength(player, x + 1, y - 1, 1, -1)
+        )
+    }
+
     validate() {
 
         let player = this.side == 'X' ? 1 : -1;
@@ -89,9 +105,17 @@ class Board{
 
             case "Standard":
                 for (let x = 0;x < this.matrix.length;x++) {
-                    for (let y = 0;y < this.matrix[0].length;y++) {
-                        if (this.matrix[x][y] != player) continue;
-                        
+                    for (let y = 0;y < this.matrix.length;y++) {
+                        if (this.matrix[x][y].value != player) continue;
+                        switch (this.getMaxLength(player,x,y)) {
+                            case 3:
+                                this.winner = this.side;
+                                return 100;
+                            case 2:
+                                return 10;
+                            default:
+                                return 0;
+                        }
                     }
                 }
 
