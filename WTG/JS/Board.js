@@ -83,10 +83,18 @@ class Board{
 
     validate() {
 
+        let player = this.side == 'X' ? 1 : -1;
+
         switch (document.querySelector("#rules").value) {
 
             case "Standard":
-                    
+                for (let x = 0;x < this.matrix.length;x++) {
+                    for (let y = 0;y < this.matrix[0].length;y++) {
+                        if (this.matrix[x][y] != player) continue;
+                        
+                    }
+                }
+
                 break;
 
             case "Gomoku":
