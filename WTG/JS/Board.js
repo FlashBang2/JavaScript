@@ -12,15 +12,15 @@ class Board{
         this.winner = null;
         this.value = null;
 
-        tiles.style.maxWidth = `${50*this.boardSize}px`;
+        this.tiles.style.maxWidth = `${50*this.boardSize}px`;
         for(let x = 0;x < this.boardSize;x++) {
             let row = [];
-            tiles.style.gridTemplateColumns += `${100/this.boardSize}% `;
-            tiles.style.gridTemplateRows += `${100/this.boardSize}%`;
+            this.tiles.style.gridTemplateColumns += `${100/this.boardSize}% `;
+            this.tiles.style.gridTemplateRows += `${100/this.boardSize}%`;
             for (let y = 0;y < this.boardSize;y++) {
                 let square = new Square(x, y);
                 if (document.querySelector("#settings").value != "AIvAI") square.setOnClick(() =>turnOrder(square));
-                tiles.append(square.DOM);
+                this.tiles.append(square.DOM);
                 row.push(square);
             }
             this.matrix.push(row);
@@ -103,7 +103,7 @@ class Board{
                 element.DOM.remove();
             }
         }
-        tiles.style.gridTemplateColumns = '';
-        tiles.style.gridTemplateRows = '';
+        this.tiles.style.gridTemplateColumns = '';
+        this.tiles.style.gridTemplateRows = '';
     }
 }
