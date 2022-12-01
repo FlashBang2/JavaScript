@@ -5,21 +5,15 @@ class Square{
         this.DOM = document.createElement('div');
         this.DOM.classList.add('tile');
         this.value = 0;
-        this.Occupied = false;
     }
 
     setOnClick(OnClickFunction){
         this.DOM.addEventListener('click', OnClickFunction);
     }
 
-    setValue()
+    setValue(player)
     {
-        this.value = this.value == 0 ? 1 : 0;
-    }
-
-    setOccupied()
-    {
-        this.Occupied = this.Occupied == false ? true : false;
+        player == 'X' ? this.value = 1 : this.value = -1;
     }
 
     getValue()
