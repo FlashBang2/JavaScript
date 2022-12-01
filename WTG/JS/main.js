@@ -1,36 +1,26 @@
 window.addEventListener("DOMContentLoaded", () => {
 
-    const confirm = document.querySelector("#confirm");
-    const aiSettings = document.querySelector("#AISettings");
-    const aiSettings2 = document.querySelector("#AISettings2");
-    const textAI = document.querySelector("#TextAI");
-    const textAI2 = document.querySelector("#TextAI2");
-    const textAI3 = document.querySelector("#TextAI3");
-    const textTree = document.querySelector("#TextTree");
-    const textNotTree = document.querySelector("#TextNotTree");
-    const boardSize = document.querySelector("#boardSize");
+    const confirm = document.querySelector("#confirm"),     aiSettings = document.querySelector("#AISettings"),     aiSettings2 = document.querySelector("#AISettings2");
+    const textAI = document.querySelector("#TextAI"),       textAI2 = document.querySelector("#TextAI2"),           textAI3 = document.querySelector("#TextAI3");
+    const textTree = document.querySelector("#TextTree"),   textNotTree = document.querySelector("#TextNotTree"),   boardSize = document.querySelector("#boardSize");
     const settings = document.querySelector("#settings");
 
-    let displayPlayer = null;
-    let display = null;
-    let board = null;
-    let ai = null;
-    let ai2 = null;
-    let delay = null;
-    let x = null;
-    let y = null;
+    let displayPlayer = null,   display = null,     board = null;
+    let ai = null,              ai2 = null,         delay = null;
+    let x = null,               y = null;
 
     let chartConfig1 = {
-        chart: {
-            container: "#tree-simple",
-            connectors: {
-                type:"bCurve",
-                style: {stroke: 'black'}
-            }},
+            chart: {
+
+                container: "#tree-simple",
+                connectors: {
+                    type:"bCurve",
+                    style: { stroke: 'black' }
+                }
+            },
             nodeStructure: {
                 
             }
-
         }
 
     const generateBoard = () => {
