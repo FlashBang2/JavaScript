@@ -30,16 +30,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
         const aiType = document.querySelector('#AIType').value;
         const aiType2 = document.querySelector('#AIType2').value;
-        const depth = document.querySelector('#Depth').value;
-        const depth2 = document.querySelector('#Depth2').value;
+        const time = document.querySelector('#Time').value;
+        const time2 = document.querySelector('#Time2').value;
         const alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning').value;
         const alphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2').value;
 
         if (board != null) board = board.remove();
 
         board = new Board(boardSize.value, turnOrder);
-        ai = new AI(board,aiType,depth,alphaBetaPrunning);
-        ai2 = new AI(board,aiType2,depth2,alphaBetaPrunning2);
+        ai = new AI(board,aiType,time,alphaBetaPrunning);
+        ai2 = new AI(board,aiType2,time2,alphaBetaPrunning2);
 
         if (board.side == 'X') {
             board.setSide();
