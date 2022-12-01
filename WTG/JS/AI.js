@@ -78,28 +78,23 @@ class AI{
     }
 
     minimax(array, time, parentDrawnNode, alpha, beta) {
-        let childBoards = [];
-        for (let move of array) {
-            this.board.matrix[move.x][move.y].setValue(this.board.side);
-            childBoards.push(JSON.parse(JSON.stringify(this.board)));
-            this.board.matrix[move.x][move.y].value = 0;
-        }
+
+    }
+
+
+    negamax(array, time, parentDrawnNode, alpha, beta) {
         
     }
 
-
-    negamax(time, parentDrawnNode, alpha, beta)
-    {
-        
-    }
-
-    MCST()
-    {
+    MCS() {
 
     }
 
-    PNS()
-    {
+    MCST() {
+
+    }
+
+    PNS() {
 
     }
 
