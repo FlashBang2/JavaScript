@@ -35,23 +35,11 @@ class Board{
         this.blockPlayerInteraction = this.blockPlayerInteraction == false ? true : false;
     }
 
-    getSide() {
-        return this.side;
-    }
-
-    getMatrix() {
-        return this.matrix;
-    }
-
-    getWinner() {
-        return this.winner;
-    }
-
     getValueMatrix() {
         return this.matrix.reduce((arr, row) => {
 
             row = row.reduce((a, c) => {
-                a.push(c.getValue())
+                a.push(c.value)
                 return a;
             }, []);
 
@@ -60,21 +48,14 @@ class Board{
         }, []);
     }
 
-    alreadyInIt(array, X, Y) {
-        for (let element of array) {
-            if (element.x == X && element.y == Y) return true;
-        }
-        return false;
-    }
-
     getAvailabeSpots() {
         let array = [];
         for (let x = 0;x < this.matrix.length;x++) {
             for (let y = 0;y < this.matrix[0].length;y++) {
-                if (this.matrix[x][y].getValue() == 0) continue;
+                if (this.matrix[x][y].value == 0) continue;
                 for (let i = x - 1;i <= x + 1;i++) {
                     for (let j = y - 1;j <= y + 1;j++) {
-                        if (i >= 0 && j >= 0 && i < this.boardSize && j < this.boardSize && this.matrix[i][j].getValue() == 0 && !this.alreadyInIt(array,i,j)){
+                        if (i >= 0 && j >= 0 && i < this.boardSize && j < this.boardSize && this.matrix[i][j].value == 0 && !this.alreadyInIt(array,i,j)){
                             array.push({x:i,y:j});
                         }
                     }
@@ -84,15 +65,26 @@ class Board{
         return array;
     }
 
+    alreadyInIt(array, X, Y) {
+        for (let element of array) {
+            if (element.x == X && element.y == Y) return true;
+        }
+        return false;
+    }
+
     validate() {
         switch (document.querySelector("#rules").value) {
             case "Standard":
+                
                 break;
             case "Gomoku":
+
                 break;
             case "GomokuPro":
+
                 break;
             case "GomokuSwap2":
+
                 break;
         }    
     }
@@ -106,4 +98,5 @@ class Board{
         this.tiles.style.gridTemplateColumns = '';
         this.tiles.style.gridTemplateRows = '';
     }
+    
 }

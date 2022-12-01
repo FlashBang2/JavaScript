@@ -1,5 +1,5 @@
 class Square{
-    constructor(row, column){
+    constructor(row, column) {
         this.row = row;
         this.column = column;
         this.DOM = document.createElement('div');
@@ -7,27 +7,12 @@ class Square{
         this.value = 0;
     }
 
-    setOnClick(OnClickFunction){
+    setOnClick(OnClickFunction) {
         this.DOM.addEventListener('click', OnClickFunction);
     }
 
-    setValue(player)
-    {
+    setValue(player) {
         player == 'X' ? this.value = 1 : this.value = -1;
     }
 
-    getValue()
-    {
-        return this.value;
-    }
-
-    getRow()
-    {
-        return this.row;
-    }
-    
-    getColumn()
-    {
-        return this.column;
-    }
 }
