@@ -149,7 +149,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 square.DOM.classList.add(`player${board.side}`);
                 square.setValue(board.side);
                 board.validate();
-                gameStateCheck(board.winner);
+                board.gameStateCheck(board.winner);
                 break;
 
             case "PvAI":
@@ -159,38 +159,13 @@ window.addEventListener("DOMContentLoaded", () => {
                 square.DOM.classList.add(`player${board.side}`);
                 square.setValue(board.side);
                 board.validate();
-                gameStateCheck(board.winner);
+                board.gameStateCheck(board.winner, playervsAIHelper);
                 break;
         }
         
     }
 
-    const gameStateCheck = (winner) => {
-
-        if (winner != null) {
-
-            board.isGameActive = false;
-            board.winner == 'X' ? display.innerHTML = "Player <span class='playerX'>X</span> Won" : display.innerHTML = "Player <span class='playerO'>O</span> Won";
-        }
-        else {
-
-            displayPlayer.classList.remove(`player${board.side}`);
-            board.setSide();
-            displayPlayer.classList.add(`player${board.side}`);
-            displayPlayer.innerText = board.side;
-
-            if (settings.value == 'PvAI') {
-
-                board.setBlockPlayerInteraction();
-                setTimeout(playervsAIHelper,1000);
-            }
-
-            if (!board.getAvailabeSpots().length == 0) return;
-            
-            board.isGameActive = false;
-            display.innerHTML = "TIE";
-        }
-    }
+    
 
     const playervsAIHelper = () => {
         ai.move();

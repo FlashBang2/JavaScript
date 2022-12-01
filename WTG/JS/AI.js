@@ -1,18 +1,14 @@
 class AI{
     constructor(board,AIType,depth,alphabetaPrunning)
     {
-        this.matrix = board;
-        this.bestMove = {};
-        this.bestScore = -Infinity;
-        this.maximizingPlayer = null;
-        this.AI = AIType;
-        this.depth = parseInt(depth, 10);
+        this.board = board,            this.bestMove = {}, this.bestScore = -Infinity;
+        this.maximizingPlayer = null,   this.AI = AIType,   this.depth = parseInt(depth, 10);
         this.alphaBetaPrunning = alphabetaPrunning;
         
         this.chartConfig = {
             chart: {
                 container: "#tree-simple",
-                connectors:{
+                connectors: {
                     type:"bCurve",
                     style: {stroke: 'white'}
                 }
@@ -22,48 +18,31 @@ class AI{
 
     }
 
-    move()
-    {
+    move() {
 
-        let array = this.matrix.getAvailabeSpots();
-        let rootDrawnNode;
-        this.bestScore = -Infinity;
-        this.alpha = -Infinity;
-        this.beta = Infinity;
-        switch (true)
-        {
-            case (this.matrix.isGameActive && this.AI == "Random"):
+        let array = this.board.getAvailabeSpots(), rootDrawnNode;
+        
+        this.bestScore = -Infinity, this.alpha = -Infinity, this.beta = Infinity;
+        
+        switch (true) {
+
+            case (this.board.isGameActive && this.AI == "Random"):
+
                 let posibleIndices = [];
-                for (let x = 0;x < this.matrix.getMatrix().length;x++){
-                    for (let y = 0;y < this.matrix.getMatrix().length;y++){
-                        if (!this.matrix.getMatrix()[x][y].Occupied) posibleIndices.push({x:x,y:y})
+
+                for (let x = 0;x < this.board.matrix.length;x++){
+                    for (let y = 0;y < this.board.matrix.length;y++){
+                        if (this.board.matrix[x][y].value == 0) posibleIndices.push({x:x,y:y})
                     }
                 }
+
                 let indices = posibleIndices[Math.floor(Math.random() * posibleIndices.length)]
-                this.matrix.getMatrix()[indices.x][indices.y].DOM.innerText = this.matrix.getSide();
-                this.matrix.getMatrix()[indices.x][indices.y].DOM.classList.add(`player${this.matrix.getSide()}`);
-                this.matrix.getSide() == 'X' ? this.matrix.Xbits[indices.x][indices.y] = 1: this.matrix.Obits[indices.x][indices.y] = 1;
-                this.matrix.getMatrix()[indices.x][indices.y].setValue();
-                this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
-                this.matrix.validate();
-                if (this.matrix.getWinner() != null)
-                {
-                    this.matrix.isGameActive = false;
-                    this.matrix.getWinner() == 'X' ? document.querySelector("#display").innerHTML = "Player <span class='playerX'>X</span> Won" : document.querySelector("#display").innerHTML = "Player <span class='playerO'>O</span> Won";
-                }
-                else
-                {
-                    document.querySelector("#display-player").classList.remove(`player${this.matrix.getSide()}`);
-                    this.matrix.setSide();
-                    document.querySelector("#display-player").classList.add(`player${this.matrix.getSide()}`);
-                    document.querySelector("#display-player").innerText = this.matrix.getSide();
-                    this.matrix.setBlockPlayerInteraction();
-                    if (this.matrix.getAvailabeSpots().length == 0)
-                        {
-                            this.matrix.isGameActive = false;
-                            display.innerHTML = "TIE";
-                        }
-                }
+
+                this.board.matrix[indices.x][indices.y].DOM.innerText = this.board.side;
+                this.board.matrix[indices.x][indices.y].DOM.classList.add(`player${this.board.side}`);
+                this.board.matrix[indices.x][indices.y].setValue(this.board.side);
+                this.board.validate();
+                this.board.gameStateCheck();
                 break;
             case (this.matrix.isGameActive && this.AI == "Minimax"):
                 this.maximizingPlayer = this.matrix.getSide();

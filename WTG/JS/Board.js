@@ -86,16 +86,6 @@ class Board{
         switch (document.querySelector("#rules").value) {
 
             case "Standard":
-                
-                let element = this.side == 'X' ? 1 : -1;
-
-                if ([].concat(...this.getValueMatrix()).some((e,index,array) =>   index > 1 &&
-                                                                                        element === array[index - 2] &&
-                                                                                        element === array[index - 1] &&
-                                                                                        element === array[index])) { 
-                    this.winner = this.side;
-                    return 100;
-                }
                     
                 break;
 
@@ -113,6 +103,33 @@ class Board{
 
                 break;
         }    
+    }
+    
+    gameStateCheck(winner, aiFunction) {
+
+        if (winner != null) {
+
+            this.isGameActive = false;
+            this.winner == 'X' ? document.querySelector("#display").innerHTML = "Player <span class='playerX'>X</span> Won" : document.querySelector("#display").innerHTML = "Player <span class='playerO'>O</span> Won";
+        }
+        else {
+
+            document.querySelector("#display-player").classList.remove(`player${this.side}`);
+            this.setSide();
+            document.querySelector("#display-player").classList.add(`player${this.side}`);
+            document.querySelector("#display-player").innerText = this.side;
+
+            if (document.querySelector("#settings").value == 'PvAI') {
+
+                this.setBlockPlayerInteraction();
+                setTimeout(aiFunction,1000);
+            }
+
+            if (!this.getAvailabeSpots().length == 0) return;
+            
+            this.isGameActive = false;
+            document.querySelector("#display").innerHTML = "TIE";
+        }
     }
 
     remove() {
