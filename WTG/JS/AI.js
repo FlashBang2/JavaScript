@@ -50,7 +50,7 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
-                this.minimax(this.time, rootDrawnNode, -Infinity, Infinity);
+                this.minimax(array, this.time, rootDrawnNode, -Infinity, Infinity);
                
                 break;
             case (this.matrix.isGameActive && this.AI == "NegaMax"):
@@ -59,7 +59,7 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
-                this.negamax(this.time, rootDrawnNode, -Infinity, Infinity);
+                this.negamax(array, this.time, rootDrawnNode, -Infinity, Infinity);
                
                 break;
             case (array.length > 0 && this.board.isGameActive && this.AI == "MCS"):
@@ -77,7 +77,13 @@ class AI{
         }
     }
 
-    minimax(time, parentDrawnNode, alpha, beta) {
+    minimax(array, time, parentDrawnNode, alpha, beta) {
+        let childBoards = [];
+        for (let move of array) {
+            this.board.matrix[move.x][move.y].setValue(this.board.side);
+            childBoards.push(JSON.parse(JSON.stringify(this.board)));
+            this.board.matrix[move.x][move.y].value = 0;
+        }
         
     }
 

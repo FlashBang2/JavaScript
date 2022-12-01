@@ -107,11 +107,12 @@ class Board{
                 for (let x = 0;x < this.matrix.length;x++) {
                     for (let y = 0;y < this.matrix.length;y++) {
                         if (this.matrix[x][y].value != player) continue;
-                        switch (this.getMaxLength(player,x,y)) {
-                            case 3:
+                        let maxLength = this.getMaxLength(player,x,y);
+                        switch (true) {
+                            case (maxLength >= 3):
                                 this.winner = this.side;
                                 return 100;
-                            case 2:
+                            case (maxLength == 2):
                                 return 10;
                             default:
                                 return 0;
@@ -125,15 +126,16 @@ class Board{
                 for (let x = 0;x < this.matrix.length;x++) {
                     for (let y = 0;y < this.matrix.length;y++) {
                         if (this.matrix[x][y].value != player) continue;
-                        switch (this.getMaxLength(player,x,y)) {
-                            case 5:
+                        let maxLength = this.getMaxLength(player,x,y);
+                        switch (true) {
+                            case (maxLength >= 5):
                                 this.winner = this.side;
                                 return 10000;
-                            case 4:
+                            case (maxLength == 4):
                                 return 1000;
-                            case 3:
+                            case (maxLength == 3):
                                 return 100;
-                            case 2:
+                            case (maxLength == 2):
                                 return 10;
                             default:
                                 return 0;
