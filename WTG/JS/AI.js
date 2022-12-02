@@ -53,8 +53,8 @@ class AI{
                 bestScore = this.minimax(this.moveTime, rootDrawnNode, -Infinity, Infinity);
 
                 break;
-                
-            case (this.matrix.isGameActive && this.AI == "NegaMax"):
+
+            case (this.board.isGameActive && this.AI == "NegaMax"):
                 this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
