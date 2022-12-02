@@ -1,9 +1,8 @@
 class AI{
-    constructor(board,AIType,time,alphabetaPrunning)
+    constructor(board,AIType,moveTime,alphabetaPrunning)
     {
         this.board = board, this.bestMove = {},             this.maximizingPlayer = null,   
-        this.AI = AIType,   this.time = parseInt(time,10);  this.alphaBetaPrunning = alphabetaPrunning,
-        this.depth = 2;
+        this.AI = AIType,   this.moveTime = parseInt(moveTime,10);  this.alphaBetaPrunning = alphabetaPrunning;
         
         this.chartConfig = {
             chart: {
@@ -51,7 +50,7 @@ class AI{
                     children: []
                    
                 }
-                this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
+                this.minimax(rootDrawnNode, -Infinity, Infinity);
 
                 break;
             case (this.matrix.isGameActive && this.AI == "NegaMax"):
@@ -60,7 +59,7 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
-                this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
+                this.negamax(rootDrawnNode, -Infinity, Infinity);
                
                 break;
             case (array.length > 0 && this.board.isGameActive && this.AI == "MCS"):
@@ -85,14 +84,13 @@ class AI{
         if (document.querySelector('#TreeDrawing').value== "true") new Treant(this.chartConfig);
     }
 
-    minimax(depth, parentDrawnNode, alpha, beta) {
+    minimax(parentDrawnNode, alpha, beta) {
         let array = this.board.getAvailabeSpots(), childBoards = [];
         if (array.length == 0) return 0;
         for (let element of array) {
             this.board.matrix[element.x][element.y].setValue(this.board.side);
             this.board.move = {x:element.x,y:element.y};
             this.board.validate();
-            console.log(this.board.value);
             childBoards.push(JSON.parse(JSON.stringify(this.board)));
             this.board.matrix[element.x][element.y].value = 0;
         }
@@ -131,7 +129,7 @@ class AI{
     }
 
 
-    negamax(array, depth, parentDrawnNode, alpha, beta) {
+    negamax(parentDrawnNode, alpha, beta) {
         
     }
 
