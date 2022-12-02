@@ -88,7 +88,7 @@ class AI{
     minimax(depth, parentDrawnNode, alpha, beta) {
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
-        let heuristic = this.board.side == this.maximizingPlayer ? this.board.validate(1) : this.board.validate(-1)
+        let heuristic = this.board.side == this.maximizingPlayer ? this.board.validate(1) : this.board.validate(-1);
         this.board.setSide();
         if (this.board.winner != null) return heuristic;
         if (depth == 0) return heuristic;
@@ -122,7 +122,7 @@ class AI{
             for (let move of movePool) {
                 let childDrawnNode = {
                     parent: parentDrawnNode,
-                    text: {name: "MIN " + move.x + " " + move.y + " " + this.board.side + " " + + depth},
+                    text: {name: "MIN " + move.x + " " + move.y + " " + this.board.side + " " + depth},
                     children: []
                 }
                 this.board.matrix[move.x][move.y].setValue(this.board.side);
@@ -144,7 +144,35 @@ class AI{
 
 
     negamax(depth, parentDrawnNode, alpha, beta) {
-        
+        let movePool = this.board.getAvailabeSpots();
+        this.board.setSide();
+        let heuristic = this.maximizingPlayer == this.board.side ? this.board.validate(1) : this.board.validate(-1); 
+        this.board.setSide();
+        if (this.board.winner != null) return heuristic;
+        if (depth == 0) return heuristic;
+        if (movePool.length == 0) return 0;
+        let bestScore = -Infinity;
+        for (let move of movePool) {
+            let childDrawnNode = {
+                parent: parentDrawnNode,
+                text: {name: "NEG " + move.x + " " + move.y + this.board.side + " " + depth},
+                children: []
+            }
+            this.board.matrix[move.x][move.y].setValue(this.board.side);
+            this.board.setSide();
+            let score = -this.negamax(depth - 1, childDrawnNode, -beta, -alpha);
+            childDrawnNode.text.name = score;
+            parentDrawnNode.children.push(childDrawnNode);
+            this.board.matrix[move.x][move.y].value = 0;
+            this.board.setSide();
+            if (score > bestScore) {
+                bestScore = score;
+                if (this.moveTime == depth) this.bestMove = {x:move.x, y:move.y};
+            }
+            if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+            if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
+        }
+        return bestScore;
     }
 
     MCS() {
