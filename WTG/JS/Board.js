@@ -6,7 +6,7 @@ class Board{
     {
         this.matrix = [],                       this.side = document.querySelector('#side').value,  this.isGameActive = true;
         this.blockPlayerInteraction = false,    this.boardSize = boardSize,                         this.winner = null;
-        this.value = null;
+        this.value = 0,                      this.move = {};
 
         this.tiles.style.maxWidth = `${50*this.boardSize}px`;
         for(let x = 0;x < this.boardSize;x++) {
@@ -111,11 +111,9 @@ class Board{
                         switch (true) {
                             case (maxLength >= 3):
                                 this.winner = this.side;
-                                return 100;
+                                this.value = 100;
                             case (maxLength == 2):
-                                return 10;
-                            default:
-                                return 0;
+                                this.value = 10;
                         }
                     }
                 }
@@ -130,15 +128,13 @@ class Board{
                         switch (true) {
                             case (maxLength >= 5):
                                 this.winner = this.side;
-                                return 10000;
+                                this.value = 10000;
                             case (maxLength == 4):
-                                return 1000;
+                                this.value = 1000;
                             case (maxLength == 3):
-                                return 100;
+                                this.value = 100;
                             case (maxLength == 2):
-                                return 10;
-                            default:
-                                return 0;
+                                this.value = 10;
                         }
                     }
                 }

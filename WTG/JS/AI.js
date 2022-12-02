@@ -1,9 +1,9 @@
 class AI{
     constructor(board,AIType,time,alphabetaPrunning)
     {
-        this.board = board,            this.bestMove = {}, this.bestScore = -Infinity;
-        this.maximizingPlayer = null,   this.AI = AIType,   this.time = parseInt(time,10);
-        this.alphaBetaPrunning = alphabetaPrunning;
+        this.board = board, this.bestMove = {},             this.maximizingPlayer = null,   
+        this.AI = AIType,   this.time = parseInt(time,10);  this.alphaBetaPrunning = alphabetaPrunning,
+        this.depth = 2;
         
         this.chartConfig = {
             chart: {
@@ -49,9 +49,10 @@ class AI{
                 rootDrawnNode = {
                     text: { name: "Start"},
                     children: []
+                   
                 }
-                this.minimax(array, this.time, rootDrawnNode, -Infinity, Infinity);
-               
+                this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
+
                 break;
             case (this.matrix.isGameActive && this.AI == "NegaMax"):
                 this.maximizingPlayer = this.board.side;
@@ -59,7 +60,7 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
-                this.negamax(array, this.time, rootDrawnNode, -Infinity, Infinity);
+                this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                
                 break;
             case (array.length > 0 && this.board.isGameActive && this.AI == "MCS"):
@@ -72,17 +73,65 @@ class AI{
                 break;
         }
 
-        if (document.querySelector('#TreeDrawing').value== "true" && this.AI != "Random") {
-            new Treant(this.chartConfig);
+        if (this.AI == "Random") return;
+        this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.innerText = this.board.side;
+        this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.board.side}`);
+        this.board.matrix[this.bestMove.x][this.bestMove.y].setValue(this.board.side);
+        this.board.validate();
+        rootDrawnNode.text.name = this.board.value;
+        this.chartConfig.nodeStructure = rootDrawnNode;
+        this.board.gameStateCheck();
+
+        if (document.querySelector('#TreeDrawing').value== "true") new Treant(this.chartConfig);
+    }
+
+    minimax(depth, parentDrawnNode, alpha, beta) {
+        let array = this.board.getAvailabeSpots(), childBoards = [];
+        if (array.length == 0) return 0;
+        for (let element of array) {
+            this.board.matrix[element.x][element.y].setValue(this.board.side);
+            this.board.move = {x:element.x,y:element.y};
+            this.board.validate();
+            console.log(this.board.value);
+            childBoards.push(JSON.parse(JSON.stringify(this.board)));
+            this.board.matrix[element.x][element.y].value = 0;
+        }
+        childBoards.sort((a,b) => a.value - b.value);
+        if (this.maximizingPlayer == this.board.side) {
+            let bestScore = -Infinity;
+            for (let child of childBoards) {
+                let childDrawnNode = {
+                    parent: parentDrawnNode,
+                    text: { name: child.value},
+                    children: []
+                }
+                parentDrawnNode.children.push(childDrawnNode);
+                if (child.value > bestScore) {
+                    bestScore = child.value;
+                    this.bestMove = {x:child.move.x,y:child.move.y}; 
+                }
+            }
+        }
+        else {
+            let bestScore = Infinity;
+            for (let child of childBoards) {
+                let childDrawnNode = {
+                    parent: parentDrawnNode,
+                    text: { name: child.value},
+                    children: []
+                }
+                parentDrawnNode.children.push(childDrawnNode);
+                bestScore = Math.min(bestScore, child.value);
+                if (child.value < bestScore) {
+                    bestScore = child.value;
+                    this.bestMove = {x:child.move.x,y:child.move.y}; 
+                }
+            }
         }
     }
 
-    minimax(array, time, parentDrawnNode, alpha, beta) {
 
-    }
-
-
-    negamax(array, time, parentDrawnNode, alpha, beta) {
+    negamax(array, depth, parentDrawnNode, alpha, beta) {
         
     }
 
