@@ -117,10 +117,10 @@ class Board{
                         return 100 * maximizingPlayer;
                     case (maxLength == 2):
                         return 10 * maximizingPlayer;
+                    default:
+                        return 0;
                 }
-
-                break;
-
+                
             case "Gomoku":
                 for (let x = 0;x < this.matrix.length;x++) {
                     for (let y = 0;y < this.matrix.length;y++) {
@@ -138,9 +138,9 @@ class Board{
                         return 100;
                     case (maxLength == 2):
                         return 10;
+                    default:
+                        return 0;
                 }
-
-                break;
 
             case "GomokuPro":
 

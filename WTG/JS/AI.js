@@ -2,8 +2,7 @@ class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning)
     {
         this.board = board, this.bestMove = {},             this.maximizingPlayer = null,   
-        this.AI = AIType,   this.moveTime = parseInt(moveTime,10);  this.alphaBetaPrunning = alphabetaPrunning,
-        this.depth = 5;
+        this.AI = AIType,   this.moveTime = parseInt(moveTime,10);  this.alphaBetaPrunning = alphabetaPrunning;
         
         this.chartConfig = {
             chart: {
@@ -51,16 +50,17 @@ class AI{
                     children: []
                    
                 }
-                bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
+                bestScore = this.minimax(this.moveTime, rootDrawnNode, -Infinity, Infinity);
 
                 break;
+                
             case (this.matrix.isGameActive && this.AI == "NegaMax"):
                 this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
                     children: []
                 }
-                bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
+                bestScore = this.negamax(this.moveTime, rootDrawnNode, -Infinity, Infinity);
                
                 break;
             case (array.length > 0 && this.board.isGameActive && this.AI == "MCS"):
@@ -108,9 +108,10 @@ class AI{
                 parentDrawnNode.children.push(childDrawnNode);
                 this.board.setSide();
                 this.board.matrix[move.x][move.y].value = 0;
+                console.log(score, bestScore);
                 if (score > bestScore) {
                     bestScore = score;
-                    if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
+                    if (this.moveTime == depth) this.bestMove = {x:move.x, y:move.y};
                 }
             }
             return bestScore;
