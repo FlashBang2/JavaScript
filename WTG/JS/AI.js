@@ -88,7 +88,6 @@ class AI{
         rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
         this.board.gameStateCheck(this.board.winner);
-        console.log(this.board)
         if (document.querySelector('#TreeDrawing').value== "true") new Treant(this.chartConfig);
     }
 
@@ -231,7 +230,6 @@ class AI{
                 //console.log(this.board.winner)
                 if (this.board.winner == this.board.side) {
                     r++
-                    console.log(r)
                 }
 
                 this.board.setValueMatrix(boardState);
