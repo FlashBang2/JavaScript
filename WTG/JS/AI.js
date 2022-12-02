@@ -2,7 +2,8 @@ class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning)
     {
         this.board = board, this.bestMove = {},             this.maximizingPlayer = null,   
-        this.AI = AIType,   this.moveTime = parseInt(moveTime,10);  this.alphaBetaPrunning = alphabetaPrunning;
+        this.AI = AIType,   this.moveTime = parseInt(moveTime,10);  this.alphaBetaPrunning = alphabetaPrunning,
+        this.depth = 5;
         
         this.chartConfig = {
             chart: {
@@ -19,7 +20,7 @@ class AI{
 
     move() {
 
-        let array = this.board.getAvailabeSpots(), rootDrawnNode;
+        let array = this.board.getAvailabeSpots(), rootDrawnNode, bestScore = null;
         
         switch (true) {
 
@@ -50,7 +51,7 @@ class AI{
                     children: []
                    
                 }
-                this.minimax(rootDrawnNode, -Infinity, Infinity);
+                bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
 
                 break;
             case (this.matrix.isGameActive && this.AI == "NegaMax"):
@@ -59,7 +60,7 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
-                this.negamax(rootDrawnNode, -Infinity, Infinity);
+                bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                
                 break;
             case (array.length > 0 && this.board.isGameActive && this.AI == "MCS"):
@@ -77,59 +78,68 @@ class AI{
         this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.bestMove.x][this.bestMove.y].setValue(this.board.side);
         this.board.validate();
-        rootDrawnNode.text.name = this.board.value;
+        rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
         this.board.gameStateCheck();
 
         if (document.querySelector('#TreeDrawing').value== "true") new Treant(this.chartConfig);
     }
 
-    minimax(parentDrawnNode, alpha, beta) {
-        let array = this.board.getAvailabeSpots(), childBoards = [];
-        if (array.length == 0) return 0;
-        for (let element of array) {
-            this.board.matrix[element.x][element.y].setValue(this.board.side);
-            this.board.move = {x:element.x,y:element.y};
-            this.board.validate();
-            childBoards.push(JSON.parse(JSON.stringify(this.board)));
-            this.board.matrix[element.x][element.y].value = 0;
-        }
-        childBoards.sort((a,b) => a.value - b.value);
+    minimax(depth, parentDrawnNode, alpha, beta) {
+        let movePool = this.board.getAvailabeSpots();
+        this.board.setSide();
+        let winner = this.board.validate();
+        this.board.setSide();
+        if (winner != null) return this.board.side == this.maximizingPlayer ? this.board.validate(1) : this.board.validate(-1);
+        if (depth == 0) return this.board.side == this.maximizingPlayer ? this.board.validate(1) : this.board.validate(-1);
+        if (movePool.length == 0) return 0;
         if (this.maximizingPlayer == this.board.side) {
             let bestScore = -Infinity;
-            for (let child of childBoards) {
+            for (let move of movePool) {
                 let childDrawnNode = {
                     parent: parentDrawnNode,
-                    text: { name: child.value},
+                    text: {name: "MAX " + move.x + " " + move.y + " " + this.board.side + " " + depth},
                     children: []
                 }
+                this.board.matrix[move.x][move.y].setValue(this.board.side);
+                this.board.setSide();
+                let score = this.minimax (depth - 1, childDrawnNode, alpha, beta);
+                childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
-                if (child.value > bestScore) {
-                    bestScore = child.value;
-                    this.bestMove = {x:child.move.x,y:child.move.y}; 
+                this.board.setSide();
+                this.board.matrix[move.x][move.y].value = 0;
+                if (score > bestScore) {
+                    bestScore = score;
+                    if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
                 }
             }
+            return bestScore;
         }
         else {
             let bestScore = Infinity;
-            for (let child of childBoards) {
+            for (let move of movePool) {
                 let childDrawnNode = {
                     parent: parentDrawnNode,
-                    text: { name: child.value},
+                    text: {name: "MIN " + move.x + " " + move.y + " " + this.board.side + " " + + depth},
                     children: []
                 }
+                this.board.matrix[move.x][move.y].setValue(this.board.side);
+                this.board.setSide(); 
+                let score = this.minimax (depth - 1, childDrawnNode, alpha, beta);
+                childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
-                bestScore = Math.min(bestScore, child.value);
-                if (child.value < bestScore) {
-                    bestScore = child.value;
-                    this.bestMove = {x:child.move.x,y:child.move.y}; 
+                this.board.setSide();
+                this.board.matrix[move.x][move.y].value = 0;
+                if (score < bestScore) {
+                    bestScore = score;
                 }
             }
+            return bestScore
         }
     }
 
 
-    negamax(parentDrawnNode, alpha, beta) {
+    negamax(depth, parentDrawnNode, alpha, beta) {
         
     }
 

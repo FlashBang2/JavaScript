@@ -97,9 +97,10 @@ class Board{
         )
     }
 
-    validate() {
+    validate(maximizingPlayer = 1) {
 
         let player = this.side == 'X' ? 1 : -1;
+        this.winner = null;
 
         switch (document.querySelector("#rules").value) {
 
@@ -111,9 +112,9 @@ class Board{
                         switch (true) {
                             case (maxLength >= 3):
                                 this.winner = this.side;
-                                this.value = 100;
+                                return 100 * maximizingPlayer;
                             case (maxLength == 2):
-                                this.value = 10;
+                                return 10 * maximizingPlayer;
                         }
                     }
                 }
@@ -128,13 +129,13 @@ class Board{
                         switch (true) {
                             case (maxLength >= 5):
                                 this.winner = this.side;
-                                this.value = 10000;
+                                return 10000;
                             case (maxLength == 4):
-                                this.value = 1000;
+                                return 1000;
                             case (maxLength == 3):
-                                this.value = 100;
+                                return 100;
                             case (maxLength == 2):
-                                this.value = 10;
+                                return 10;
                         }
                     }
                 }
