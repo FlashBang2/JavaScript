@@ -112,6 +112,8 @@ class AI{
                     bestScore = score;
                     if (this.moveTime == depth) this.bestMove = {x:move.x, y:move.y};
                 }
+                if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
+                if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
             }
             return bestScore;
         }
@@ -133,6 +135,8 @@ class AI{
                 if (score < bestScore) {
                     bestScore = score;
                 }
+                if (this.alphaBetaPrunning == 'true') {beta = Math.min(beta, score);}
+                if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
             }
             return bestScore
         }
