@@ -64,6 +64,13 @@ class AI{
                
                 break;
             case (array.length > 0 && this.board.isGameActive && this.AI == "MCS"):
+                this.maximizingPlayer = this.board.side;
+                rootDrawnNode = {
+                    text: { name: "Start"},
+                    children: []
+                }
+                this.bestMove = this.MCS(parseInt(this.moveTime)*10, rootDrawnNode);
+                bestScore=this.bestMove;
                 break;
             case (array.length > 0 && this.board.isGameActive && this.AI == "MCST"):
                 break;
@@ -81,7 +88,7 @@ class AI{
         rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
         this.board.gameStateCheck(this.board.winner);
-
+        console.log(this.board)
         if (document.querySelector('#TreeDrawing').value== "true") new Treant(this.chartConfig);
     }
 
@@ -175,8 +182,73 @@ class AI{
         return bestScore;
     }
 
-    MCS() {
+    MCS(nofSimulations, parentDrawnNode)
+    {
+        let bestChild = null;
+        let bestProbability = -1;
+        let movePool = this.board.getAvailabeSpots();
+        let boardState = this.board.getValueMatrix();
+        let side = this.board.side;
+        for(let move of movePool){
+            let childDrawnNode = {
+                parent: parentDrawnNode,
+                text: {name: "MAX " + move.x + " " + move.y + " " + this.board.side},
+                children: []
+            }
+            let r = 0;
+            for (let i = 1; i <= nofSimulations; i++) {
+                let indices1 ={
+                    x: move.x,
+                    y: move.y};
+                while (this.board.matrix[indices1.x][indices1.y].value == 0) {
+                    if (this.board.side == 'X') {
+                        this.board.matrix[indices1.x][indices1.y].value =1; 
+                        let childDrawnNode2 = {
+                            parent: childDrawnNode,
+                            text: {name: "MAX " + move.x + " " + move.y + " " + this.board.side},
+                            children: []
+                        }
+                        childDrawnNode.children.push(childDrawnNode2);
+                        this.board.setSide();
+                        indices1.x=this.board.getRandomInt(3);
+                        indices1.y=this.board.getRandomInt(3);
+                        this.board.validate(1)
+                    } else {
+                        this.board.matrix[indices1.x][indices1.y].value =-1;
+                        let childDrawnNode2 = {
+                            parent: childDrawnNode,
+                            text: {name: "MAX " + move.x + " " + move.y + " " + this.board.side},
+                            children: []
+                        }
+                        childDrawnNode.children.push(childDrawnNode2);
+                        this.board.setSide();
+                        indices1.x=this.board.getRandomInt(3);
+                        indices1.y=this.board.getRandomInt(3);
+                        this.board.validate(-1)
+                    }
+                }
+                this.board.side = side;
+                //console.log(this.board.winner)
+                if (this.board.winner == this.board.side) {
+                    r++
+                    console.log(r)
+                }
 
+                this.board.setValueMatrix(boardState);
+                
+            }
+            let probability = r/nofSimulations;
+            
+            if (probability>bestProbability) {
+                bestChild=move;
+                bestProbability=probability;
+               
+            }
+            parentDrawnNode.children.push(childDrawnNode);
+        }
+       
+       return bestChild;
+        
     }
 
     MCST() {
