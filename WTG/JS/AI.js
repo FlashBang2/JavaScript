@@ -73,7 +73,7 @@ class AI{
                 break;
         }
 
-        if (this.AI == "Random") return;
+        if (this.AI == "Random" || !this.board.isGameActive) return;
         this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.innerText = this.board.side;
         this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.bestMove.x][this.bestMove.y].setValue(this.board.side);
