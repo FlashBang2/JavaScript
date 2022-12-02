@@ -80,7 +80,7 @@ class AI{
         this.board.validate();
         rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
-        this.board.gameStateCheck();
+        this.board.gameStateCheck(this.board.winner);
 
         if (document.querySelector('#TreeDrawing').value== "true") new Treant(this.chartConfig);
     }
@@ -106,9 +106,8 @@ class AI{
                 let score = this.minimax (depth - 1, childDrawnNode, alpha, beta);
                 childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
-                this.board.setSide();
                 this.board.matrix[move.x][move.y].value = 0;
-                console.log(score, bestScore);
+                this.board.setSide();
                 if (score > bestScore) {
                     bestScore = score;
                     if (this.moveTime == depth) this.bestMove = {x:move.x, y:move.y};
@@ -129,8 +128,8 @@ class AI{
                 let score = this.minimax (depth - 1, childDrawnNode, alpha, beta);
                 childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
-                this.board.setSide();
                 this.board.matrix[move.x][move.y].value = 0;
+                this.board.setSide();
                 if (score < bestScore) {
                     bestScore = score;
                 }

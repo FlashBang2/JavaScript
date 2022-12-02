@@ -69,7 +69,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const clear = () => {
         
-        board.matrix[x][y].setValue();
+        board.matrix[x][y].value = 0;
     }
 
     const showAISettings = () =>{
