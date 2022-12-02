@@ -88,10 +88,10 @@ class AI{
     minimax(depth, parentDrawnNode, alpha, beta) {
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
-        let winner = this.board.validate();
+        let heuristic = this.board.side == this.maximizingPlayer ? this.board.validate(1) : this.board.validate(-1)
         this.board.setSide();
-        if (winner != null) return this.board.side == this.maximizingPlayer ? this.board.validate(1) : this.board.validate(-1);
-        if (depth == 0) return this.board.side == this.maximizingPlayer ? this.board.validate(1) : this.board.validate(-1);
+        if (this.board.winner != null) return heuristic;
+        if (depth == 0) return heuristic;
         if (movePool.length == 0) return 0;
         if (this.maximizingPlayer == this.board.side) {
             let bestScore = -Infinity;

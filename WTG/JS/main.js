@@ -139,7 +139,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     const turnOrder = (square) => {
-        console.log(square);
         switch(settings.value) {
 
             case "PvP":

@@ -99,7 +99,7 @@ class Board{
 
     validate(maximizingPlayer = 1) {
 
-        let player = this.side == 'X' ? 1 : -1;
+        let player = this.side == 'X' ? 1 : -1, maxLength = null;
         this.winner = null;
 
         switch (document.querySelector("#rules").value) {
@@ -108,15 +108,15 @@ class Board{
                 for (let x = 0;x < this.matrix.length;x++) {
                     for (let y = 0;y < this.matrix.length;y++) {
                         if (this.matrix[x][y].value != player) continue;
-                        let maxLength = this.getMaxLength(player,x,y);
-                        switch (true) {
-                            case (maxLength >= 3):
-                                this.winner = this.side;
-                                return 100 * maximizingPlayer;
-                            case (maxLength == 2):
-                                return 10 * maximizingPlayer;
-                        }
+                        maxLength = Math.max(maxLength,this.getMaxLength(player,x,y));
                     }
+                }
+                switch (true) {
+                    case (maxLength >= 3):
+                        this.winner = this.side;
+                        return 100 * maximizingPlayer;
+                    case (maxLength == 2):
+                        return 10 * maximizingPlayer;
                 }
 
                 break;
@@ -125,19 +125,19 @@ class Board{
                 for (let x = 0;x < this.matrix.length;x++) {
                     for (let y = 0;y < this.matrix.length;y++) {
                         if (this.matrix[x][y].value != player) continue;
-                        let maxLength = this.getMaxLength(player,x,y);
-                        switch (true) {
-                            case (maxLength >= 5):
-                                this.winner = this.side;
-                                return 10000;
-                            case (maxLength == 4):
-                                return 1000;
-                            case (maxLength == 3):
-                                return 100;
-                            case (maxLength == 2):
-                                return 10;
-                        }
+                        maxLength = Math.max(maxLength,this.getMaxLength(player,x,y));
                     }
+                }
+                switch (true) {
+                    case (maxLength >= 5):
+                        this.winner = this.side;
+                        return 10000;
+                    case (maxLength == 4):
+                        return 1000;
+                    case (maxLength == 3):
+                        return 100;
+                    case (maxLength == 2):
+                        return 10;
                 }
 
                 break;
