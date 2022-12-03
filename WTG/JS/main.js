@@ -142,7 +142,6 @@ window.addEventListener("DOMContentLoaded", () => {
         switch(settings.value) {
 
             case "PvP":
-
                 if (!square.value == 0 || !board.isGameActive) break;
                 square.DOM.innerText = board.side;
                 square.DOM.classList.add(`player${board.side}`);
@@ -150,10 +149,9 @@ window.addEventListener("DOMContentLoaded", () => {
                 board.validate();
                 board.gameStateCheck(board.winner);
                 break;
-
             case "PvAI":
-
                 if (!square.value == 0 || !board.isGameActive || board.blockPlayerInteraction) break;
+                console.log(board.zobristKeys[square.row][square.column][board.side == 'X' ? 1 : 0]);
                 square.DOM.innerText = board.side;
                 square.DOM.classList.add(`player${board.side}`);
                 square.setValue(board.side);

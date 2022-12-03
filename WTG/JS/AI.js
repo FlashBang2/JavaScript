@@ -2,7 +2,6 @@ class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning) {
         this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null,   
         this.AI = AIType,                           this.moveTime = parseInt(moveTime,10);  this.alphaBetaPrunning = alphabetaPrunning;
-        this.zobristKeys = this.initZobristKey();
         
         this.chartConfig = {
             chart: {
@@ -14,25 +13,7 @@ class AI{
             },
             nodeStructure: null,
         }
-    }
-
-    initZobristKey () {
-        let array = [];
-        for (let x = 0; x < this.board.boardSize; x++) {
-            let row = [];
-            for (let y = 0; y < this.board.boardSize;y++) {
-                let row2 = [];
-                for (let z = 0; z < 2; z++) {
-                    let board = {
-                        hash:   Math.floor(Math.random() * 4294967296),
-                    }
-                    row2.push(board);
-                }
-                row.push(row2);
-            } 
-            array.push(row);  
-        }
-        return array;
+        
     }
 
     move () {
