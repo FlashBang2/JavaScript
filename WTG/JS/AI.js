@@ -1,7 +1,7 @@
 class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning) {
-        this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null,   
-        this.ai = AIType,                           this.moveTime = parseInt(moveTime,10);  this.alphaBetaPrunning = alphabetaPrunning,
+        this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null;   
+        this.ai = AIType,                           this.moveTime = parseInt(moveTime,10),  this.alphaBetaPrunning = alphabetaPrunning;
         this.startTime = null,                      this.depth = 1;
         
         this.chartConfig = {
@@ -51,9 +51,9 @@ class AI{
                    
                 }
                 this.startTime = new Date().getTime();
-                for (let currentDepth = 0; currentDepth < this.depth ;currentDepth++) {
+                while (new Date().getTime() < this.startTime + this.moveTime) {
                     bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
-                    if (this.startTime + this.moveTime < new Date().getTime()) break;
+                    console.log(this.bestMove.x, this.bestMove.y);
                     this.depth++;
                 }
                 console.log(this.depth);
@@ -65,9 +65,9 @@ class AI{
                     children: []
                 }
                 this.startTime = new Date().getTime();
-                for (let currentDepth = 0; currentDepth < this.depth ;currentDepth++) {
+                while (new Date().getTime() < this.startTime + this.moveTime) {
                     bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
-                    if (this.startTime + this.moveTime < new Date().getTime()) break;
+                    console.log(this.bestMove.x, this.bestMove.y);
                     this.depth++;
                 }
                 console.log(this.depth);
@@ -89,7 +89,7 @@ class AI{
                 break;
         }
         if (this.AI == "Random" || !this.board.isGameActive) return;
-        console.log(this.bestMove);
+    
         this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.innerText = this.board.side;
         this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.bestMove.x][this.bestMove.y].setValue(this.board.side);
@@ -239,7 +239,6 @@ class AI{
                     }
                 }
                 this.board.side = side;
-                //console.log(this.board.winner)
                 if (this.board.winner == this.board.side) {
                     r++
                 }
