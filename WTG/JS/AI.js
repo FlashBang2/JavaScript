@@ -14,10 +14,27 @@ class AI{
             },
             nodeStructure: null,
         }
-
+        this.zobristKeys = this.initZobristKey();
     }
 
-    move() {
+    initZobristKey () {
+        let array = [];
+        for (let x = 0; x < this.board.boardSize; x++) {
+            let row = [];
+            for (let y = 0; y < this.board.boardSize;y++) {
+                let row2 = [];
+                for (let z = 0; z < 2; z++) {
+                    row2.push(Math.floor(Math.random() * 4294967296));
+                }
+                row.push(row2);
+            } 
+            array.push(row);  
+        }
+    
+        return array;
+    }
+
+    move () {
 
         let array = this.board.getAvailabeSpots(), rootDrawnNode, bestScore = null;
         
@@ -91,7 +108,7 @@ class AI{
         if (document.querySelector('#TreeDrawing').value== "true") new Treant(this.chartConfig);
     }
 
-    minimax(depth, parentDrawnNode, alpha, beta) {
+    minimax (depth, parentDrawnNode, alpha, beta) {
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
         let heuristic = this.board.side == this.maximizingPlayer ? this.board.validate(1) : this.board.validate(-1);
@@ -149,7 +166,7 @@ class AI{
     }
 
 
-    negamax(depth, parentDrawnNode, alpha, beta) {
+    negamax (depth, parentDrawnNode, alpha, beta) {
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
         let heuristic = this.maximizingPlayer == this.board.side ? this.board.validate(1) : this.board.validate(-1); 
@@ -181,7 +198,7 @@ class AI{
         return bestScore;
     }
 
-    MCS(nofSimulations, parentDrawnNode)
+    MCS (nofSimulations, parentDrawnNode)
     {
         let bestChild = null;
         let bestProbability = -1;
@@ -249,11 +266,11 @@ class AI{
         
     }
 
-    MCST() {
+    MCST () {
 
     }
 
-    PNS() {
+    PNS () {
 
     }
 
