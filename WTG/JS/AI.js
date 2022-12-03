@@ -21,6 +21,7 @@ class AI{
 
         let array = this.board.getAvailabeSpots(), rootDrawnNode, bestScore = null;
         this.depth = 1;
+        this.previousBestMove = {};
         
         switch (true) {
 
@@ -54,10 +55,9 @@ class AI{
                 this.startTime = new Date().getTime();
                 while (new Date().getTime() < this.startTime + this.moveTime) {
                     bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
-                    console.log(this.bestMove.x, this.bestMove.y);
+                    if (new Date().getTime() < this.startTime + this.moveTime) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     this.depth++;
                 }
-                console.log(this.depth);
                 break;
             case (this.board.isGameActive && this.ai == "NegaMax"):
                 this.maximizingPlayer = this.board.side;
@@ -68,10 +68,9 @@ class AI{
                 this.startTime = new Date().getTime();
                 while (new Date().getTime() < this.startTime + this.moveTime) {
                     bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
-                    console.log(this.bestMove.x, this.bestMove.y);
+                    if (new Date().getTime() < this.startTime + this.moveTime) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     this.depth++;
                 }
-                console.log(this.depth);
                 break;
             case (array.length > 0 && this.board.isGameActive && this.ai == "MCS"):
                 this.maximizingPlayer = this.board.side;
@@ -90,10 +89,10 @@ class AI{
                 break;
         }
         if (this.AI == "Random" || !this.board.isGameActive) return;
-    
-        this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.innerText = this.board.side;
-        this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.board.side}`);
-        this.board.matrix[this.bestMove.x][this.bestMove.y].setValue(this.board.side);
+        console.log(this.previousBestMove.x, this.previousBestMove.y);
+        this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.innerText = this.board.side;
+        this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
+        this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
         this.board.validate();
         rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
