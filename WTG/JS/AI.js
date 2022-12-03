@@ -53,9 +53,14 @@ class AI{
                    
                 }
                 this.startTime = new Date().getTime();
+                //bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
+                //console.log(this.bestMove, bestScore);
+                //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                 while (new Date().getTime() < this.startTime + this.moveTime && this.depth < this.board.boardSize**2) {
+                    console.log(this.depth);
                     bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
                     if (new Date().getTime() < this.startTime + this.moveTime) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
+                    console.log(this.bestMove.x, this.bestMove.y, bestScore);
                     this.depth++;
                 }
                 break;
@@ -66,12 +71,17 @@ class AI{
                     children: []
                 }
                 this.startTime = new Date().getTime();
+                //bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
+                //console.log(this.bestMove, bestScore);
+                //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
+                
                 while (new Date().getTime() < this.startTime + this.moveTime && this.depth < this.board.boardSize**2) {
+                    console.log(this.depth);
                     bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
+                    console.log(this.bestMove.x, this.bestMove.y, bestScore);
                     if (new Date().getTime() < this.startTime + this.moveTime) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     this.depth++;
                 }
-                //console.log(this.board.exploredBoards);
                 break;
             case (array.length > 0 && this.board.isGameActive && this.ai == "MCS"):
                 this.maximizingPlayer = this.board.side;
@@ -159,28 +169,27 @@ class AI{
     }
 
 
-    negamax (depth, parentDrawnNode, alpha, beta) {
+    negamax (depth, parentDrawnNode, alpha, beta, sign = 1) {
         if (new Date().getTime() > this.startTime + this.moveTime) return 0;
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
-        let heuristic = this.maximizingPlayer == this.board.side ? this.board.validate(1) : this.board.validate(-1);
+        let heuristic = this.board.side == this.maximizingPlayer ? this.board.validate(1) * sign : this.board.validate(-1) * sign;
         this.board.setSide();
         if (this.board.winner != null) return heuristic;
         if (depth == 0) return heuristic;
         if (movePool.length == 0) return 0;
         let bestScore = -Infinity;
         for (let move of movePool) {
-            if (new Date().getTime() > this.startTime + this.moveTime) break;
             let childDrawnNode = {
                 parent: parentDrawnNode,
                 text: {name: "NEG " + move.x + " " + move.y + this.board.side + " " + depth},
                 children: []
             }
-            //this.board.currentBoard = this.board.currentBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
-            //this.board.exploredBoards.push(this.board.currentBoard);
+            this.board.currentBoard = this.board.currentBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
+            this.board.exploredBoards.push(this.board.currentBoard);
             this.board.matrix[move.x][move.y].setValue(this.board.side);
             this.board.setSide();
-            let score = -this.negamax(depth - 1, childDrawnNode, -beta, -alpha);
+            let score = -this.negamax(depth - 1, childDrawnNode, -beta, -alpha, -sign);
             childDrawnNode.text.name = score;
             parentDrawnNode.children.push(childDrawnNode);
             this.board.matrix[move.x][move.y].value = 0;
