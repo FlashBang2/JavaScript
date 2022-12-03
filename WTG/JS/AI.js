@@ -2,7 +2,7 @@ class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning) {
         this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null;   
         this.ai = AIType,                           this.moveTime = parseInt(moveTime,10),  this.alphaBetaPrunning = alphabetaPrunning;
-        this.startTime = null,                      this.depth = 1;
+        this.startTime = null,                      this.depth = null;
         
         this.chartConfig = {
             chart: {
@@ -20,6 +20,7 @@ class AI{
     move () {
 
         let array = this.board.getAvailabeSpots(), rootDrawnNode, bestScore = null;
+        this.depth = 1;
         
         switch (true) {
 
