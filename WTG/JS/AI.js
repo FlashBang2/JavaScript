@@ -89,7 +89,6 @@ class AI{
                 break;
         }
         if (this.AI == "Random" || !this.board.isGameActive) return;
-        console.log(this.previousBestMove.x, this.previousBestMove.y);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.innerText = this.board.side;
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
