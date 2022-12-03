@@ -1,7 +1,8 @@
 class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning) {
         this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null,   
-        this.AI = AIType,                           this.moveTime = parseInt(moveTime,10);  this.alphaBetaPrunning = alphabetaPrunning;
+        this.ai = AIType,                           this.moveTime = parseInt(moveTime,10);  this.alphaBetaPrunning = alphabetaPrunning,
+        this.startTime = null,                      this.depth = 1;
         
         this.chartConfig = {
             chart: {
@@ -22,7 +23,7 @@ class AI{
         
         switch (true) {
 
-            case (this.board.isGameActive && this.AI == "Random"):
+            case (this.board.isGameActive && this.ai == "Random"):
 
                 let posibleIndices = [];
 
@@ -42,27 +43,36 @@ class AI{
 
                 break;
 
-            case (this.board.isGameActive && this.AI == "Minimax"):
+            case (this.board.isGameActive && this.ai == "Minimax"):
                 this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
                     children: []
                    
                 }
-                bestScore = this.minimax(this.moveTime, rootDrawnNode, -Infinity, Infinity);
-
+                this.startTime = new Date().getTime();
+                for (let currentDepth = 0; currentDepth < this.depth ;currentDepth++) {
+                    bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
+                    if (this.startTime + this.moveTime < new Date().getTime()) break;
+                    this.depth++;
+                }
+                console.log(this.depth);
                 break;
-
-            case (this.board.isGameActive && this.AI == "NegaMax"):
+            case (this.board.isGameActive && this.ai == "NegaMax"):
                 this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
                     children: []
                 }
-                bestScore = this.negamax(this.moveTime, rootDrawnNode, -Infinity, Infinity);
-               
+                this.startTime = new Date().getTime();
+                for (let currentDepth = 0; currentDepth < this.depth ;currentDepth++) {
+                    bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
+                    if (this.startTime + this.moveTime < new Date().getTime()) break;
+                    this.depth++;
+                }
+                console.log(this.depth);
                 break;
-            case (array.length > 0 && this.board.isGameActive && this.AI == "MCS"):
+            case (array.length > 0 && this.board.isGameActive && this.ai == "MCS"):
                 this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
@@ -71,15 +81,15 @@ class AI{
                 this.bestMove = this.MCS(parseInt(this.moveTime)*10, rootDrawnNode);
                 bestScore=this.bestMove;
                 break;
-            case (array.length > 0 && this.board.isGameActive && this.AI == "MCST"):
+            case (array.length > 0 && this.board.isGameActive && this.ai == "MCST"):
                 break;
-            case (array.length > 0 && this.board.isGameActive && this.AI == "PNS"):
+            case (array.length > 0 && this.board.isGameActive && this.ai == "PNS"):
                 break;
-            case (array.length > 0 && this.board.isGameActive && this.AI == "DQL"):
+            case (array.length > 0 && this.board.isGameActive && this.ai == "DQL"):
                 break;
         }
-
         if (this.AI == "Random" || !this.board.isGameActive) return;
+        console.log(this.bestMove);
         this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.innerText = this.board.side;
         this.board.matrix[this.bestMove.x][this.bestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.bestMove.x][this.bestMove.y].setValue(this.board.side);
@@ -87,10 +97,11 @@ class AI{
         rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
         this.board.gameStateCheck(this.board.winner);
-        if (document.querySelector('#TreeDrawing').value== "true") new Treant(this.chartConfig);
+        if (document.querySelector('#TreeDrawing').value == "true") new Treant(this.chartConfig);
     }
 
     minimax (depth, parentDrawnNode, alpha, beta) {
+        if (new Date().getTime() > this.startTime + this.moveTime) return 0;
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
         let heuristic = this.board.side == this.maximizingPlayer ? this.board.validate(1) : this.board.validate(-1);
@@ -115,7 +126,7 @@ class AI{
                 this.board.setSide();
                 if (score > bestScore) {
                     bestScore = score;
-                    if (this.moveTime == depth) this.bestMove = {x:move.x, y:move.y};
+                    if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
                 }
                 if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
                 if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
@@ -149,15 +160,17 @@ class AI{
 
 
     negamax (depth, parentDrawnNode, alpha, beta) {
+        if (new Date().getTime() > this.startTime + this.moveTime) return 0;
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
-        let heuristic = this.maximizingPlayer == this.board.side ? this.board.validate(1) : this.board.validate(-1); 
+        let heuristic = this.maximizingPlayer == this.board.side ? this.board.validate(1) : this.board.validate(-1);
         this.board.setSide();
         if (this.board.winner != null) return heuristic;
         if (depth == 0) return heuristic;
         if (movePool.length == 0) return 0;
         let bestScore = -Infinity;
         for (let move of movePool) {
+            if (new Date().getTime() > this.startTime + this.moveTime) break;
             let childDrawnNode = {
                 parent: parentDrawnNode,
                 text: {name: "NEG " + move.x + " " + move.y + this.board.side + " " + depth},
@@ -172,7 +185,7 @@ class AI{
             this.board.setSide();
             if (score > bestScore) {
                 bestScore = score;
-                if (this.moveTime == depth) this.bestMove = {x:move.x, y:move.y};
+                if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
             }
             if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
             if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
