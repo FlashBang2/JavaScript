@@ -133,7 +133,6 @@ window.addEventListener("DOMContentLoaded", () => {
     const botvsbot = () => {
 
         if (board.getAvailabeSpots().length == 0 || !board.isGameActive) clearInterval(delay);
-
         ai.move();
         ai2.move();
     }
@@ -151,7 +150,8 @@ window.addEventListener("DOMContentLoaded", () => {
                 break;
             case "PvAI":
                 if (!square.value == 0 || !board.isGameActive || board.blockPlayerInteraction) break;
-                console.log(board.zobristKeys[square.row][square.column][board.side == 'X' ? 1 : 0]);
+                board.currentPosition = board.currentPosition ^ board.zobristKeys[square.row][square.column][board.side == 'X' ? 1 : 0];
+                board.exploredBoards.push();
                 square.DOM.innerText = board.side;
                 square.DOM.classList.add(`player${board.side}`);
                 square.setValue(board.side);
