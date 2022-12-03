@@ -57,10 +57,10 @@ class AI{
                 //console.log(this.bestMove, bestScore);
                 //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                 while (new Date().getTime() < this.startTime + this.moveTime && this.depth < this.board.boardSize**2) {
-                    console.log(this.depth);
+                    //console.log(this.depth);
                     bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
                     if (new Date().getTime() < this.startTime + this.moveTime) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
-                    console.log(this.bestMove.x, this.bestMove.y, bestScore);
+                    //console.log(this.bestMove.x, this.bestMove.y, bestScore);
                     this.depth++;
                 }
                 break;
@@ -76,9 +76,9 @@ class AI{
                 //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                 
                 while (new Date().getTime() < this.startTime + this.moveTime && this.depth < this.board.boardSize**2) {
-                    console.log(this.depth);
+                    //console.log(this.depth);
                     bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
-                    console.log(this.bestMove.x, this.bestMove.y, bestScore);
+                    //console.log(this.bestMove.x, this.bestMove.y, bestScore);
                     if (new Date().getTime() < this.startTime + this.moveTime) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     this.depth++;
                 }
