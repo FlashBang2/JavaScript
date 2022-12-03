@@ -118,7 +118,13 @@ class Board{
 
         let player = this.side == 'X' ? 1 : -1, maxLength = null;
         this.winner = null;
-
+        this.combo = {
+            xw: null,
+            uc4: null,
+            c4: null,
+            uc3: null,
+            uc2: null
+        };
         switch (document.querySelector("#rules").value) {
 
             case "Standard":
@@ -141,19 +147,20 @@ class Board{
             case "Gomoku":
                 for (let x = 0;x < this.matrix.length;x++) {
                     for (let y = 0;y < this.matrix.length;y++) {
-                        if (this.matrix[x][y].value != player) continue;
-                        maxLength = Math.max(maxLength,this.getMaxLength(player,x,y));
+                        this.gomokuCombos(player,x,y);
                     }
                 }
                 switch (true) {
-                    case (maxLength >= 5):
+                    case (this.combo.xw == true):
                         this.winner = this.side;
                         return 10000 * maximizingPlayer;
-                    case (maxLength == 4):
+                    case (this.combo.uc4 == true):
                         return 1000 * maximizingPlayer;
-                    case (maxLength == 3):
+                    case (this.combo.c4 == true):
+                        return 500 * maximizingPlayer;    
+                    case (this.combo.uc3 == true):
                         return 100 * maximizingPlayer;
-                    case (maxLength == 2):
+                    case (this.combo.uc2 == true):
                         return 10 * maximizingPlayer;
                     default:
                         return 0;
@@ -219,5 +226,133 @@ class Board{
             
             }
         }
+    }
+    /*zmodyfikowana walidacja z main. tam gdzie tamta walidacja sprawdzała dla tablic bitowych O i X tu zostało to połączone w jedno wykorzystując "player". tam gdzie są puste pola jest sprzwdzane do 0 a przeciwnik to -(player)*/
+    gomokuCombos(player,x,y){
+        let combo = {};
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
+            if ((this.matrix[x][y].value == player && this.matrix[x + 1][y].value == player && this.matrix[x + 2][y].value == player && this.matrix[x + 3][y].value == player && this.matrix[x + 4][y].value == player)){
+                this.combo.xw = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5) {
+            if (this.matrix[x][y].value == player && this.matrix[x][y + 1].value == player && this.matrix[x][y + 2].value == player && this.matrix[x][y + 3].value == player && this.matrix[x][y + 4].value == player){
+                this.combo.xw = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
+            if (this.matrix[x][y].value == player && this.matrix[x + 1][y + 1].value == player && this.matrix[x + 2][y + 2].value == player && this.matrix[x + 3][y + 3].value == player && this.matrix[x + 4][y + 4].value == player){
+                this.combo.xw = true;
+            }
+        }
+        if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
+            if (this.matrix[x][y].value == player && this.matrix[x + 1][y - 1].value == player && this.matrix[x + 2][y - 2].value == player && this.matrix[x + 3][y - 3].value == player && this.matrix[x + 4][y - 4].value == player){
+                this.combo.xw = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y].value == player && this.matrix[x + 2][y].value == player && this.matrix[x + 3][y].value == player && this.matrix[x + 4][y].value == player && this.matrix[x + 5][y].value == 0){
+                this.combo.uc4 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
+            if (this.matrix[x][y].value == 0 && this.matrix[x][y + 1].value == player && this.matrix[x][y + 2].value == player && this.matrix[x][y + 3].value == player && this.matrix[x][y + 4].value == player && this.matrix[x][y + 5].value == 0){
+                this.combo.uc4 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y + 1].value == player && this.matrix[x + 2][y + 2].value == player && this.matrix[x + 3][y + 3].value == player && this.matrix[x + 4][y + 4].value == player && this.matrix[x + 5][y + 5].value == 0){
+                this.combo.uc4 = true;
+            }
+        }
+        if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y - 1].value == player && this.matrix[x + 2][y - 2].value == player && this.matrix[x + 3][y - 3].value == player && this.matrix[x + 4][y - 4].value == player && this.matrix[x + 5][y - 5].value == 0){
+                this.combo.uc4 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
+            if (this.matrix[x][y].value == -(player) && this.matrix[x + 1][y].value == player && this.matrix[x + 2][y].value == player && this.matrix[x + 3][y].value == player && this.matrix[x + 4][y].value == player && this.matrix[x + 5][y].value  == 0){
+                this.combo.c4 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
+            if (this.matrix[x][y].value == -(player) && this.matrix[x][y + 1].value == player && this.matrix[x][y + 2].value == player && this.matrix[x][y + 3].value == player && this.matrix[x][y + 4].value == player && this.matrix[x][y + 5].value  == 0){
+                this.combo.c4 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
+            if (this.matrix[x][y].value == -(player) && this.matrix[x + 1][y + 1].value == player && this.matrix[x + 2][y + 2].value == player && this.matrix[x + 3][y + 3].value == player && this.matrix[x + 4][y + 4].value == player && this.matrix[x + 5][y + 5].value  == 0){
+                this.combo.c4 = true;
+            }
+        }
+        if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
+            if (this.matrix[x][y].value == -(player) && this.matrix[x + 1][y - 1].value == player && this.matrix[x + 2][y - 2].value == player && this.matrix[x + 3][y - 3].value == player && this.matrix[x + 4][y - 4].value == player && this.matrix[x + 5][y - 5].value  == 0){
+                this.combo.c4 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y < this.matrix.length){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y].value == player && this.matrix[x + 2][y].value == player && this.matrix[x + 3][y].value == player && this.matrix[x + 4][y].value == player && this.matrix[x + 5][y].value == -(player)){
+                this.combo.c4 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 6){
+            if (this.matrix[x][y].value == 0 && this.matrix[x][y + 1].value == player && this.matrix[x][y + 2].value == player && this.matrix[x][y + 3].value == player && this.matrix[x][y + 4].value == player && this.matrix[x][y + 5].value == -(player)){
+                this.combo.c4 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 6 && y <= this.matrix.length - 6){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y + 1].value == player && this.matrix[x + 2][y + 2].value == player && this.matrix[x + 3][y + 3].value == player && this.matrix[x + 4][y + 4].value == player && this.matrix[x + 5][y + 5].value == -(player)){
+                this.combo.c4 = true;
+            }
+        }
+        if (x >= 0 && y >= 5 && x <= this.matrix.length - 6 && y < this.matrix.length){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y - 1].value == player && this.matrix[x + 2][y - 2].value == player && this.matrix[x + 3][y - 3].value == player && this.matrix[x + 4][y - 4].value == player && this.matrix[x + 5][y - 5].value == -(player)){
+                this.combo.c4 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y < this.matrix.length){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y].value == player && this.matrix[x + 2][y].value == player && this.matrix[x + 3][y].value == player && this.matrix[x + 4][y].value == 0){
+                this.combo.uc3 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x < this.matrix.length && y <= this.matrix.length - 5){
+            if (this.matrix[x][y].value == 0 && this.matrix[x][y + 1].value == player && this.matrix[x][y + 2].value == player && this.matrix[x][y + 3].value == player && this.matrix[x][y + 4].value == 0){
+                this.combo.uc3 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 5 && y <= this.matrix.length - 5){
+            if(this.matrix[x][y].value == 0 && this.matrix[x + 1][y + 1].value == player && this.matrix[x + 2][y + 2].value == player && this.matrix[x + 3][y + 3].value == player && this.matrix[x + 4][y + 4].value == 0){
+                this.combo.uc3 = true;
+            }
+        }
+        if (x >= 0 && y >= 4 && x <= this.matrix.length - 5 && y < this.matrix.length){
+            if(this.matrix[x][y].value == 0 && this.matrix[x + 1][y - 1].value == player && this.matrix[x + 2][y - 2].value == player && this.matrix[x + 3][y - 3].value == player && this.matrix[x + 4][y - 4].value == 0){
+                this.combo.uc3 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y < this.matrix.length){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y].value == player && this.matrix[x + 2][y].value == player && this.matrix[x + 3][y].value == 0){
+                this.combo.uc2 = true;
+            }
+        }
+        if (x >= 0 && y >= 0 && x < this.matrix.length  && y <= this.matrix.length - 4){
+            if (this.matrix[x][y].value == 0 && this.matrix[x][y + 1].value == player && this.matrix[x][y + 2].value == player && this.matrix[x][y + 3].value == 0){
+                this.combo.uc2 = true;
+            }
+            
+        }
+        if (x >= 0 && y >= 0 && x <= this.matrix.length - 4 && y <= this.matrix.length - 4){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y + 1].value == player && this.matrix[x + 2][y + 2].value == player && this.matrix[x + 3][y + 3].value == 0){
+                this.combo.uc2 = true;
+            }
+            
+        }
+        if (x >= 0 && y >= 3 && x <= this.matrix.length - 4 && y < this.matrix.length){
+            if (this.matrix[x][y].value == 0 && this.matrix[x + 1][y - 1].value == player && this.matrix[x + 2][y - 2].value == player && this.matrix[x + 3][y - 3].value == 0){
+                this.combo.uc2 = true;
+            }
+            
+        }
+        return combo;
     }
 }
