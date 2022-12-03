@@ -71,7 +71,7 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
-                /*for (let [index,indices] of array.entries())
+                for (let [index,indices] of array.entries())
                 {
                     if (this.matrix.getMatrix()[indices.x][indices.y].getValue() == 1) continue;
                     if (this.maximizingPlayer == 'X')
@@ -157,7 +157,7 @@ class AI{
                             this.matrix.isGameActive = false;
                             display.innerHTML = "TIE";
                         }
-                }*/
+                }
                 break;
             case (this.matrix.isGameActive && this.AI == "NegaMax"):
                 this.maximizingPlayer = this.matrix.getSide();
