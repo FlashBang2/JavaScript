@@ -23,17 +23,17 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+    
+
     const generateBoard = () => {
 
         x = Math.floor(Math.random() * (boardSize.value - 1));
         y = Math.floor(Math.random() * (boardSize.value - 1));
 
-        const aiType = document.querySelector('#AIType').value;
-        const aiType2 = document.querySelector('#AIType2').value;
-        const moveTime = document.querySelector('#moveTime').value;
-        const moveTime2 = document.querySelector('#moveTime2').value;
-        const alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning').value;
-        const alphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2').value;
+        const aiType = document.querySelector('#AIType').value,                         aiType2 = document.querySelector('#AIType2').value;                     
+        const moveTime = document.querySelector('#moveTime').value,                     moveTime2 = document.querySelector('#moveTime2').value;
+        const alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning').value,   alphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2').value;
+       
 
         if (board != null) board = board.remove();
 
