@@ -7,7 +7,7 @@ class Board{
         this.matrix = [],                           this.side = document.querySelector('#side').value,  this.isGameActive = true;
         this.blockPlayerInteraction = false,        this.boardSize = boardSize,                         this.winner = null;
         this.value = 0,                             this.move = {},                                     this.exploredBoards = [];
-        this.zobristKeys = this.initZobristKey(),   this.currentBoardPostion = null;
+        this.zobristKeys = this.initZobristKey(),   this.currentBoardPostion = 0;
 
         this.tiles.style.maxWidth = `${50*this.boardSize}px`;
         for(let x = 0;x < this.boardSize;x++) {

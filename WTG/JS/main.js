@@ -151,7 +151,7 @@ window.addEventListener("DOMContentLoaded", () => {
             case "PvAI":
                 if (!square.value == 0 || !board.isGameActive || board.blockPlayerInteraction) break;
                 board.currentPosition = board.currentPosition ^ board.zobristKeys[square.row][square.column][board.side == 'X' ? 1 : 0];
-                board.exploredBoards.push();
+                board.exploredBoards.push(board.currentPosition);
                 square.DOM.innerText = board.side;
                 square.DOM.classList.add(`player${board.side}`);
                 square.setValue(board.side);
