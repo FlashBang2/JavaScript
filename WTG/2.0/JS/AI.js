@@ -454,8 +454,6 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
                 if (score > bestScore) {bestScore = score;}
-                console.log(this.alpha, " alpha" )
-                console.log(this.beta, " beta")
                 if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
                 if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
             }
@@ -483,8 +481,6 @@ class AI{
                 this.matrix.getMatrix()[indices.x][indices.y].setOccupied();
                 this.matrix.setSide();
                 if (score > bestScore){ bestScore = score;}
-                console.log(this.alpha, " alpha" )
-                console.log(this.beta, " beta")
                 if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
                 if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
             }
