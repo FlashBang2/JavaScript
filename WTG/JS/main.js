@@ -6,8 +6,8 @@ window.addEventListener("DOMContentLoaded", () => {
     const settings = document.querySelector("#settings");
 
     let displayPlayer = null,   display = null,     board = null;
-    let ai = null,              ai2 = null,         delay = null;
-    let x = null,               y = null;
+    let ai = null,              ai2 = null,         x = null;
+    let y = null,               timeouts =[];
 
     let chartConfig1 = {
             chart: {
@@ -34,6 +34,12 @@ window.addEventListener("DOMContentLoaded", () => {
         const moveTime = document.querySelector('#moveTime').value,                     moveTime2 = document.querySelector('#moveTime2').value;
         const alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning').value,   alphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2').value;
        
+        console.log(timeouts.length != 0);
+        if (timeouts.length != 0) {
+            for (let timeout of timeouts) {
+                clearTimeout(timeout);
+            }
+        } 
 
         if (board != null) board = board.remove();
 
@@ -44,7 +50,7 @@ window.addEventListener("DOMContentLoaded", () => {
         if (board.side == 'X') {
             board.setSide();
             board.setBlockPlayerInteraction();
-            setTimeout(playervsAIHelper,1000);
+            timeouts.push(setTimeout(playervsAIHelper,1000));
         }
 
         display = document.querySelector("#display");
@@ -54,7 +60,7 @@ window.addEventListener("DOMContentLoaded", () => {
         displayPlayer.classList.add(`player${board.side}`);
         displayPlayer.innerText = board.side;
 
-        if (settings.value == "AIvAI") setTimeout(firstBot,1000);
+        if (settings.value == "AIvAI") timeouts.push(setTimeout(firstBot,1000));
         
         new Treant(chartConfig1);
         
@@ -63,13 +69,13 @@ window.addEventListener("DOMContentLoaded", () => {
     const firstBot = () => {
         if (!board.isGameActive) return
         ai.move();
-        setTimeout(secondBot, 1000);
+        timeouts.push(setTimeout(secondBot, 1000));
     }
 
     const secondBot = () => {
         if (!board.isGameActive) return
         ai2.move();
-        setTimeout(firstBot, 1000);
+        timeouts.push(setTimeout(firstBot, 1000));
     }
 
     const showAISettings = () =>{

@@ -82,7 +82,7 @@ class AI{
                     this.depth++;
                 }
                 //console.log(this.exploredBoards);
-                //console.log(this.depth);
+                console.log(this.depth);
                 break;
             case (this.board.isGameActive && this.ai == "MCS"):
                 this.maximizingPlayer = this.board.side;
