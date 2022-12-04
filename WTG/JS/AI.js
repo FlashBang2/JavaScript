@@ -90,8 +90,7 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
-                this.bestMove = this.MCS(parseInt(this.moveTime)*10, rootDrawnNode);
-                bestScore=this.bestMove;
+                this.MCS(rootDrawnNode);
                 break;
             case (this.board.isGameActive && this.ai == "MCST"):
                 break;
@@ -100,7 +99,7 @@ class AI{
             case (this.board.isGameActive && this.ai == "DQL"):
                 break;
         }
-        if (this.AI == "Random" || !this.board.isGameActive) return;
+        if (this.ai == "Random" || !this.board.isGameActive) return;
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.innerText = this.board.side;
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
@@ -203,7 +202,7 @@ class AI{
         return bestScore;
     }
 
-    MCS (nofSimulations, parentDrawnNode)
+    MCS (parentDrawnNode)
     {
         let bestChild = null;
         let bestProbability = -1;
@@ -218,12 +217,13 @@ class AI{
             }
             let r = 0;
             for (let i = 1; i <= nofSimulations; i++) {
-                let indices1 ={
+                let indices1 = {
                     x: move.x,
-                    y: move.y};
+                    y: move.y, 
+                }
                 while (this.board.matrix[indices1.x][indices1.y].value == 0) {
                     if (this.board.side == 'X') {
-                        this.board.matrix[indices1.x][indices1.y].value =1; 
+                        this.board.matrix[indices1.x][indices1.y].value = 1; 
                         let childDrawnNode2 = {
                             parent: childDrawnNode,
                             text: {name: "MAX " + move.x + " " + move.y + " " + this.board.side},
@@ -231,8 +231,8 @@ class AI{
                         }
                         childDrawnNode.children.push(childDrawnNode2);
                         this.board.setSide();
-                        indices1.x=this.board.getRandomInt(3);
-                        indices1.y=this.board.getRandomInt(3);
+                        indices1.x = this.board.getRandomInt(3);
+                        indices1.y = this.board.getRandomInt(3);
                         this.board.validate()
                     } else {
                         this.board.matrix[indices1.x][indices1.y].value =-1;
@@ -243,8 +243,8 @@ class AI{
                         }
                         childDrawnNode.children.push(childDrawnNode2);
                         this.board.setSide();
-                        indices1.x=this.board.getRandomInt(3);
-                        indices1.y=this.board.getRandomInt(3);
+                        indices1.x = this.board.getRandomInt(3);
+                        indices1.y = this.board.getRandomInt(3);
                         this.board.validate()
                     }
                 }
@@ -258,9 +258,9 @@ class AI{
             }
             let probability = r/nofSimulations;
             
-            if (probability>bestProbability) {
-                bestChild=move;
-                bestProbability=probability;
+            if (probability > bestProbability) {
+                bestChild = move;
+                bestProbability = probability;
                
             }
             parentDrawnNode.children.push(childDrawnNode);

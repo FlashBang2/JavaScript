@@ -34,7 +34,6 @@ window.addEventListener("DOMContentLoaded", () => {
         const moveTime = document.querySelector('#moveTime').value,                     moveTime2 = document.querySelector('#moveTime2').value;
         const alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning').value,   alphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2').value;
        
-        console.log(timeouts.length != 0);
         if (timeouts.length != 0) {
             for (let timeout of timeouts) {
                 clearTimeout(timeout);
