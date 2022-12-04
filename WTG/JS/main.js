@@ -44,9 +44,7 @@ window.addEventListener("DOMContentLoaded", () => {
         if (board.side == 'X') {
             board.setSide();
             board.setBlockPlayerInteraction();
-            board.matrix[x][y].setValue();
             setTimeout(playervsAIHelper,1000);
-            setTimeout(clear,1001);
         }
 
         display = document.querySelector("#display");
@@ -56,20 +54,22 @@ window.addEventListener("DOMContentLoaded", () => {
         displayPlayer.classList.add(`player${board.side}`);
         displayPlayer.innerText = board.side;
 
-        if (settings.value == "AIvAI") {
-            if (delay != null) clearInterval(delay);
-            board.matrix[x][y].setValue();
-            delay = setInterval(botvsbot,1000);
-            setTimeout(clear,1001);
-        }
+        if (settings.value == "AIvAI") setTimeout(firstBot,1000);
         
         new Treant(chartConfig1);
         
     }
 
-    const clear = () => {
-        
-        board.matrix[x][y].value = 0;
+    const firstBot = () => {
+        if (!board.isGameActive) return
+        ai.move();
+        setTimeout(secondBot, 1000);
+    }
+
+    const secondBot = () => {
+        if (!board.isGameActive) return
+        ai2.move();
+        setTimeout(firstBot, 1000);
     }
 
     const showAISettings = () =>{
@@ -128,13 +128,6 @@ window.addEventListener("DOMContentLoaded", () => {
                 element.hidden = true;
             }
         }   
-    }
-
-    const botvsbot = () => {
-
-        if (board.getAvailabeSpots().length == 0 || !board.isGameActive) clearInterval(delay);
-        ai.move();
-        ai2.move();
     }
 
     const turnOrder = (square) => {

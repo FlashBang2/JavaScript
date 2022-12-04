@@ -71,11 +71,14 @@ class Board{
 
     getAvailabeSpots() {
 
-        let array = [];
+        let array = [], countZeros = 0;
 
-        for (let x = 0;x < this.matrix.length;x++) {
-            for (let y = 0;y < this.matrix.length;y++) {
-                if (this.matrix[x][y].value == 0) continue;
+        for (let x = 0;x < this.boardSize;x++) {
+            for (let y = 0;y < this.boardSize;y++) {
+                if (this.matrix[x][y].value == 0) {
+                    countZeros++; 
+                    continue;
+                }
                 for (let i = x - 1;i <= x + 1;i++) {
                     for (let j = y - 1;j <= y + 1;j++) {
                         if (i >= 0 && j >= 0 && i < this.boardSize && j < this.boardSize && this.matrix[i][j].value == 0 && !this.alreadyInIt(array,i,j)){
@@ -85,9 +88,14 @@ class Board{
                 }
             }
         }
-
+        if (countZeros == this.boardSize**2) {
+            for (let x = 0; x < this.boardSize; x++) {
+                for (let y = 0; y < this.boardSize; y++) {
+                    array.push({x:x,y:y});
+                }
+            }
+        }
         return array;
-
     }
 
     alreadyInIt(array, X, Y) {
@@ -114,7 +122,7 @@ class Board{
         )
     }
 
-    validate(maximizingPlayer = 1) {
+    validate() {
 
         let player = this.side == 'X' ? 1 : -1, maxLength = null;
         this.winner = null;
@@ -131,9 +139,9 @@ class Board{
                 switch (true) {
                     case (maxLength >= 3):
                         this.winner = this.side;
-                        return 100 * maximizingPlayer;
+                        return 100;
                     case (maxLength == 2):
-                        return 10 * maximizingPlayer;
+                        return 10;
                     default:
                         return 0;
                 }
@@ -148,13 +156,13 @@ class Board{
                 switch (true) {
                     case (maxLength >= 5):
                         this.winner = this.side;
-                        return 10000 * maximizingPlayer;
+                        return 10000;
                     case (maxLength == 4):
-                        return 1000 * maximizingPlayer;
+                        return 1000;
                     case (maxLength == 3):
-                        return 100 * maximizingPlayer;
+                        return 100;
                     case (maxLength == 2):
-                        return 10 * maximizingPlayer;
+                        return 10;
                     default:
                         return 0;
                 }

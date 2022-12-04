@@ -19,9 +19,8 @@ class AI{
 
     move () {
 
-        let array = this.board.getAvailabeSpots(), rootDrawnNode, bestScore = null;
-        this.depth = 1;
-        this.previousBestMove = {};
+        let rootDrawnNode,  bestScore = null;
+        this.depth = 1,     this.previousBestMove = {};
         
         switch (true) {
 
@@ -75,7 +74,6 @@ class AI{
                 //bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                 //console.log(this.bestMove, bestScore);
                 //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
-                
                 while (new Date().getTime() < this.startTime + this.moveTime && this.depth < this.board.boardSize**2) {
                     //console.log(this.depth);
                     bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
@@ -84,9 +82,9 @@ class AI{
                     this.depth++;
                 }
                 //console.log(this.exploredBoards);
-                console.log(this.depth);
+                //console.log(this.depth);
                 break;
-            case (array.length > 0 && this.board.isGameActive && this.ai == "MCS"):
+            case (this.board.isGameActive && this.ai == "MCS"):
                 this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
@@ -95,11 +93,11 @@ class AI{
                 this.bestMove = this.MCS(parseInt(this.moveTime)*10, rootDrawnNode);
                 bestScore=this.bestMove;
                 break;
-            case (array.length > 0 && this.board.isGameActive && this.ai == "MCST"):
+            case (this.board.isGameActive && this.ai == "MCST"):
                 break;
-            case (array.length > 0 && this.board.isGameActive && this.ai == "PNS"):
+            case (this.board.isGameActive && this.ai == "PNS"):
                 break;
-            case (array.length > 0 && this.board.isGameActive && this.ai == "DQL"):
+            case (this.board.isGameActive && this.ai == "DQL"):
                 break;
         }
         if (this.AI == "Random" || !this.board.isGameActive) return;
@@ -117,7 +115,7 @@ class AI{
         if (new Date().getTime() > this.startTime + this.moveTime) return 0;
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
-        let heuristic = this.board.side == this.maximizingPlayer ? this.board.validate(1) + depth : this.board.validate(-1) + depth;
+        let heuristic = this.board.side == this.maximizingPlayer ? (this.board.validate() + depth) : -(this.board.validate() + depth);
         this.board.setSide();
         if (this.board.winner != null || depth == 0) return heuristic;
         if (movePool.length == 0) return 0;
@@ -175,7 +173,7 @@ class AI{
         if (new Date().getTime() > this.startTime + this.moveTime) return 0;
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
-        let heuristic = this.board.side == this.maximizingPlayer ? (this.board.validate(1) + depth) * sign : (this.board.validate(-1) + depth) * sign;
+        let heuristic = this.board.side == this.maximizingPlayer ? (this.board.validate() + depth) * sign : -(this.board.validate() + depth) * sign;
         this.board.setSide();
         if (this.board.winner != null || depth == 0) return heuristic;
         if (movePool.length == 0) return 0;
@@ -235,7 +233,7 @@ class AI{
                         this.board.setSide();
                         indices1.x=this.board.getRandomInt(3);
                         indices1.y=this.board.getRandomInt(3);
-                        this.board.validate(1)
+                        this.board.validate()
                     } else {
                         this.board.matrix[indices1.x][indices1.y].value =-1;
                         let childDrawnNode2 = {
@@ -247,7 +245,7 @@ class AI{
                         this.board.setSide();
                         indices1.x=this.board.getRandomInt(3);
                         indices1.y=this.board.getRandomInt(3);
-                        this.board.validate(-1)
+                        this.board.validate()
                     }
                 }
                 this.board.side = side;
