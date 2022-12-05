@@ -1,7 +1,7 @@
 class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning) {
         this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null;   
-        this.ai = AIType,                           this.moveTime = parseInt(moveTime,10),  this.alphaBetaPrunning = alphabetaPrunning;
+        this.aiType = AIType,                           this.moveTime = moveTime,               this.alphaBetaPrunning = alphabetaPrunning;
         this.startTime = null,                      this.depth = null,                      this.exploredBoards = [];
         
         this.chartConfig = {
@@ -24,7 +24,7 @@ class AI{
         
         switch (true) {
 
-            case (this.board.isGameActive && this.ai == "Random"):
+            case (this.board.isGameActive && this.aiType.value == "Random"):
 
                 let posibleIndices = [];
 
@@ -44,7 +44,7 @@ class AI{
 
                 break;
 
-            case (this.board.isGameActive && this.ai == "Minimax"):
+            case (this.board.isGameActive && this.aiType.value == "Minimax"):
                 this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
@@ -55,16 +55,16 @@ class AI{
                 //bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
                 //console.log(this.bestMove, bestScore);
                 //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
-                while (new Date().getTime() < this.startTime + this.moveTime && this.depth < this.board.boardSize**2) {
+                while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10) && this.depth < this.board.boardSize**2) {
                     //console.log(this.depth);
                     bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
-                    if (new Date().getTime() < this.startTime + this.moveTime) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
+                    if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     //console.log(this.bestMove.x, this.bestMove.y, bestScore);
                     this.depth++;
                 }
-                console.log(this.depth);
+                //console.log(this.depth);
                 break;
-            case (this.board.isGameActive && this.ai == "NegaMax"):
+            case (this.board.isGameActive && this.aiType.value == "Negamax"):
                 this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
@@ -74,17 +74,17 @@ class AI{
                 //bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                 //console.log(this.bestMove, bestScore);
                 //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
-                while (new Date().getTime() < this.startTime + this.moveTime && this.depth < this.board.boardSize**2) {
+                while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10) && this.depth < this.board.boardSize**2) {
                     //console.log(this.depth);
                     bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                     //console.log(this.bestMove.x, this.bestMove.y, bestScore);
-                    if (new Date().getTime() < this.startTime + this.moveTime) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
+                    if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     this.depth++;
                 }
                 //console.log(this.exploredBoards);
-                console.log(this.depth);
+                //console.log(this.depth);
                 break;
-            case (this.board.isGameActive && this.ai == "MCS"):
+            case (this.board.isGameActive && this.aiType.value == "MonteCarloSearch"):
                 this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
@@ -92,14 +92,14 @@ class AI{
                 }
                 this.MCS(rootDrawnNode);
                 break;
-            case (this.board.isGameActive && this.ai == "MCST"):
+            case (this.board.isGameActive && this.aiType.value == "MonteCarloSearchTree"):
                 break;
-            case (this.board.isGameActive && this.ai == "PNS"):
+            case (this.board.isGameActive && this.aiType.value == "ProofNumberSearch"):
                 break;
-            case (this.board.isGameActive && this.ai == "DQL"):
+            case (this.board.isGameActive && this.aiType.value == "DeepQLearning"):
                 break;
         }
-        if (this.ai == "Random" || !this.board.isGameActive) return;
+        if (this.aiType.value == "Random" || !this.board.isGameActive) return;
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.innerText = this.board.side;
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
@@ -111,7 +111,7 @@ class AI{
     }
 
     minimax (depth, parentDrawnNode, alpha, beta) {
-        if (new Date().getTime() > this.startTime + this.moveTime) return 0;
+        if (new Date().getTime() > this.startTime + parseInt(this.moveTime.value, 10)) return 0;
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
         let heuristic = this.board.side == this.maximizingPlayer ? (this.board.validate() + depth) : -(this.board.validate() + depth);
@@ -137,8 +137,8 @@ class AI{
                     bestScore = score;
                     if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
                 }
-                if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
-                if (( alpha >= beta ) && this.alphaBetaPrunning == 'true'){ break;}
+                if (this.alphaBetaPrunning.value == 'true') {alpha = Math.max(alpha, score);}
+                if (( alpha >= beta ) && this.alphaBetaPrunning.value == 'true'){ break;}
             }
             return bestScore;
         }
@@ -160,16 +160,15 @@ class AI{
                 if (score < bestScore) {
                     bestScore = score;
                 }
-                if (this.alphaBetaPrunning == 'true') {beta = Math.min(beta, score);}
-                if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
+                if (this.alphaBetaPrunning.value == 'true') {beta = Math.min(beta, score);}
+                if (( alpha >= beta ) && this.alphaBetaPrunning.value == 'true') { break;}
             }
             return bestScore
         }
     }
 
-
     negamax (depth, parentDrawnNode, alpha, beta, sign = 1) {
-        if (new Date().getTime() > this.startTime + this.moveTime) return 0;
+        if (new Date().getTime() > this.startTime + parseInt(this.moveTime.value, 10)) return 0;
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
         let heuristic = this.board.side == this.maximizingPlayer ? (this.board.validate() + depth) * sign : -(this.board.validate() + depth) * sign;
@@ -183,7 +182,6 @@ class AI{
                 text: {name: "NEG " + move.x + " " + move.y + this.board.side + " " + depth},
                 children: []
             }
-            /*this.board.currentBoard = this.board.currentBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];*/
             this.board.matrix[move.x][move.y].setValue(this.board.side);
             this.board.setSide();
             let score = -this.negamax(depth - 1, childDrawnNode, -beta, -alpha, -sign);
@@ -195,10 +193,9 @@ class AI{
                 bestScore = score;
                 if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
             }
-            if (this.alphaBetaPrunning == 'true') {alpha = Math.max(alpha, score);}
-            if (( alpha >= beta ) && this.alphaBetaPrunning == 'true') { break;}
+            if (this.alphaBetaPrunning.value == 'true') {alpha = Math.max(alpha, score);}
+            if (( alpha >= beta ) && this.alphaBetaPrunning.value == 'true') { break;}
         }
-        //this.exploredBoards.push({hash:this.board.currentBoard,score:bestScore});
         return bestScore;
     }
 

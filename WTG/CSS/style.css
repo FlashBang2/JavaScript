@@ -1,91 +1,4 @@
-#main {
-    background-color: black;
-}
-
-.tile{
-    border: 1px solid white;
-    min-width: 50px;
-    min-height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    cursor: pointer;
-}
-
-#container{
-    margin: 0 auto;
-    display: grid;
-}
-
-.playerX{
-    color: aquamarine;
-}
-
-.playerO{
-    color:blueviolet
-}
-
-#AISettings{
-    display: none;
-}
-
-#AISettings2{
-    display: none;
-}
-
-#Text{
-    display: none;
-}
-
-#Text2{
-    display: none;
-}
-
-#Text3{
-    display: none;
-}
-
-#TextTree{
-    display: none;
-}
-
-#TextNotTree{
-    display: inline;
-}
-
-#TreeDrawing{
-    display: none;
-}
-
-#mainTitle {
-    text-align: center;
-    font-size: 40px;
-    margin-top: 10%;
-    color: #C8C8C8;
-}
-
-.Tool{
-    background-color: green;
-    color: white;
-    padding: 8px;
-    border-radius: 8px;
-    border: none;
-    font-size: 20px;
-    margin-left: 1em;
-    cursor: pointer;
-}
-
-#display{
-    color:white;
-    font-size: 25px;
-    text-align: center;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    display: none;
-}
-
-.tree{
+.tree {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,3 +27,126 @@
     padding: 3px; 
     margin: 0; 
 }
+
+.tile{
+    border: 1px solid white;
+    min-width: 50px;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.SettingsDescription {
+    display: inline;
+    color: white; 
+    font-size: 30px;
+}
+
+.Tool {
+    background-color: green;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    font-size: 20px;
+    margin-left: 2em;
+    cursor: pointer;
+}
+
+.ToolAI {
+    background-color: green;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    font-size: 20px;
+    margin-left: 5.5em;
+    cursor: pointer;
+}
+
+.SideDescription {
+    margin-left: 3.5em;
+}
+
+.AlphaBetaPrunningDescription {
+    margin-left: 2em;
+}
+
+.MoveTimeDescription {
+    margin-left: 0.25em;
+}
+
+.AITypeDescription {
+    margin-left: 6em;
+}
+
+.playerX {
+    color: aquamarine;
+}
+
+.playerO {
+    color:blueviolet;
+}
+
+#BoardSizeDescription {
+    margin-left: 3.5em;
+}
+
+#ModesDescription {
+    margin-left: 3.5em;
+}
+
+#RulesDescription {
+    margin-left: 3em;
+}
+
+#TreeButtonDescription {
+    margin-left: 3.75em;
+    display: none;
+}
+
+#AISettings {
+    display: none;
+}
+
+#AISettings2 {
+    display: none;
+}
+
+#TreeDrawing {
+    display: none;
+}
+
+#mainTitle {
+    text-align: center;
+    font-size: 40px;
+    margin-top: 10%;
+    color: #C8C8C8;
+}
+
+#display{
+    color:white;
+    font-size: 25px;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    display: none;
+}
+
+#main {
+    background-color: black;
+}
+
+#container {
+    margin: 0 auto;
+    display: grid;
+}
+
+#tree-simple {
+    width: 1700px;
+    height: 1000px;
+}
+

@@ -182,7 +182,7 @@ class Board{
         if (winner != null) {
 
             this.isGameActive = false;
-            this.winner == 'X' ? document.querySelector("#display").innerHTML = "Player <span class='playerX'>X</span> Won" : document.querySelector("#display").innerHTML = "Player <span class='playerO'>O</span> Won";
+            this.winner == 'X' ? document.querySelector("#display").innerHTML = "Player <span class = 'playerX'>X</span> Won" : document.querySelector("#display").innerHTML = "Player <span class = 'playerO'>O</span> Won";
         }
         else {
 

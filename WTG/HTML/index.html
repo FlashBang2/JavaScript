@@ -13,8 +13,11 @@
 	    <script src = "../treant-js-master/Treant.js"></script>
     </head>
     <body id = "main">
-        <div id="TextTree" style = "color:white; font-size: 30px; margin-left: 80px;"> Board Size &emsp;&emsp; Modes &emsp;&emsp; Rules &emsp; Tree Drawing</div>
-        <div id="TextNotTree" style = "color:white; font-size: 30px; margin-left: 80px;"> Board Size &emsp;&emsp; Modes &emsp;&emsp; Rules</div></body></html></br>
+            <div class = "SettingsDescription" id = "BoardSizeDescription"> BoardSize </div>
+            <div class = "SettingsDescription" id = "ModesDescription"> Modes </div>
+            <div class = "SettingsDescription" id = "RulesDescription"> Rules </div>
+            <div class = "SettingsDescription" id = "TreeButtonDescription"> Tree </div>
+        </br>
         <input class = 'Tool' id = "boardSize" type = "number" value = 3 min = 3 />
         <select class = 'Tool' id = "settings">
             <option value = "PvP"> PvP </option>
@@ -22,75 +25,73 @@
             <option value = "AIvAI"> AIvAI </option>
         </select>
         <select class = 'Tool' id = "rules">
-            <option value = "Standard">                     Standard       </option>
-            <option hidden = true class = "rule" value = "Gomoku">        Gomoku         </option>
-            <option hidden = true class = "rule" value = "GomokuPro">     GomokuPro      </option>
-            <option hidden = true class = "rule" value = "GomokuSwap2">   GomokuSwap2    </option>
+            <option value = "Standard"> Standard </option>
+            <option hidden = true class = "rule" value = "Gomoku"> Gomoku </option>
+            <option hidden = true class = "rule" value = "GomokuPro"> GomokuPro </option>
+            <option hidden = true class = "rule" value = "GomokuSwap2"> GomokuSwap2 </option>
         </select>
         <select class = 'Tool' id = "TreeDrawing">
-            <option value = "true"> Enable </option>
             <option value = "false"> Disable </option>
+            <option value = "true"> Enable </option>
         </select>
         <button class = 'Tool' id = "confirm"> Confirm </button>
         </br> </br>
         <div id = "AISettings">
-            <div id = "TextAI" style = "color:white; font-size: 30px;"> Player Side &nbsp; AlphaBetaPrunning &nbsp; Time &emsp;&emsp;&emsp; AI Type </div>
-            <div id = "TextAI2" style = "color:white; font-size: 30px;"><div style="color:blueviolet; font-size: 30px;">O</div>  AlphaBetaPrunning &nbsp;&emsp;&emsp; Time &emsp;&emsp;&emsp; AI Type</div>
-        </br> 
-        &emsp;
-        <select class = 'Tool' id = "side">
+            <div class = "SettingsDescription SideDescription"> Side </div>
+            <div class = "SettingsDescription AlphaBetaPrunningDescription"> AlphaBetaPrunning </div>
+            <div class = "SettingsDescription MoveTimeDescription"> MoveTime </div>
+            <div class = "SettingsDescription AITypeDescription"> AIType </div>
+        </br>
+        <select class = 'ToolAI' id = "side">
             <option> O </option>
             <option> X </option>
         </select>
-        &emsp;&emsp;&emsp;&emsp;&emsp;
-        <select class = 'Tool' id = "AlphaBetaPrunning">
+        <select class = 'ToolAI' id = "AlphaBetaPrunning">
             <option value = "true"> Enable </option>
             <option value = "false"> Disable </option>
         </select>
-        &emsp;&emsp;&emsp;&emsp;&emsp;
-        <select class = 'Tool' id = "moveTime">
+        <select class = 'ToolAI' id = "moveTime">
             <option value = '1000'> 0:01 </option>
             <option value = '2000'> 0:02 </option>
             <option value = '5000'> 0:05 </option>
             <option value = '10000'> 0:10 </option>
             <option value = '30000'> 0:30 </option> 
         </select>
-        &emsp;
-        <select class = 'Tool' id = "AIType">
+        <select class = 'ToolAI' id = "AIType">
             <option value = "Random"> Random </option>
             <option value = "Minimax"> Minimax </option>
-            <option value = "NegaMax"> NegaMax </option>
-            <option value = "MCS"> MonteCarloSearch </option>
-            <option value = "PNS"> ProofNumberSearch </option>
-            <option value = "MCST"> MonteCarloSearchTree </option>
-            <option value = "DQL"> DeepQLearning </option> 
+            <option value = "Negamax"> NegaMax </option>
+            <option value = "MonteCarloSearch"> MonteCarloSearch </option>
+            <option value = "MonteCarloSearchTree"> MonteCarloSearchTree </option>
+            <option value = "ProofNumberSearch"> ProofNumberSearch </option>
+            <option value = "DeepQLearning"> DeepQLearning </option> 
         </select>
         </div>
         </br> </br>
         <div id = "AISettings2">
-            <div id = "TextAI3" style = "color:white; font-size: 30px;"><div style="color:aquamarine; font-size: 30px;">X</div>  AlphaBetaPrunning &nbsp;&emsp;&emsp; Time &emsp;&emsp;&emsp; AI Type </div> </br>
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-            <select class = 'Tool' id = "AlphaBetaPrunning2">
+            <div class = "SettingsDescription AlphaBetaPrunningDescription"> AlphaBetaPrunning </div>
+            <div class = "SettingsDescription MoveTimeDescription"> MoveTime </div>
+            <div class = "SettingsDescription AITypeDescription"> AIType </div>
+        </br>
+            <select class = 'ToolAI' id = "AlphaBetaPrunning2">
                 <option value = true> Enable </option>
                 <option value = false> Disable </option>
             </select>
-            &emsp;&emsp;&emsp;&emsp;&emsp;
-            <select class = 'Tool' id = "moveTime2">
+            <select class = 'ToolAI' id = "moveTime2">
                 <option value = '1000'> 0:01 </option>
                 <option value = '2000'> 0:02 </option>
                 <option value = '5000'> 0:05 </option>
                 <option value = '10000'> 0:10 </option>
                 <option value = '30000'> 0:30 </option> 
             </select>
-            &emsp;
-            <select class = 'Tool' id = "AIType2">
-                <option> Random </option>
-                <option> Minimax </option>
-                <option> NegaMax </option>
-                <option> MonteCarloSearch </option>
-                <option> ProofNumberSearch </option>
-                <option> MonteCarloSearchTree </option>
-                <option> DeepQLearning </option> 
+            <select class = 'ToolAI' id = "AIType2">
+                <option value = "Random"> Random </option>
+                <option value = "Minimax"> Minimax </option>
+                <option value = "Negamax"> NegaMax </option>
+                <option value = "MonteCarloSearch"> MonteCarloSearch </option>
+                <option value = "MonteCarloSearchTree"> MonteCarloSearchTree </option>
+                <option value = "ProofNumberSearch"> ProofNumberSearch </option>
+                <option value = "DeepQLearning"> DeepQLearning </option> 
             </select>
         </div>
         <h1 id = "mainTitle"> Tic Tac Toe </h1>
@@ -98,7 +99,7 @@
         <section id = "container"> </section>
         <br/>
         <section class = "tree">
-            <div id="tree-simple" style="width: 1700px; height: 1000px"> </div>
+            <div id = "tree-simple"> </div>
         </section>
     </body>
 </html>

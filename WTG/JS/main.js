@@ -1,13 +1,16 @@
 window.addEventListener("DOMContentLoaded", () => {
 
-    const confirm = document.querySelector("#confirm"),     aiSettings = document.querySelector("#AISettings"),     aiSettings2 = document.querySelector("#AISettings2");
-    const textAI = document.querySelector("#TextAI"),       textAI2 = document.querySelector("#TextAI2"),           textAI3 = document.querySelector("#TextAI3");
-    const textTree = document.querySelector("#TextTree"),   textNotTree = document.querySelector("#TextNotTree"),   boardSize = document.querySelector("#boardSize");
+    const confirm = document.querySelector("#confirm"),             aiSettings = document.querySelector("#AISettings");
+    const aiSettings2 = document.querySelector("#AISettings2"),     boardSize = document.querySelector("#boardSize");
     const settings = document.querySelector("#settings");
 
-    let displayPlayer = null,   display = null,     board = null;
-    let ai = null,              ai2 = null,         x = null;
-    let y = null,               timeouts =[];
+    let displayPlayer = null,                                               display = null;                                                             
+    let board = null,                                                       timeouts =[];                                                                                                                   
+    let aiType = document.querySelector('#AIType'),                         aiType2 = document.querySelector('#AIType2');                           
+    let moveTime = document.querySelector('#moveTime'),                     moveTime2 = document.querySelector('#moveTime2');
+    let alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning'),   alphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2');
+    let ai = new AI(board,aiType,moveTime,alphaBetaPrunning),               ai2 = new AI(board,aiType2,moveTime2,alphaBetaPrunning2);
+    let treeDrawing = document.querySelector('#TreeDrawing');
 
     let chartConfig1 = {
             chart: {
@@ -27,12 +30,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const generateBoard = () => {
 
-        x = Math.floor(Math.random() * (boardSize.value - 1));
-        y = Math.floor(Math.random() * (boardSize.value - 1));
-
-        const aiType = document.querySelector('#AIType').value,                         aiType2 = document.querySelector('#AIType2').value;                     
-        const moveTime = document.querySelector('#moveTime').value,                     moveTime2 = document.querySelector('#moveTime2').value;
-        const alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning').value,   alphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2').value;
+        aiType = document.querySelector('#AIType'),                         aiType2 = document.querySelector('#AIType2');                     
+        moveTime = document.querySelector('#moveTime'),                     moveTime2 = document.querySelector('#moveTime2');
+        alphaBetaPrunning = document.querySelector('#AlphaBetaPrunning'),   alphaBetaPrunning2 = document.querySelector('#AlphaBetaPrunning2');
        
         if (timeouts.length != 0) {
             for (let timeout of timeouts) {
@@ -82,40 +82,88 @@ window.addEventListener("DOMContentLoaded", () => {
         switch(settings.value) {
 
             case "PvP":
-
                 aiSettings.style.display = "none";
                 aiSettings2.style.display = "none";
-                textNotTree.style.display = "inline";
-                textTree.style.display = "none";
-                document.querySelector('#TreeDrawing').style.display = "none";
-
+                treeDrawing.style.display = "none";
+                document.querySelector('#TreeButtonDescription').style.display = 'none';
                 break;
-
             case "PvAI":
-
-                aiSettings.style.display = "inline";
-                textAI.style.display = "inline";
-                textAI2.style.display = "none";
-                textAI3.style.display = "none";
-                textNotTree.style.display = "none";
-                textTree.style.display = "inline";
-                document.querySelector("#side").style.display = "inline";
-                document.querySelector('#TreeDrawing').style.display = "inline";
+                showContextSensitiveSettings(ai);
                 aiSettings2.style.display = "none";
-
+                aiSettings.style.display = "inline";
+                document.querySelector("#side").style.display = "inline";
+                document.querySelector(".SideDescription").style.display = "inline";
                 break;
-
             case "AIvAI":
-
+                showContextSensitiveSettings(ai);
+                showContextSensitiveSettings(ai2);
                 aiSettings.style.display = "inline";
                 aiSettings2.style.display = "inline";
-                textAI2.style.display = "inline";
-                textAI3.style.display = "inline";
-                textNotTree.style.display = "none";
-                textTree.style.display = "inline";
-                textAI.style.display = "none";
                 document.querySelector('#side').style.display = "none";
-                document.querySelector('#TreeDrawing').style.display = "inline";
+                document.querySelector(".SideDescription").style.display = "none";
+                break;
+        }
+    }
+
+    const flipFlopForSensitiveSettings = (element,index) => {
+        if (this.ai.aiType.id.replace(/[A-Z]/ig, '') == '' && index == 0) {
+            element.style.cssText = cssText;
+            return;
+        }
+        if (this.ai.aiType.id.replace(/[A-Z]/ig, '') == '2' && index == 1) {
+            element.style.cssText = cssText;
+            return;
+        }
+    }
+
+    const showContextSensitiveSettings = (ai) => {
+        switch (ai.aiType.value) {
+            case "Random":
+                ai.moveTime.style.display = "none";
+                ai.alphaBetaPrunning.style.display = "none";
+                treeDrawing.style.display = "none";
+                document.querySelector('#TreeButtonDescription').style.display = 'none';
+                document.querySelectorAll('.AlphaBetaPrunningDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: none;");
+                document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: none;");
+                document.querySelectorAll('.AITypeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 6em;");
+                break;
+            case "Minimax":
+                ai.moveTime.style.display = "inline";
+                ai.alphaBetaPrunning.style.display = "inline";
+                treeDrawing.style.display = "inline";
+                document.querySelector('#TreeButtonDescription').style.display = 'inline';
+                document.querySelectorAll('.AlphaBetaPrunningDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: inline;");
+                document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: inline;");
+                document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 0.25em;");
+                document.querySelectorAll('.AITypeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 5em;");
+                break;
+            case "Negamax":
+                ai.moveTime.style.display = "inline";
+                ai.alphaBetaPrunning.style.display = "inline";
+                treeDrawing.style.display = "inline";
+                document.querySelector('#TreeButtonDescription').style.display = 'inline';
+                document.querySelectorAll('.AlphaBetaPrunningDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: inline;");
+                document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: inline;");
+                document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 0.25em;");
+                document.querySelectorAll('.AITypeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 5em;");
+                break;
+            case "MonteCarloSearch":
+                ai.moveTime.style.display = "inline";
+                ai.alphaBetaPrunning.style.display = "none";
+                treeDrawing.style.display = "inline";
+                document.querySelector('#TreeButtonDescription').style.display = 'inline';
+                document.querySelectorAll('.AlphaBetaPrunningDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: none;");
+                document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: inline;");
+                document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 3em;");
+                document.querySelectorAll('.AITypeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 4.5em;");
+                break;
+            case "MonteCarloSearchTree":
+
+                break;
+            case "ProofNumberSearch":
+
+                break;
+            case "DeepQLearning":
 
                 break;
         }
@@ -129,6 +177,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         }
         else {
+            document.querySelector("#rules").value = "Standard";
             for (let element of document.querySelectorAll(".rule")) {
                 element.hidden = true;
             }
@@ -166,5 +215,7 @@ window.addEventListener("DOMContentLoaded", () => {
     confirm.addEventListener('click', generateBoard);
     boardSize.addEventListener('change', moreRules);
     settings.addEventListener('change', showAISettings);
-
+    aiType.addEventListener('change', () => {ai = new AI(board, aiType, moveTime, alphaBetaPrunning); showContextSensitiveSettings(ai)});
+    aiType2.addEventListener('change', () => {ai2 = new AI(board, aiType2, moveTime2, alphaBetaPrunning2); showContextSensitiveSettings(ai2)});
+   
 });
