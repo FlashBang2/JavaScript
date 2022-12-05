@@ -2,8 +2,7 @@ class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning) {
         this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null;   
         this.aiType = AIType,                       this.moveTime = moveTime,               this.alphaBetaPrunning = alphabetaPrunning;
-        this.startTime = null,                      this.depth = null,                      this.exploredBoards = [];
-        this.tempBoard = null,                      this.cachedBoards = [];
+        this.startTime = null,                      this.depth = null,                      this.tempBoard = null;                   
         
         this.chartConfig = {
             chart: {
@@ -58,7 +57,6 @@ class AI{
                 //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                 while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10) && this.depth < this.board.boardSize**2) {
                     //console.log(this.depth);
-                    this.exploredBoards = [];
                     bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
                     if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     //console.log(this.bestMove.x, this.bestMove.y, bestScore);
@@ -74,13 +72,11 @@ class AI{
                     children: []
                 }
                 this.startTime = new Date().getTime();
-                //this.exploredBoards = [];
                 //bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                 //console.log(this.bestMove, bestScore);
-                this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
+                //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                 while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10) && this.depth < this.board.boardSize**2) {
                     //console.log(this.depth);
-                    this.exploredBoards = [];
                     bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                     //console.log(this.bestMove.x, this.bestMove.y, bestScore);
                     if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
@@ -109,7 +105,6 @@ class AI{
         if (this.aiType.value == "Random" || !this.board.isGameActive) return;
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.innerText = this.board.side;
         this.board.currentPosition = this.board.currentPosition ^ this.board.zobristKeys[this.previousBestMove.x][this.previousBestMove.y][this.board.side == 'X' ? 1 : 0];
-        this.cachedBoards = JSON.parse(JSON.stringify(this.exploredBoards));
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
         this.board.validate();
@@ -140,7 +135,7 @@ class AI{
                 else this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
                 this.board.setSide();
                 let score = this.minimax (depth - 1, childDrawnNode, alpha, beta);
-                this.exploredBoards.push({hash:this.tempBoard,score:score});
+                
                 childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
                 this.board.matrix[move.x][move.y].value = 0;
@@ -168,7 +163,7 @@ class AI{
                 else this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
                 this.board.setSide(); 
                 let score = this.minimax (depth - 1, childDrawnNode, alpha, beta);
-                this.exploredBoards.push({hash:this.tempBoard,score:score});
+
                 childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
                 this.board.matrix[move.x][move.y].value = 0;
@@ -189,11 +184,9 @@ class AI{
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
         let heuristic = null;
-        for (let element of this.cachedBoards) {
-            if (element.hash == this.tempBoard) {
-                heuristic = this.board.side == this.maximizingPlayer ? element.score * sign : -element.score * sign;
-            } 
-        }
+        if (this["board" + this.tempBoard] != undefined) {
+            heuristic = this["board" + this.tempBoard].score;
+        } 
         if (heuristic == null) {
             heuristic = this.board.side == this.maximizingPlayer ? (this.board.validate() + depth) * sign : -(this.board.validate() + depth) * sign;
         }
@@ -212,7 +205,6 @@ class AI{
             else this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
             this.board.setSide();
             let score = -this.negamax(depth - 1, childDrawnNode, -beta, -alpha, -sign);
-            this.exploredBoards.push({hash:this.tempBoard,score:score,moveX:move.x,moveY:move.y,side:this.board.side});
             childDrawnNode.text.name = score;
             parentDrawnNode.children.push(childDrawnNode);
             this.board.matrix[move.x][move.y].value = 0;
@@ -220,6 +212,7 @@ class AI{
             this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
             if (score > bestScore) {
                 bestScore = score;
+                this["board" + this.tempBoard] = {hash:this.tempBoard, score:bestScore, moveX:move.x, moveY:move.y, side:this.board.side};
                 if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
             }
             if (this.alphaBetaPrunning.value == 'true') {alpha = Math.max(alpha, score);}
