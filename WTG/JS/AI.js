@@ -2,8 +2,7 @@ class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning) {
         this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null;   
         this.aiType = AIType,                       this.moveTime = moveTime,               this.alphaBetaPrunning = alphabetaPrunning;
-        this.startTime = null,                      this.depth = null,                      this.tempBoard = null;
-        this.explored = [];                   
+        this.startTime = null,                      this.depth = null,                      this.tempBoard = null;                
         
         this.chartConfig = {
             chart: {
@@ -209,7 +208,6 @@ class AI{
             this.board.setSide();
             let score = -this.negamax(depth - 1, childDrawnNode, -beta, -alpha, -sign);
             this["board" + this.tempBoard] = {hash:this.tempBoard, score:score, moveX:move.x, moveY:move.y, side:this.board.side, winner:this.board.winner};
-            this.explored.push(this["board" + this.tempBoard]);
             childDrawnNode.text.name = score;
             parentDrawnNode.children.push(childDrawnNode);
             this.board.matrix[move.x][move.y].value = 0;
