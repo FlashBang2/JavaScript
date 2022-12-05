@@ -2,7 +2,8 @@ class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning) {
         this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null;   
         this.aiType = AIType,                       this.moveTime = moveTime,               this.alphaBetaPrunning = alphabetaPrunning;
-        this.startTime = null,                      this.depth = null,                      this.tempBoard = null;                   
+        this.startTime = null,                      this.depth = null,                      this.tempBoard = null;
+        this.explored = [];                   
         
         this.chartConfig = {
             chart: {
@@ -20,7 +21,7 @@ class AI{
     move () {
         let rootDrawnNode,          bestScore = null,               numberOfSimulations = 1;
         
-        this.depth = 1,             this.previousBestMove = {},     this.tempBoard = null;
+        this.depth = 1,             this.previousBestMove = {};
 
         switch (true) {
 
@@ -77,6 +78,7 @@ class AI{
                 //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                 while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10) && this.depth < this.board.boardSize**2) {
                     //console.log(this.depth);
+                    this.tempBoard = null;
                     bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                     //console.log(this.bestMove.x, this.bestMove.y, bestScore);
                     if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
@@ -185,9 +187,10 @@ class AI{
         this.board.setSide();
         let heuristic = null;
         if (this["board" + this.tempBoard] != undefined) {
-            heuristic = this["board" + this.tempBoard].score;
+            this.board.winner = this["board" + this.tempBoard].winner;
+            heuristic = this.board.side == this.maximizingPlayer ? (this["board" + this.tempBoard].score + depth) * sign : -(this["board" + this.tempBoard].score + depth) * sign;
         } 
-        if (heuristic == null) {
+        else {
             heuristic = this.board.side == this.maximizingPlayer ? (this.board.validate() + depth) * sign : -(this.board.validate() + depth) * sign;
         }
         this.board.setSide();
@@ -205,6 +208,8 @@ class AI{
             else this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
             this.board.setSide();
             let score = -this.negamax(depth - 1, childDrawnNode, -beta, -alpha, -sign);
+            this["board" + this.tempBoard] = {hash:this.tempBoard, score:score, moveX:move.x, moveY:move.y, side:this.board.side, winner:this.board.winner};
+            this.explored.push(this["board" + this.tempBoard]);
             childDrawnNode.text.name = score;
             parentDrawnNode.children.push(childDrawnNode);
             this.board.matrix[move.x][move.y].value = 0;
@@ -212,7 +217,6 @@ class AI{
             this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
             if (score > bestScore) {
                 bestScore = score;
-                this["board" + this.tempBoard] = {hash:this.tempBoard, score:bestScore, moveX:move.x, moveY:move.y, side:this.board.side};
                 if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
             }
             if (this.alphaBetaPrunning.value == 'true') {alpha = Math.max(alpha, score);}
