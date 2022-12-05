@@ -19,7 +19,6 @@ class AI{
     }
 
     move () {
-        console.log(this.board.zobristKeys);
         let rootDrawnNode,          bestScore = null,               numberOfSimulations = 1;
         
         this.depth = 1,             this.previousBestMove = {},     this.tempBoard = null;
@@ -64,8 +63,9 @@ class AI{
                     if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     //console.log(this.bestMove.x, this.bestMove.y, bestScore);
                     this.depth++;
+                    
                 }
-                //console.log(this.depth);
+                console.log(this.depth);
                 break;
             case (this.board.isGameActive && this.aiType.value == "Negamax"):
                 this.maximizingPlayer = this.board.side;
@@ -74,9 +74,10 @@ class AI{
                     children: []
                 }
                 this.startTime = new Date().getTime();
+                //this.exploredBoards = [];
                 //bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                 //console.log(this.bestMove, bestScore);
-                //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
+                this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                 while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10) && this.depth < this.board.boardSize**2) {
                     //console.log(this.depth);
                     this.exploredBoards = [];
@@ -85,7 +86,7 @@ class AI{
                     if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     this.depth++;
                 }
-                //console.log(this.depth);
+                console.log(this.depth);
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearch"):
                 this.maximizingPlayer = this.board.side;
@@ -97,7 +98,6 @@ class AI{
                     this.previousBestMove = this.MCS(numberOfSimulations,rootDrawnNode);
                     numberOfSimulations++;
                 }
-                
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearchTree"):
                 break;
@@ -109,10 +109,7 @@ class AI{
         if (this.aiType.value == "Random" || !this.board.isGameActive) return;
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.innerText = this.board.side;
         this.board.currentPosition = this.board.currentPosition ^ this.board.zobristKeys[this.previousBestMove.x][this.previousBestMove.y][this.board.side == 'X' ? 1 : 0];
-        console.log(this.exploredBoards);
-        for (let element of this.exploredBoards) {
-            if (element.hash == this.board.currentPosition) {console.log(element.hash + " " + element.score)};
-        }
+        this.cachedBoards = JSON.parse(JSON.stringify(this.exploredBoards));
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
         this.board.validate();
@@ -191,7 +188,15 @@ class AI{
         if (new Date().getTime() > this.startTime + parseInt(this.moveTime.value, 10)) return 0;
         let movePool = this.board.getAvailabeSpots();
         this.board.setSide();
-        let heuristic = this.board.side == this.maximizingPlayer ? (this.board.validate() + depth) * sign : -(this.board.validate() + depth) * sign;
+        let heuristic = null;
+        for (let element of this.cachedBoards) {
+            if (element.hash == this.tempBoard) {
+                heuristic = this.board.side == this.maximizingPlayer ? element.score * sign : -element.score * sign;
+            } 
+        }
+        if (heuristic == null) {
+            heuristic = this.board.side == this.maximizingPlayer ? (this.board.validate() + depth) * sign : -(this.board.validate() + depth) * sign;
+        }
         this.board.setSide();
         if (this.board.winner != null || depth == 0) return heuristic;
         if (movePool.length == 0) return 0;
@@ -207,7 +212,7 @@ class AI{
             else this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
             this.board.setSide();
             let score = -this.negamax(depth - 1, childDrawnNode, -beta, -alpha, -sign);
-            this.exploredBoards.push({hash:this.tempBoard,score:score});
+            this.exploredBoards.push({hash:this.tempBoard,score:score,moveX:move.x,moveY:move.y,side:this.board.side});
             childDrawnNode.text.name = score;
             parentDrawnNode.children.push(childDrawnNode);
             this.board.matrix[move.x][move.y].value = 0;
