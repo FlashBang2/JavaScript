@@ -23,7 +23,6 @@ class AI{
         let rootDrawnNode,          bestScore = null,               numberOfSimulations = 1;
         
         this.depth = 1,             this.previousBestMove = {},     this.tempBoard = null;
-        this.exploredBoards = [];
 
         switch (true) {
 
@@ -60,6 +59,7 @@ class AI{
                 //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                 while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10) && this.depth < this.board.boardSize**2) {
                     //console.log(this.depth);
+                    this.exploredBoards = [];
                     bestScore = this.minimax(this.depth, rootDrawnNode, -Infinity, Infinity);
                     if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     //console.log(this.bestMove.x, this.bestMove.y, bestScore);
@@ -79,6 +79,7 @@ class AI{
                 //this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                 while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10) && this.depth < this.board.boardSize**2) {
                     //console.log(this.depth);
+                    this.exploredBoards = [];
                     bestScore = this.negamax(this.depth, rootDrawnNode, -Infinity, Infinity);
                     //console.log(this.bestMove.x, this.bestMove.y, bestScore);
                     if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
