@@ -26,8 +26,6 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-    
-
     const generateBoard = () => {
 
         aiType = document.querySelector('#AIType'),                         aiType2 = document.querySelector('#AIType2');                     
