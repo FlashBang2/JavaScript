@@ -41,8 +41,8 @@ window.addEventListener("DOMContentLoaded", () => {
         if (board != null) board = board.remove();
 
         board = new Board(boardSize.value, turnOrder);
-        ai = new AI(board,aiType,moveTime,alphaBetaPrunning);
-        ai2 = new AI(board,aiType2,moveTime2,alphaBetaPrunning2);
+        ai = new AI(board, aiType, moveTime, alphaBetaPrunning);
+        ai2 = new AI(board, aiType2, moveTime2, alphaBetaPrunning2);
 
         if (board.side == 'X') {
             board.setSide();
@@ -91,6 +91,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 aiSettings.style.display = "inline";
                 document.querySelector("#side").style.display = "inline";
                 document.querySelector(".SideDescription").style.display = "inline";
+                document.querySelector("#AIvAI").innerHTML = "<span class = 'playerX' > X </span>";
                 break;
             case "AIvAI":
                 showContextSensitiveSettings(ai);
@@ -99,6 +100,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 aiSettings2.style.display = "inline";
                 document.querySelector('#side').style.display = "none";
                 document.querySelector(".SideDescription").style.display = "none";
+                document.querySelector("#AIvAI").innerHTML = "<span class = 'playerO' > O </span>";
                 break;
         }
     }
@@ -123,7 +125,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 document.querySelector('#TreeButtonDescription').style.display = 'none';
                 document.querySelectorAll('.AlphaBetaPrunningDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: none;");
                 document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: none;");
-                document.querySelectorAll('.AITypeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 6em;");
+                document.querySelectorAll('.AITypeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 4.5em;");
                 break;
             case "Minimax":
                 ai.moveTime.style.display = "inline";
@@ -152,7 +154,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 document.querySelector('#TreeButtonDescription').style.display = 'inline';
                 document.querySelectorAll('.AlphaBetaPrunningDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: none;");
                 document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: inline;");
-                document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 3em;");
+                document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 1.5em;");
                 document.querySelectorAll('.AITypeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "margin-left: 4.5em;");
                 break;
             case "MonteCarloSearchTree":
@@ -213,6 +215,8 @@ window.addEventListener("DOMContentLoaded", () => {
     confirm.addEventListener('click', generateBoard);
     boardSize.addEventListener('change', moreRules);
     settings.addEventListener('change', showAISettings);
+    document.querySelector('#side').addEventListener('change', () => {
+        let value = document.querySelector('#side').value == 'X' ? 'O' : 'X'; document.querySelector("#AIvAI").innerHTML = "<span class = 'player" + value + "'>" + value + "</span>"});
     aiType.addEventListener('change', () => {ai = new AI(board, aiType, moveTime, alphaBetaPrunning); showContextSensitiveSettings(ai)});
     aiType2.addEventListener('change', () => {ai2 = new AI(board, aiType2, moveTime2, alphaBetaPrunning2); showContextSensitiveSettings(ai2)});
    

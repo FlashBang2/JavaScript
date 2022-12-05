@@ -101,6 +101,7 @@ class AI{
         }
         if (this.aiType.value == "Random" || !this.board.isGameActive) return;
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.innerText = this.board.side;
+        this.board.currentBoardPostion = this.board.currentBoardPostion ^ this.board.zobristKeys[this.previousBestMove.x][this.previousBestMove.y][this.board.side == 'X' ? 1 : 0];
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
         this.board.validate();
