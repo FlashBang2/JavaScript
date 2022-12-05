@@ -1,8 +1,9 @@
 class AI{
     constructor(board,AIType,moveTime,alphabetaPrunning) {
         this.board = board,                         this.bestMove = {},                     this.maximizingPlayer = null;   
-        this.aiType = AIType,                           this.moveTime = moveTime,               this.alphaBetaPrunning = alphabetaPrunning;
+        this.aiType = AIType,                       this.moveTime = moveTime,               this.alphaBetaPrunning = alphabetaPrunning;
         this.startTime = null,                      this.depth = null,                      this.exploredBoards = [];
+        this.tempBoard = null,                      this.cachedBoards = [];
         
         this.chartConfig = {
             chart: {
@@ -18,10 +19,12 @@ class AI{
     }
 
     move () {
-
-        let rootDrawnNode,  bestScore = null;
-        this.depth = 1,     this.previousBestMove = {};
+        console.log(this.board.zobristKeys);
+        let rootDrawnNode,          bestScore = null,               numberOfSimulations = 1;
         
+        this.depth = 1,             this.previousBestMove = {},     this.tempBoard = null;
+        this.exploredBoards = [];
+
         switch (true) {
 
             case (this.board.isGameActive && this.aiType.value == "Random"):
@@ -81,7 +84,6 @@ class AI{
                     if (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) this.previousBestMove = {x:this.bestMove.x,y:this.bestMove.y};
                     this.depth++;
                 }
-                //console.log(this.exploredBoards);
                 //console.log(this.depth);
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearch"):
@@ -90,7 +92,11 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
-                this.MCS(rootDrawnNode);
+                while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) {
+                    this.previousBestMove = this.MCS(numberOfSimulations,rootDrawnNode);
+                    numberOfSimulations++;
+                }
+                
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearchTree"):
                 break;
@@ -101,7 +107,11 @@ class AI{
         }
         if (this.aiType.value == "Random" || !this.board.isGameActive) return;
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.innerText = this.board.side;
-        this.board.currentBoardPostion = this.board.currentBoardPostion ^ this.board.zobristKeys[this.previousBestMove.x][this.previousBestMove.y][this.board.side == 'X' ? 1 : 0];
+        this.board.currentPosition = this.board.currentPosition ^ this.board.zobristKeys[this.previousBestMove.x][this.previousBestMove.y][this.board.side == 'X' ? 1 : 0];
+        console.log(this.exploredBoards);
+        for (let element of this.exploredBoards) {
+            if (element.hash == this.board.currentPosition) {console.log(element.hash + " " + element.score)};
+        }
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
         this.board.validate();
@@ -128,12 +138,16 @@ class AI{
                     children: []
                 }
                 this.board.matrix[move.x][move.y].setValue(this.board.side);
+                if (this.tempBoard == null) this.tempBoard = this.board.currentPosition ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
+                else this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
                 this.board.setSide();
                 let score = this.minimax (depth - 1, childDrawnNode, alpha, beta);
+                this.exploredBoards.push({hash:this.tempBoard,score:score});
                 childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
                 this.board.matrix[move.x][move.y].value = 0;
                 this.board.setSide();
+                this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
                 if (score > bestScore) {
                     bestScore = score;
                     if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
@@ -152,12 +166,16 @@ class AI{
                     children: []
                 }
                 this.board.matrix[move.x][move.y].setValue(this.board.side);
+                if (this.tempBoard == null) this.tempBoard = this.board.currentPosition ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
+                else this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
                 this.board.setSide(); 
                 let score = this.minimax (depth - 1, childDrawnNode, alpha, beta);
+                this.exploredBoards.push({hash:this.tempBoard,score:score});
                 childDrawnNode.text.name = score;
                 parentDrawnNode.children.push(childDrawnNode);
                 this.board.matrix[move.x][move.y].value = 0;
                 this.board.setSide();
+                this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
                 if (score < bestScore) {
                     bestScore = score;
                 }
@@ -184,12 +202,16 @@ class AI{
                 children: []
             }
             this.board.matrix[move.x][move.y].setValue(this.board.side);
+            if (this.tempBoard == null) this.tempBoard = this.board.currentPosition ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
+            else this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
             this.board.setSide();
             let score = -this.negamax(depth - 1, childDrawnNode, -beta, -alpha, -sign);
+            this.exploredBoards.push({hash:this.tempBoard,score:score});
             childDrawnNode.text.name = score;
             parentDrawnNode.children.push(childDrawnNode);
             this.board.matrix[move.x][move.y].value = 0;
             this.board.setSide();
+            this.tempBoard = this.tempBoard ^ this.board.zobristKeys[move.x][move.y][this.board.side == 'X' ? 1 : 0];
             if (score > bestScore) {
                 bestScore = score;
                 if (this.depth == depth) this.bestMove = {x:move.x, y:move.y};
@@ -200,7 +222,7 @@ class AI{
         return bestScore;
     }
 
-    MCS (parentDrawnNode)
+    MCS (numberOfSimulations, parentDrawnNode)
     {
         let bestChild = null;
         let bestProbability = -1;

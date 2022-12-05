@@ -7,7 +7,7 @@ class Board{
         this.matrix = [],                           this.side = document.querySelector('#side').value,  this.isGameActive = true;
         this.blockPlayerInteraction = false,        this.boardSize = boardSize,                         this.winner = null;
         this.value = 0,                             this.move = {},                                     this.zobristKeys = this.initZobristKey(); 
-        this.currentBoardPostion = 0;
+        this.currentPosition = 0;
 
         this.tiles.style.maxWidth = `${50*this.boardSize}px`;
         for(let x = 0;x < this.boardSize;x++) {
@@ -36,7 +36,7 @@ class Board{
             for (let y = 0; y < this.boardSize;y++) {
                 let row2 = [];
                 for (let z = 0; z < 2; z++) {
-                    row2.push(Math.floor(Math.random() * 4294967296));
+                    row2.push(Math.floor(Math.random() * 2147483648));
                 }
                 row.push(row2);
             } 

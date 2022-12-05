@@ -186,7 +186,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
     const turnOrder = (square) => {
         switch(settings.value) {
-
             case "PvP":
                 if (!square.value == 0 || !board.isGameActive) break;
                 square.DOM.innerText = board.side;
