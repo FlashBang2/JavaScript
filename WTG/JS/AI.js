@@ -18,7 +18,7 @@ class AI{
     }
 
     move () {
-        let rootDrawnNode,          bestScore = null,               numberOfSimulations = 1;
+        let rootDrawnNode,          bestScore = null;             
         
         this.depth = 1,             this.previousBestMove = {};
 
@@ -92,9 +92,12 @@ class AI{
                     text: { name: "Start"},
                     children: []
                 }
+                this.startTime = new Date().getTime();
                 while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) {
-                    this.previousBestMove = this.MCS(numberOfSimulations,rootDrawnNode);
-                    numberOfSimulations++;
+                    this.previousBestMove = this.MCS(rootDrawnNode);
+                    if (this.previousBestMove != null) {
+                        break;
+                    }
                 }
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearchTree"):
@@ -231,71 +234,60 @@ class AI{
         return bestScore;
     }
 
-    MCS (numberOfSimulations, parentDrawnNode)
+    MCS ( parentDrawnNode)
     {
         let bestChild = null;
         let bestProbability = -1;
         let movePool = this.board.getAvailabeSpots();
         let boardState = this.board.getValueMatrix();
+        let random = 0;
         let side = this.board.side;
+        
         for(let move of movePool){
-            let childDrawnNode = {
-                parent: parentDrawnNode,
-                text: {name: "MAX " + move.x + " " + move.y + " " + this.board.side},
-                children: []
-            }
             let r = 0;
-            for (let i = 1; i <= nofSimulations; i++) {
+            let numberOfSimulations = 0;
+            //console.log(move)
+            while ((parseInt(this.moveTime.value, 10)/100)>numberOfSimulations){
+                this.board.validate();
+                numberOfSimulations++;
                 let indices1 = {
                     x: move.x,
                     y: move.y, 
                 }
-                while (this.board.matrix[indices1.x][indices1.y].value == 0) {
-                    if (this.board.side == 'X') {
-                        this.board.matrix[indices1.x][indices1.y].value = 1; 
-                        let childDrawnNode2 = {
-                            parent: childDrawnNode,
-                            text: {name: "MAX " + move.x + " " + move.y + " " + this.board.side},
-                            children: []
-                        }
-                        childDrawnNode.children.push(childDrawnNode2);
+                    while ((this.board.getAvailabeSpots().length > 0))  {
+                        let rameiningMoves =this.board.getAvailabeSpots();
+                        this.board.matrix[indices1.x][indices1.y].setValue(this.board.side); 
+                        random = this.board.getRandomInt(rameiningMoves.length);
+                        indices1.x = rameiningMoves[random].x;
+                        indices1.y = rameiningMoves[random].y;
+                        this.board.validate();
                         this.board.setSide();
-                        indices1.x = this.board.getRandomInt(3);
-                        indices1.y = this.board.getRandomInt(3);
-                        this.board.validate()
-                    } else {
-                        this.board.matrix[indices1.x][indices1.y].value =-1;
-                        let childDrawnNode2 = {
-                            parent: childDrawnNode,
-                            text: {name: "MAX " + move.x + " " + move.y + " " + this.board.side},
-                            children: []
+                        //console.log(this.board.winner, "winner")
+                        if (this.board.winner  != null) {
+                            break;
                         }
-                        childDrawnNode.children.push(childDrawnNode2);
-                        this.board.setSide();
-                        indices1.x = this.board.getRandomInt(3);
-                        indices1.y = this.board.getRandomInt(3);
-                        this.board.validate()
                     }
-                }
-                this.board.side = side;
-                if (this.board.winner == this.board.side) {
-                    r++
-                }
+                    //console.log(this.maximizingPlayer == this.board.winner)
+                    if (this.maximizingPlayer == this.board.winner) {
+                        //console.log("hi")
+                        r++
+                    }
 
-                this.board.setValueMatrix(boardState);
+                    this.board.setValueMatrix(boardState);
+                    this.board.side= side;
+                }
+                //console.log(r)
+                //console.log(numberOfSimulations)
+                let probability = r/numberOfSimulations;
+                console.log(probability)
+                if (probability >= bestProbability) {
+                    bestChild =  {x:move.x, y:move.y};
+                    bestProbability = probability;
                 
+                }
             }
-            let probability = r/nofSimulations;
-            
-            if (probability > bestProbability) {
-                bestChild = move;
-                bestProbability = probability;
-               
-            }
-            parentDrawnNode.children.push(childDrawnNode);
-        }
-       
-       return bestChild;
+            console.log(bestChild, "ruch")
+        return bestChild;
         
     }
 
