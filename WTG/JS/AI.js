@@ -247,7 +247,9 @@ class AI{
             let r = 0;
             let numberOfSimulations = 0;
             //console.log(move)
-            while ((parseInt(this.moveTime.value, 10)/100)>numberOfSimulations){
+            let startSimulationTime = new Date().getTime();
+           
+            while ( new Date().getTime() < startSimulationTime +(parseInt(this.moveTime.value, 10)/movePool.length)){
                 this.board.validate();
                 numberOfSimulations++;
                 let indices1 = {
@@ -279,14 +281,14 @@ class AI{
                 //console.log(r)
                 //console.log(numberOfSimulations)
                 let probability = r/numberOfSimulations;
-                console.log(probability)
+                //console.log(probability)
                 if (probability >= bestProbability) {
                     bestChild =  {x:move.x, y:move.y};
                     bestProbability = probability;
                 
                 }
             }
-            console.log(bestChild, "ruch")
+            //console.log(bestChild, "ruch")
         return bestChild;
         
     }
