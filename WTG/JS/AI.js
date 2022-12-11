@@ -241,9 +241,9 @@ class AI{
             let r = 0;
             let numberOfSimulations = 0;
             //console.log(move)
-            let startSimulationTime = new Date().getTime();
+            this.startTime = new Date().getTime();
            
-            while ( new Date().getTime() < startSimulationTime +(parseInt(this.moveTime.value, 10)/movePool.length)){
+            while ( new Date().getTime() < this.startTime +(parseInt(this.moveTime.value, 10)/movePool.length)){
                 this.board.validate();
                 numberOfSimulations++;
                 let indices1 = {
