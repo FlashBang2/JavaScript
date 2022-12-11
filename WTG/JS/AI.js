@@ -252,7 +252,7 @@ class AI{
                     r++;
                 }
             }
-            if ( r/numberOfSimulations >= bestProbability) {
+            if ( r/numberOfSimulations > bestProbability) {
                 bestMove =  {x:move.x, y:move.y};
                 bestProbability = r/numberOfSimulations;
             }
