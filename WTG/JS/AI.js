@@ -88,17 +88,7 @@ class AI{
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearch"):
                 this.maximizingPlayer = this.board.side;
-                rootDrawnNode = {
-                    text: { name: "Start"},
-                    children: []
-                }
-                this.startTime = new Date().getTime();
-                while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) {
-                    this.previousBestMove = this.MCS(rootDrawnNode);
-                    if (this.previousBestMove != null) {
-                        break;
-                    }
-                }
+                this.previousBestMove = this.MCS();
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearchTree"):
                 break;
@@ -113,9 +103,10 @@ class AI{
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
         this.board.validate();
+        this.board.gameStateCheck(this.board.winner);
+        if (this.aiType.value == "MonteCarloSearch") return;
         rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
-        this.board.gameStateCheck(this.board.winner);
         if (document.querySelector('#TreeDrawing').value == "true") new Treant(this.chartConfig);
     }
 
@@ -234,63 +225,41 @@ class AI{
         return bestScore;
     }
 
-    MCS ( parentDrawnNode)
+    MCS ()
     {
-        let bestChild = null;
+        let bestMove = null;
         let bestProbability = -1;
         let movePool = this.board.getAvailabeSpots();
         let boardState = this.board.getValueMatrix();
-        let random = 0;
-        let side = this.board.side;
-        
-        for(let move of movePool){
+        for(let move of movePool) {
             let r = 0;
             let numberOfSimulations = 0;
-            //console.log(move)
-            let startSimulationTime = new Date().getTime();
-           
-            while ( new Date().getTime() < startSimulationTime +(parseInt(this.moveTime.value, 10)/movePool.length)){
-                this.board.validate();
+            this.startTime = new Date().getTime();
+            while (new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))/movePool.length) {
                 numberOfSimulations++;
-                let indices1 = {
-                    x: move.x,
-                    y: move.y, 
+                this.board.matrix[move.x][move.y].setValue(this.board.side);
+                this.board.validate();
+                this.board.setSide();
+                while (this.board.getAvailabeSpots().length > 0 && this.board.winner == null) {
+                    let remainingMoves = this.board.getAvailabeSpots();
+                    let randomIndex = Math.floor(Math.random() * remainingMoves.length);
+                    let moveInstance = remainingMoves[randomIndex];
+                    this.board.matrix[moveInstance.x][moveInstance.y].setValue(this.board.side);
+                    this.board.validate();
+                    this.board.setSide();
                 }
-                    while ((this.board.getAvailabeSpots().length > 0))  {
-                        let rameiningMoves =this.board.getAvailabeSpots();
-                        this.board.matrix[indices1.x][indices1.y].setValue(this.board.side); 
-                        random = this.board.getRandomInt(rameiningMoves.length);
-                        indices1.x = rameiningMoves[random].x;
-                        indices1.y = rameiningMoves[random].y;
-                        this.board.validate();
-                        this.board.setSide();
-                        //console.log(this.board.winner, "winner")
-                        if (this.board.winner  != null) {
-                            break;
-                        }
-                    }
-                    //console.log(this.maximizingPlayer == this.board.winner)
-                    if (this.maximizingPlayer == this.board.winner) {
-                        //console.log("hi")
-                        r++
-                    }
-
-                    this.board.setValueMatrix(boardState);
-                    this.board.side= side;
-                }
-                //console.log(r)
-                //console.log(numberOfSimulations)
-                let probability = r/numberOfSimulations;
-                //console.log(probability)
-                if (probability >= bestProbability) {
-                    bestChild =  {x:move.x, y:move.y};
-                    bestProbability = probability;
-                
+                if (this.maximizingPlayer == this.board.winner) {
+                    r++;
                 }
             }
-            //console.log(bestChild, "ruch")
-        return bestChild;
-        
+            if ( r/numberOfSimulations >= bestProbability) {
+                bestMove =  {x:move.x, y:move.y};
+                bestProbability = r/numberOfSimulations;
+            }
+            this.board.side = this.maximizingPlayer;
+            this.board.setValueMatrix(boardState);
+        }
+        return bestMove; 
     }
 
     MCST () {
