@@ -252,8 +252,8 @@ class AI{
                     y: move.y, 
                 }
                     while ((this.board.getAvailabeSpots().length > 0))  {
-                        let rameiningMoves =this.board.getAvailabeSpots();
                         this.board.matrix[indices1.x][indices1.y].setValue(this.board.side); 
+                        let rameiningMoves =this.board.getAvailabeSpots();
                         random = this.board.getRandomInt(rameiningMoves.length);
                         indices1.x = rameiningMoves[random].x;
                         indices1.y = rameiningMoves[random].y;
