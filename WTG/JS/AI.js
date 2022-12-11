@@ -93,12 +93,7 @@ class AI{
                     children: []
                 }
                 this.startTime = new Date().getTime();
-                while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)) {
-                    this.previousBestMove = this.MCS(rootDrawnNode);
-                    if (this.previousBestMove != null) {
-                        break;
-                    }
-                }
+                this.previousBestMove = this.MCS(rootDrawnNode);
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearchTree"):
                 break;
