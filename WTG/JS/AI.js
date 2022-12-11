@@ -87,13 +87,12 @@ class AI{
                 console.log(this.depth);
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearch"):
-                this.maximizingPlayer = this.board.side;
                 rootDrawnNode = {
                     text: { name: "Start"},
                     children: []
                 }
-                this.startTime = new Date().getTime();
-                this.previousBestMove = this.MCS(rootDrawnNode);
+                this.maximizingPlayer = this.board.side;
+                this.previousBestMove = this.MCS();
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearchTree"):
                 break;
@@ -229,7 +228,7 @@ class AI{
         return bestScore;
     }
 
-    MCS ( parentDrawnNode)
+    MCS ()
     {
         let bestChild = null;
         let bestProbability = -1;
@@ -255,8 +254,10 @@ class AI{
                         this.board.matrix[indices1.x][indices1.y].setValue(this.board.side); 
                         let rameiningMoves =this.board.getAvailabeSpots();
                         random = this.board.getRandomInt(rameiningMoves.length);
-                        indices1.x = rameiningMoves[random].x;
-                        indices1.y = rameiningMoves[random].y;
+                        if (rameiningMoves.length > 0) {
+                            indices1.x = rameiningMoves[random].x;
+                            indices1.y = rameiningMoves[random].y;
+                        }
                         this.board.validate();
                         this.board.setSide();
                         //console.log(this.board.winner, "winner")
@@ -277,7 +278,7 @@ class AI{
                 //console.log(numberOfSimulations)
                 let probability = r/numberOfSimulations;
                 //console.log(probability)
-                if (probability >= bestProbability) {
+                if (probability > bestProbability) {
                     bestChild =  {x:move.x, y:move.y};
                     bestProbability = probability;
                 
