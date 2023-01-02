@@ -291,7 +291,13 @@ class AI{
     }
 
     MCST () {
-        let current = this.board.getAvailabeSpots();
+        let  current = {
+            parent: null,
+            children: [],
+            v: 0,
+            n: 0,
+        }
+
         while (this.resourcesAvailable()) {
             current = this.treePolicy(current);
             reward = this.defaultPolicy(current);
@@ -331,7 +337,7 @@ class AI{
 
     expand(node){
 
-        return childe
+        return child
     }
 
     defaultPolicy(node){
