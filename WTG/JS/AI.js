@@ -95,6 +95,7 @@ class AI{
                 this.previousBestMove = this.MCS();
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearchTree"):
+                this.previousBestMove = this.MCST();
                 break;
             case (this.board.isGameActive && this.aiType.value == "ProofNumberSearch"):
                 break;
@@ -290,9 +291,63 @@ class AI{
     }
 
     MCST () {
-
+        let current = this.board.getAvailabeSpots();
+        while (this.resourcesAvailable()) {
+            current = this.treePolicy(current);
+            reward = this.defaultPolicy(current);
+            this.backup(current, reward);
+        }
     }
 
+    resourcesAvailable(){
+        if (this.board.getAvailabeSpots().length <1){
+            return false;
+        }
+        return true;
+    }
+
+    treePolicy(node) {
+        while ((this.board.getAvailabeSpots().length > 0)) {
+            if (condition) {
+                return this.expand(node);
+            } else {
+                node=this.bestChild(node);
+            }
+        }
+        return node;
+    }
+
+    bestChild(node) {
+        let value = -Infinity;
+        node.forEach(childe => {
+            let childValue = node.v / node.n + c * sqrt(ln(N) / node.n);
+            if (childValue > value) {
+                let best = childe;
+                value = childValue;
+            }
+        });
+        return node;
+    }
+
+    expand(node){
+
+        return childe
+    }
+
+    defaultPolicy(node){
+        while ((this.board.getAvailabeSpots().length > 0)) {
+            
+        }
+    }
+
+    backup(node, reward){
+        while (node != null) {
+            node.v+=1;
+            node.c+=reward;
+            node = node.parent;
+        }
+    }
+    
     PNS () {
 
     }
