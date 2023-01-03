@@ -291,22 +291,28 @@ class AI{
     }
 
     MCST () {
-        let  current = {
-            parent: null,
-            children: [],
-            v: 0,
-            n: 0,
-        }
+        let movePool = this.board.getAvailabeSpots();
+        for(let move of movePool){
+            this.current = {
+                x: move.x,
+                y: move.y,
+                parent: null,
+                children: [],
+                actions: this.board.getAvailabeSpots(),
+                v: 0,
+                n: 0,
+            }
 
-        while (this.resourcesAvailable()) {
-            current = this.treePolicy(current);
-            reward = this.defaultPolicy(current);
-            this.backup(current, reward);
+            while (this.resourcesAvailable()) {
+                this.current = this.treePolicy(this.current);
+                reward = this.defaultPolicy(this.current);
+                this.backup(this.current, reward);
+            }
         }
     }
 
     resourcesAvailable(){
-        if (this.board.getAvailabeSpots().length <1){
+        if (this.board.getAvailabeSpots().length > 0){
             return false;
         }
         return true;
@@ -314,7 +320,7 @@ class AI{
 
     treePolicy(node) {
         while ((this.board.getAvailabeSpots().length > 0)) {
-            if (condition) {
+            if (node.children > 0 && node.children == node.actions) {
                 return this.expand(node);
             } else {
                 node=this.bestChild(node);
@@ -324,9 +330,10 @@ class AI{
     }
 
     bestChild(node) {
+        let c = sqrt(2);
         let value = -Infinity;
         node.forEach(childe => {
-            let childValue = node.v / node.n + c * sqrt(ln(N) / node.n);
+            let childValue = node.v / node.n + c * sqrt(ln(this.current.n) / node.n);
             if (childValue > value) {
                 let best = childe;
                 value = childValue;
@@ -336,14 +343,33 @@ class AI{
     }
 
     expand(node){
-
-        return child
+        let child={};
+        for(let move of node.actions){
+            for(let children of node.children){
+                if (move.x == children.x && move.x == children.x ) {
+                    continue
+                }
+                child ={
+                    x: move.x,
+                    y: move.y,
+                    parent: node,
+                    children: [],
+                    actions: this.board.getAvailabeSpots(),
+                    v: 0,
+                    n: 0, 
+                }
+            }
+        }
+        node.children.add(child);
+        return child;
     }
 
     defaultPolicy(node){
         while ((this.board.getAvailabeSpots().length > 0)) {
-            
+            let randomAction =node.actions[getRandomInt( node.actions.length)];
         }
+        console.log(randomAction)
+        return 2;
     }
 
     backup(node, reward){
