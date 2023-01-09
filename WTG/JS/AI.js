@@ -333,6 +333,7 @@ class AI{
         child.setSide();
         child.parent = current;
         child.drawnNode = childDrawnNode;
+        child.winrate = null;
         child.visits = null;
         child.unUsedMoves = child.getAvailabeSpots();
         current.children.push(child);
