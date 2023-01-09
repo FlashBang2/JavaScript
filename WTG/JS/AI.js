@@ -327,11 +327,14 @@ class AI{
     }
 
     accquireReward (current) {
-        current.validate();
-        if (current.getAvailabeSpots().length == 0) {
-            return 0;
+        let board = _.cloneDeep(current);
+        for (let move of board.getAvailabeSpots()) {
+            board.matrix[move.x][move.y].setValue(board.side);
+            board.validate();
+            if (board.winner != null || board.getAvailabeSpots().length == 0) break;
+            board.setSide();
         }
-        return current.winner == this.maximizingPlayer ? 1 : -1;
+        return board.getAvailabeSpots().length == 0 ? 0 : this.winner == this.maximizingPlayer ? 1 : -1;       
     }
 
     propagate (current, reward) {
