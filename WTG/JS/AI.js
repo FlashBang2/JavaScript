@@ -341,8 +341,7 @@ class AI{
             if (board.winner != null || board.getAvailabeSpots().length == 0) break;
             board.setSide();
         }
-        console.log(board.getAvailabeSpots().length == 0 ? 0 : current.winner == this.maximizingPlayer ? 1 : -1);
-        return board.getAvailabeSpots().length == 0 ? 0 : current.winner == this.maximizingPlayer ? 1 : -1;       
+        return board.getAvailabeSpots().length == 0 ? 0 : board.winner == this.maximizingPlayer ? 1 : -1;       
     }
 
     propagate (current, reward) {
