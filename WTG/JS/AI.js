@@ -290,15 +290,15 @@ class AI{
         this.startTime = new Date().getTime();
         let current = null;
         this.board.unUsedMoves = null;
+        this.board.children = [];
         while (new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
-            console.log(this.board.unUsedMoves);
             current = this.selection(this.board); 
             current = this.expand(current);
             let reward = this.simulation(current);
             this.propagation(current, reward);
         }
         current = this.getBestChild(this.board);
-        console.log(current);
+        console.log(current.move);
         return current.move;
     }
 
@@ -317,6 +317,7 @@ class AI{
         for (let child of current.children) {
             let UCT = child.winrate / child.visits + 2 * Math.sqrt(Math.log(child.parent.visits) / child.visits);
             if (UCT > value) {
+                console.log("dd")
                 bestChild = _.cloneDeep(child);  
                 value = UCT;
             }
@@ -331,7 +332,6 @@ class AI{
                 current.unUsedMoves.push(move);
             }
         }
-        console.log(current.unUsedMoves);
         let move = current.unUsedMoves[Math.floor(Math.random() * current.unUsedMoves.length)];
         let index = current.unUsedMoves.findIndex((obj) => obj.x == move.x && obj.y == move.y);
         current.unUsedMoves.splice(index, 1);
@@ -355,7 +355,6 @@ class AI{
         if (board.winner == null) {
             return 0;
         }
-        console.log(board.side == this.maximizingPlayer ? 1 : -1);
         return board.side == this.maximizingPlayer ? 1 : -1; 
     }
 
