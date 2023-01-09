@@ -291,26 +291,29 @@ class AI{
         let current = null;
         this.board.children = [];
         while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)){
-            current = this.selection(this.board);
+            current = this.selection(this.board, parentDrawnNode);
             current = this.explore(current, parentDrawnNode);
             let reward = this.accquireReward(current, parentDrawnNode);
             this.propagate(current, reward);
         }
+        console.log(this.board);
         current = this.getBestChild(this.board);
         return current.move;
     }
 
-    selection (current) {
+    selection (current, parentDrawnNode) {
         if (current.unUsedMoves.length > 0) {
             return current;
         }
         else {
-            return selection(this.getBestChild());
+            return this.selection(this.getBestChild(current, parentDrawnNode));
         }
     }
 
     explore (current, parentDrawnNode) {
         let move = current.unUsedMoves[Math.floor(Math.random() * current.unUsedMoves.length)];
+        let index = current.unUsedMoves.findIndex((obj) => obj.x == move.x && obj.y == move.y);
+        current.unUsedMoves.splice(index, 1);
         let childDrawnNode = {
             parent: parentDrawnNode,
             text: {name: "MCST " + move.x + " " + move.y + " " + current.side}
