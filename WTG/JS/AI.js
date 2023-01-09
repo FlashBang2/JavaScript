@@ -289,40 +289,42 @@ class AI{
         //driverCode
         let current = _.clone(this.board);
         this.startTime = new Date().getTime();
-        while (new Data().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
+        while (new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
             current.validate();
             while (current.winner == null && current.getAvailabeSpots().length > 0) {
                 if (current.getAvailabeSpots().length >= current.children.length) {   
-                    current = expandBoard(current);
+                    current = this.expandBoard(current);
                 }
                 else {
-                    current = bestBoard (current);
+                    current = this.bestBoard (current);
                 }
             }
-            let reward =  defaultScenario(current);
-            propagation(current, reward);
+            let reward =  this.defaultScenario(current);
+            this.propagation(current, reward);
         }
         return current.bestMove;
-
-        /*
-            //bestBoard (current)
-            value = -Infinity
-            for (board of current.children) {
-                childValue = board.winrate / board.visits + 2 * sqrt(ln(board.parent != null ? board.parent.visits : 1) / board.visits);
+    }
+        
+            bestBoard (current){
+            let value = -Infinity
+            let bestBoard;
+            for (let board of current.children) {
+                console.log(board)
+                let childValue = board.winrate / board.visits + 2 *  Math.sqrt( Math.log(board.parent != null ? board.parent.visits : 1) / board.visits);
                 if (childValue > value) {
                     bestBoard = board;
                     value = childValue;
                 }
             }
             return bestBoard;
-
+        }
             //.move = object of X and Y coordinates stored in board. X and Y must be of entry point
             //.v = wins stored in board
             //.n = number of visits in this board stored in board
             //.parent = reference to board before
 
-            //expandBoard (current) {
-                board = _.clone(current);
+            expandBoard (current) {
+                let board = _.clone(current);
                 let i = 0;
                 while (current.usedMoves.includes(board.getAvailabeSpots()[i])) {
                     i++;
@@ -338,7 +340,7 @@ class AI{
                 return board;
             }
 
-            //defaultScenario (board) {
+            defaultScenario (board) {
                 board.validate();
                 let moves = board.getAvailabeSpots();
                 while (board.winner == null && moves.length > 0) {
@@ -352,7 +354,7 @@ class AI{
                 return this.maximizingPlayer == board.side && board.winner != null ? 1 : 0;
             }
 
-            //propagation (boards, reward) {
+            propagation (board, reward) {
                 while (board != null) {
                     board.visits += 1
                     board.winrate += reward
@@ -360,8 +362,6 @@ class AI{
                 }
             }
 
-         */
-    }
     
     PNS () {
 
