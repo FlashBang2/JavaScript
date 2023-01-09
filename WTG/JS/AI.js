@@ -292,12 +292,13 @@ class AI{
         while (new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
             current.validate();
             while (current.winner == null && current.getAvailabeSpots().length > 0) {
-                if (current.getAvailabeSpots().length >= current.children.length) {   
+                if (current.getAvailabeSpots().length > 1) {   
                     current = this.expandBoard(current);
                 }
                 else {
                     current = this.bestBoard (current);
                 }
+                current.validate();
             }
             let reward =  this.defaultScenario(current);
             this.propagation(current, reward);
@@ -307,12 +308,11 @@ class AI{
         
             bestBoard (current){
             let value = -Infinity
-            let bestBoard;
+            let bestBoard = {};
             for (let board of current.children) {
-                console.log(board)
                 let childValue = board.winrate / board.visits + 2 *  Math.sqrt( Math.log(board.parent != null ? board.parent.visits : 1) / board.visits);
                 if (childValue > value) {
-                    bestBoard = board;
+                    bestBoard = _.clone(board);
                     value = childValue;
                 }
             }
@@ -325,14 +325,10 @@ class AI{
 
             expandBoard (current) {
                 let board = _.clone(current);
-                let i = 0;
-                while (current.usedMoves.includes(board.getAvailabeSpots()[i])) {
-                    i++;
-                }
-                board.matrix[board.getAvailabeSpots()[i].x][board.getAvailabeSpots()[i].y].setValue(board.side);
-                current.usedMoves.push({x:board.getAvailabeSpots()[i].x, y:board.getAvailabeSpots()[i].y});
-                if (current == this.board) {
-                    board.bestMove = {x:board.getAvailabeSpots()[i].x, y:board.getAvailabeSpots()[i].y};
+                board.matrix[board.getAvailabeSpots()[0].x][board.getAvailabeSpots()[0].y].setValue(board.side);
+                current.usedMoves.push({x:board.getAvailabeSpots()[0].x, y:board.getAvailabeSpots()[0].y});
+                if (_.isEqual(current, this.board)) {
+                    board.bestMove = {x:board.getAvailabeSpots()[0].x, y:board.getAvailabeSpots()[0].y};
                 }
                 board.setSide();
                 board.parent = _.clone(current);
@@ -342,6 +338,9 @@ class AI{
 
             defaultScenario (board) {
                 board.validate();
+                board.setSide();
+                board.validate();
+                board.setSide();
                 let moves = board.getAvailabeSpots();
                 while (board.winner == null && moves.length > 0) {
                     moves = board.getAvailabeSpots();
