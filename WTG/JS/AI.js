@@ -111,7 +111,6 @@ class AI{
         this.board.currentPosition = this.board.currentPosition ^ this.board.zobristKeys[this.previousBestMove.x][this.previousBestMove.y][this.board.side == 'X' ? 1 : 0];
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
-        console.log(this.board)
         this.board.validate();
         rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
@@ -288,10 +287,11 @@ class AI{
 
     MCST () {
         //driverCode
-        let current = _.cloneDeep(this.board);
         this.startTime = new Date().getTime();
+        let current = null;
+        this.board.unUsedMoves = null;
         while (new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
-            current = this.selection(current); 
+            current = this.selection(this.board); 
             current = this.expand(current);
             let reward = this.simulation(current);
             this.propagation(current, reward);
@@ -301,7 +301,7 @@ class AI{
     }
 
     selection (current) {
-        let bestChild = _.cloneDeep(current);
+        let bestChild = current;
         current.validate();
         if (_.isEqual(current.unUsedMoves, []) || this.winner != null || current.getAvailabeSpots().length == 0) {
             bestChild = this.getBestChild(current); 
@@ -312,8 +312,9 @@ class AI{
     getBestChild (current) {
         let value = -Infinity;
         let bestChild = null;
+        console.log(this.board);
         for (let child of current.children) {
-            let UCT = child.winrate / child.visits + 2 *  Math.sqrt( Math.log(child.parent.visits) / child.visits);
+            let UCT = child.winrate / child.visits + 2 * Math.sqrt(Math.log(child.parent.visits) / child.visits);
             if (UCT > value) {
                 bestChild = _.cloneDeep(child);  
                 value = UCT;
@@ -329,7 +330,10 @@ class AI{
                 current.unUsedMoves.push(move);
             }
         }
+        console.log(current.unUsedMoves);
         let move = current.unUsedMoves[Math.floor(Math.random() * current.unUsedMoves.length)];
+        let index = current.unUsedMoves.findIndex((obj) => obj.x == move.x && obj.y == move.y);
+        current.unUsedMoves.splice(index, 1);
         let child = _.cloneDeep(current);
         child.matrix[move.x][move.y].setValue(current.side);
         child.move = {x:move.x,y:move.y};
