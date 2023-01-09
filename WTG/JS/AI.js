@@ -112,9 +112,10 @@ class AI{
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
         this.board.validate();
-        rootDrawnNode.text.name = bestScore;
+        if (this.aiType.value != "MonteCarloSearchTree") rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
         this.board.gameStateCheck(this.board.winner);
+        console.log(this.chartConfig)
         if (document.querySelector('#TreeDrawing').value == "true") new Treant(this.chartConfig);
     }
 
@@ -320,7 +321,8 @@ class AI{
         current.unUsedMoves.splice(index, 1);
         let childDrawnNode = {
             parent: parentDrawnNode,
-            text: {name: "MCST " + move.x + " " + move.y + " " + current.side}
+            text: {name: "MCST " + move.x + " " + move.y + " " + current.side},
+            children: []
         }
         parentDrawnNode.children.push(childDrawnNode);
         let child = _.cloneDeep(current);
