@@ -150,7 +150,7 @@ window.addEventListener("DOMContentLoaded", () => {
             case "MonteCarloSearch":
                 ai.moveTime.style.display = "inline";
                 ai.alphaBetaPrunning.style.display = "none";
-                treeDrawing.style.display = "inline";
+                treeDrawing.style.display = "none";
                 document.querySelector('#TreeButtonDescription').style.display = 'none';
                 document.querySelectorAll('.AlphaBetaPrunningDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: none;");
                 document.querySelectorAll('.MoveTimeDescription').forEach(flipFlopForSensitiveSettings, this.ai = ai, cssText = "display: inline;");
