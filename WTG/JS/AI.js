@@ -306,11 +306,15 @@ class AI{
             return current;
         }
         else {
+            if (current.children.length == 0) {
+                return current;
+            }
             return this.selection(this.getBestChild(current, parentDrawnNode));
         }
     }
 
     explore (current, parentDrawnNode) {
+        if (current.unUsedMoves.length == 0) return current;
         let move = current.unUsedMoves[Math.floor(Math.random() * current.unUsedMoves.length)];
         let index = current.unUsedMoves.findIndex((obj) => obj.x == move.x && obj.y == move.y);
         current.unUsedMoves.splice(index, 1);
@@ -337,7 +341,8 @@ class AI{
             if (board.winner != null || board.getAvailabeSpots().length == 0) break;
             board.setSide();
         }
-        return board.getAvailabeSpots().length == 0 ? 0 : this.winner == this.maximizingPlayer ? 1 : -1;       
+        console.log(board.getAvailabeSpots().length == 0 ? 0 : current.winner == this.maximizingPlayer ? 1 : -1);
+        return board.getAvailabeSpots().length == 0 ? 0 : current.winner == this.maximizingPlayer ? 1 : -1;       
     }
 
     propagate (current, reward) {
