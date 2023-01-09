@@ -99,7 +99,7 @@ class AI{
                     children: []
                 }
                 this.maximizingPlayer = this.board.side;
-                this.previousBestMove = this.MCST();
+                this.previousBestMove = this.MCST(rootDrawnNode);
                 break;
             case (this.board.isGameActive && this.aiType.value == "ProofNumberSearch"):
                 break;
@@ -285,85 +285,76 @@ class AI{
         return bestChild;
     }
 
-    MCST () {
-        //driverCode
+    MCST (parentDrawnNode) {
         this.startTime = new Date().getTime();
+        this.board.unUsedMoves = this.board.getAvailabeSpots();
         let current = null;
-        this.board.unUsedMoves = null;
         this.board.children = [];
-        while (new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
-            current = this.selection(this.board); 
-            current = this.expand(current);
-            let reward = this.simulation(current);
-            this.propagation(current, reward);
+        while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)){
+            current = this.selection(this.board);
+            current = this.explore(current, parentDrawnNode);
+            let reward = this.accquireReward(current, parentDrawnNode);
+            this.propagate(current, reward);
         }
         current = this.getBestChild(this.board);
-        console.log(current.move);
         return current.move;
     }
 
     selection (current) {
-        let bestChild = current;
-        current.validate();
-        if (_.isEqual(current.unUsedMoves, []) || current.winner != null || current.getAvailabeSpots().length == 0) {
-            bestChild = this.getBestChild(current); 
+        if (current.unUsedMoves.length > 0) {
+            return current;
         }
-        return bestChild;
+        else {
+            return selection(this.getBestChild());
+        }
     }
 
-    getBestChild (current) {
-        let value = -Infinity;
-        let bestChild = null;
-        for (let child of current.children) {
-            let UCT = child.winrate / child.visits + 2 * Math.sqrt(Math.log(child.parent.visits) / child.visits);
-            if (UCT > value) {
-                console.log("dd")
-                bestChild = _.cloneDeep(child);  
-                value = UCT;
-            }
-        }
-        return bestChild;
-    }
-
-    expand (current) {
-        if (current.unUsedMoves == null) {
-            current.unUsedMoves = [];
-            for (let move of current.getAvailabeSpots()) {
-                current.unUsedMoves.push(move);
-            }
-        }
+    explore (current, parentDrawnNode) {
         let move = current.unUsedMoves[Math.floor(Math.random() * current.unUsedMoves.length)];
-        let index = current.unUsedMoves.findIndex((obj) => obj.x == move.x && obj.y == move.y);
-        current.unUsedMoves.splice(index, 1);
+        let childDrawnNode = {
+            parent: parentDrawnNode,
+            text: {name: "MCST " + move.x + " " + move.y + " " + current.side}
+        }
+        parentDrawnNode.children.push(childDrawnNode);
         let child = _.cloneDeep(current);
-        child.matrix[move.x][move.y].setValue(current.side);
-        child.move = {x:move.x,y:move.y};
+        child.matrix[move.x][move.y].setValue(child.side);
+        child.move = {x:move.x, y:move.y};
+        child.setSide();
+        child.parent = current;
+        child.unUsedMoves = child.getAvailabeSpots();
         current.children.push(child);
-        child.parent = _.cloneDeep(current);
         return child;
     }
 
-    simulation (current) {
-        let board = _.cloneDeep(current);
-        while (board.winner == null && board.getAvailabeSpots().length > 0) {
-            for (let move of board.getAvailabeSpots()) {
-                board.setSide();
-                board.matrix[move.x][move.y].setValue(board.side);
-                board.validate();
-            }
-        }
-        if (board.winner == null) {
+    accquireReward (current) {
+        current.validate();
+        if (current.getAvailabeSpots().length == 0) {
             return 0;
         }
-        return board.side == this.maximizingPlayer ? 1 : -1; 
+        return current.winner == this.maximizingPlayer ? 1 : -1;
     }
 
-    propagation (current, reward) {
+    propagate (current, reward) {
         while (current != null) {
             current.visits  += 1;
             current.winrate += reward;
             current = current.parent;
         }
+    }
+
+    getBestChild (current, parentDrawnNode) {
+        let value = -Infinity;
+        let bestChild = null;
+        for (let index in current.children) {
+            let UCT = current.children[index].winrate / current.children[index].visits + 2 * Math.sqrt(Math.log(current.children[index].parent.visits / current.children[index].visits));
+            if (UCT > value) {
+                value = UCT;
+                bestChild = current.children[index];
+            }
+            if (parentDrawnNode == undefined) continue;
+            parentDrawnNode.children[index].text.name = UCT;
+        }
+        return bestChild;
     }
     
     PNS () {
