@@ -115,7 +115,6 @@ class AI{
         if (this.aiType.value != "MonteCarloSearchTree") rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
         this.board.gameStateCheck(this.board.winner);
-        console.log(this.chartConfig)
         if (document.querySelector('#TreeDrawing').value == "true") new Treant(this.chartConfig);
     }
 
@@ -298,7 +297,6 @@ class AI{
             let reward = this.accquireReward(current);
             this.propagate(current, reward);
         }
-        console.log(this.board);
         current = this.getBestChild(this.board);
         this.board.drawnNode.text.name = this.board.winrate + "/" + this.board.visits;
         return current.move;
@@ -363,7 +361,7 @@ class AI{
         let value = -Infinity;
         let bestChild = null;
         for (let index in current.children) {
-            let UCT = current.children[index].winrate / current.children[index].visits + 2 * Math.sqrt(Math.log(current.children[index].parent.visits / current.children[index].visits));
+            let UCT = current.children[index].winrate / current.children[index].visits + 2 * Math.sqrt(Math.log(current.children[index].parent.visits) / current.children[index].visits);
             if (UCT > value) {
                 value = UCT;
                 bestChild = current.children[index];
