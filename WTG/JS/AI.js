@@ -323,7 +323,7 @@ class AI{
         current.unUsedMoves.splice(index, 1);
         let childDrawnNode = {
             parent: current.drawnNode,
-            text: {name: "MCST " + move.x + " " + move.y + " " + current.side},
+            text: {name: current.winrate  + "/" + current.visits},
             children: []
         }
         current.drawnNode.children.push(childDrawnNode);
