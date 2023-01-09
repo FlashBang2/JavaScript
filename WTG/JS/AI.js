@@ -366,6 +366,7 @@ class AI{
                 value = UCT;
                 bestChild = current.children[index];
             }
+            if (current.drawnNode.children[index] == null) continue;
             current.drawnNode.children[index].text.name = current.children[index].winrate + "/" + current.children[index].visits;
         }
         return bestChild;
