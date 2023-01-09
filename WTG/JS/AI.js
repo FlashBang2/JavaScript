@@ -364,7 +364,7 @@ class AI{
                 bestChild = current.children[index];
             }
             if (parentDrawnNode == undefined) continue;
-            parentDrawnNode.children[index].text.name = current.children[index].winrate ;
+            parentDrawnNode.children[index].text.name = current.children[index].winrate +"/"+ current.children[index].visits;
         }
         return bestChild;
     }
