@@ -291,61 +291,105 @@ class AI{
         let current = _.cloneDeep(this.board);
         this.startTime = new Date().getTime();
         while (new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
-            current.winner = null;
-            current = _.cloneDeep(this.board);
-            while (current.winner == null && current.getAvailabeSpots().length > 0) {
-                
-                if (current.getAvailabeSpots().length > 1) {   
-                    current = this.expandBoard(current);
-                }
-                else {
-                    current = this.bestBoard (current);
-                }
-                current.validate();
-            }
-            let reward =  this.defaultScenario(current);
+            current = this.selection(current); 
+            current = this.expand(current);
+            let reward = this.simulation(current);
             this.propagation(current, reward);
         }
-        console.log(current.bestMove)
-        return current.bestMove;
+        current = this.getBestChild(this.board);
+        return current.move;
     }
-        
-            bestBoard (current){
+
+    selection (current) {
+        let bestChild = _.cloneDeep(current);
+        current.validate();
+        if (_.isEqual(current.unUsedMoves, []) || this.winner != null || current.getAvailabeSpots().length == 0) {
+            bestChild = this.getBestChild(current); 
+        }
+        return bestChild;
+    }
+
+    getBestChild (current) {
+        let value = -Infinity;
+        let bestChild = null;
+        for (let child of current.children) {
+            let UCT = child.winrate / child.visits + 2 *  Math.sqrt( Math.log(child.parent.visits) / child.visits);
+            if (UCT > value) {
+                bestChild = _.cloneDeep(child);  
+                value = UCT;
+            }
+        }
+        return bestChild;
+    }
+
+    expand (current) {
+        if (current.unUsedMoves == null) {
+            current.unUsedMoves = [];
+            for (let move of current.getAvailabeSpots()) {
+                current.unUsedMoves.push(move);
+            }
+        }
+        let move = current.unUsedMoves[Math.floor(Math.random() * current.unUsedMoves.length)];
+        let child = _.cloneDeep(current);
+        child.matrix[move.x][move.y].setValue(current.side);
+        child.move = {x:move.x,y:move.y};
+        current.children.push(child);
+        child.parent = _.cloneDeep(current);
+        return child;
+    }
+
+    simulation (current) {
+        let board = _.cloneDeep(current);
+        while (board.winner == null && board.getAvailabeSpots().length > 0) {
+            for (let move of board.getAvailabeSpots()) {
+                board.setSide();
+                board.matrix[move.x][move.y].setValue(board.side);
+                board.validate();
+            }
+        }
+        if (board.winner == null) {
+            return 0;
+        }
+        return board.side == this.maximizingPlayer ? 1 : -1; 
+    }
+
+    propagation (current, reward) {
+        while (current != null) {
+            current.visits  += 1;
+            current.winrate += reward;
+            current = current.parent;
+        }
+    }
+            /*bestBoard (current) {
             let value = -Infinity
             let bestBoard = {};
-            console.log(current)
             for (let board of current.children) {
-                let childValue = board.winrate / board.visits + 2 *  Math.sqrt( Math.log(board.parent.visits) / board.visits);
-                if (childValue > value) {
+                board.UCT = board.winrate / board.visits + 2 *  Math.sqrt( Math.log(board.parent.visits) / board.visits);
+                if (board.UCT > value) {
                     bestBoard = _.cloneDeep(board);
-                    value = childValue;
+                    value = board.UCT;
                 }
             }
             return bestBoard;
-        }
+        }*/
             //.move = object of X and Y coordinates stored in board. X and Y must be of entry point
             //.v = wins stored in board
             //.n = number of visits in this board stored in board
             //.parent = reference to board before
 
-            expandBoard (current) {
+           /* expandBoard (current) {
                 let board = _.cloneDeep(current);
                 board.matrix[board.getAvailabeSpots()[0].x][board.getAvailabeSpots()[0].y].setValue(board.side);
                 current.usedMoves.push({x:board.getAvailabeSpots()[0].x, y:board.getAvailabeSpots()[0].y});
-                
                 board.bestMove = {x:board.getAvailabeSpots()[0].x, y:board.getAvailabeSpots()[0].y};
-                
                 board.setSide();
                 board.parent = _.cloneDeep(current);
                 current.children.push(board);
                 return board;
             }
 
-            defaultScenario (board) {
-                board.validate();
-                board.setSide();
-                board.validate();
-                board.setSide();
+            defaultScenario (current) {
+                let board = _.cloneDeep(current);
                 let moves = board.getAvailabeSpots();
                 while (board.winner == null && moves.length > 0) {
                     moves = board.getAvailabeSpots();
@@ -364,7 +408,7 @@ class AI{
                     board.winrate += reward
                     board = board.parent
                 }
-            }
+            }*/
 
     
     PNS () {
