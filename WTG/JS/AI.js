@@ -111,7 +111,6 @@ class AI{
         this.board.currentPosition = this.board.currentPosition ^ this.board.zobristKeys[this.previousBestMove.x][this.previousBestMove.y][this.board.side == 'X' ? 1 : 0];
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
-        console.log(this.board)
         this.board.validate();
         rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
@@ -291,29 +290,36 @@ class AI{
         let current = _.cloneDeep(this.board);
         this.startTime = new Date().getTime();
         while (new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
-            current.winner = null;
+            current.validate();
             current = _.cloneDeep(this.board);
-            while (current.winner == null && current.getAvailabeSpots().length > 0) {
-                
-                if (current.getAvailabeSpots().length > 1) {   
-                    current = this.expandBoard(current);
-                }
-                else {
-                    current = this.bestBoard (current);
-                }
-                current.validate();
-            }
+            //console.log(current.matrix)
+            current = this.treePolicy(current);
             let reward =  this.defaultScenario(current);
             this.propagation(current, reward);
         }
-        console.log(current.bestMove)
+        console.log(current.bestMove, current.winrate)
         return current.bestMove;
     }
         
+    treePolicy(node){
+        let current = _.cloneDeep(node);
+        while (current.winner == null && current.getAvailabeSpots().length > 0) {
+            if (current.getAvailabeSpots().length > 1) { 
+                return this.expandBoard(current);
+            }
+            else {
+                console.log("gg")  
+                current = this.bestBoard (current);
+            }
+            current.validate();
+        }
+        return current;
+    }
+
+
             bestBoard (current){
             let value = -Infinity
             let bestBoard = {};
-            console.log(current)
             for (let board of current.children) {
                 let childValue = board.winrate / board.visits + 2 *  Math.sqrt( Math.log(board.parent.visits) / board.visits);
                 if (childValue > value) {
@@ -332,18 +338,16 @@ class AI{
                 let board = _.cloneDeep(current);
                 board.matrix[board.getAvailabeSpots()[0].x][board.getAvailabeSpots()[0].y].setValue(board.side);
                 current.usedMoves.push({x:board.getAvailabeSpots()[0].x, y:board.getAvailabeSpots()[0].y});
-                
                 board.bestMove = {x:board.getAvailabeSpots()[0].x, y:board.getAvailabeSpots()[0].y};
-                
                 board.setSide();
                 board.parent = _.cloneDeep(current);
                 current.children.push(board);
                 return board;
             }
 
-            defaultScenario (board) {
-                board.validate();
-                board.setSide();
+            defaultScenario (current) {
+                let board = _.cloneDeep(current);
+                let side = board.side;
                 board.validate();
                 board.setSide();
                 let moves = board.getAvailabeSpots();
@@ -354,15 +358,15 @@ class AI{
                     board.validate();
                     board.setSide();
                 }
-                board.setSide();
-                return this.maximizingPlayer == board.side && board.winner != null ? 1 : 0;
+                board.side=side;
+                return this.maximizingPlayer == board.side && board.winner != null ? 1 : -1;
             }
 
             propagation (board, reward) {
                 while (board != null) {
-                    board.visits += 1
-                    board.winrate += reward
-                    board = board.parent
+                    board.visits += 1;
+                    board.winrate += reward;
+                    board = board.parent;
                 }
             }
 
