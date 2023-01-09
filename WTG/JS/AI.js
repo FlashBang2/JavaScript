@@ -111,6 +111,7 @@ class AI{
         this.board.currentPosition = this.board.currentPosition ^ this.board.zobristKeys[this.previousBestMove.x][this.previousBestMove.y][this.board.side == 'X' ? 1 : 0];
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].DOM.classList.add(`player${this.board.side}`);
         this.board.matrix[this.previousBestMove.x][this.previousBestMove.y].setValue(this.board.side);
+        console.log(this.board)
         this.board.validate();
         rootDrawnNode.text.name = bestScore;
         this.chartConfig.nodeStructure = rootDrawnNode;
@@ -287,11 +288,13 @@ class AI{
 
     MCST () {
         //driverCode
-        let current = _.clone(this.board);
+        let current = _.cloneDeep(this.board);
         this.startTime = new Date().getTime();
         while (new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
-            current.validate();
+            current.winner = null;
+            current = _.cloneDeep(this.board);
             while (current.winner == null && current.getAvailabeSpots().length > 0) {
+                
                 if (current.getAvailabeSpots().length > 1) {   
                     current = this.expandBoard(current);
                 }
@@ -303,16 +306,18 @@ class AI{
             let reward =  this.defaultScenario(current);
             this.propagation(current, reward);
         }
+        console.log(current.bestMove)
         return current.bestMove;
     }
         
             bestBoard (current){
             let value = -Infinity
             let bestBoard = {};
+            console.log(current)
             for (let board of current.children) {
-                let childValue = board.winrate / board.visits + 2 *  Math.sqrt( Math.log(board.parent != null ? board.parent.visits : 1) / board.visits);
+                let childValue = board.winrate / board.visits + 2 *  Math.sqrt( Math.log(board.parent.visits) / board.visits);
                 if (childValue > value) {
-                    bestBoard = _.clone(board);
+                    bestBoard = _.cloneDeep(board);
                     value = childValue;
                 }
             }
@@ -324,14 +329,14 @@ class AI{
             //.parent = reference to board before
 
             expandBoard (current) {
-                let board = _.clone(current);
+                let board = _.cloneDeep(current);
                 board.matrix[board.getAvailabeSpots()[0].x][board.getAvailabeSpots()[0].y].setValue(board.side);
                 current.usedMoves.push({x:board.getAvailabeSpots()[0].x, y:board.getAvailabeSpots()[0].y});
-                if (_.isEqual(current, this.board)) {
-                    board.bestMove = {x:board.getAvailabeSpots()[0].x, y:board.getAvailabeSpots()[0].y};
-                }
+                
+                board.bestMove = {x:board.getAvailabeSpots()[0].x, y:board.getAvailabeSpots()[0].y};
+                
                 board.setSide();
-                board.parent = _.clone(current);
+                board.parent = _.cloneDeep(current);
                 current.children.push(board);
                 return board;
             }
