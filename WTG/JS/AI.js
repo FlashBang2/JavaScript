@@ -14,7 +14,6 @@ class AI{
             },
             nodeStructure: null,
         }
-        
     }
 
     move () {
@@ -95,6 +94,11 @@ class AI{
                 this.previousBestMove = this.MCS();
                 break;
             case (this.board.isGameActive && this.aiType.value == "MonteCarloSearchTree"):
+                rootDrawnNode = {
+                    text: { name: "Start"},
+                    children: []
+                }
+                this.maximizingPlayer = this.board.side;
                 this.previousBestMove = this.MCST();
                 break;
             case (this.board.isGameActive && this.aiType.value == "ProofNumberSearch"):
@@ -241,10 +245,9 @@ class AI{
         for(let move of movePool){
             let r = 0;
             let numberOfSimulations = 0;
-            //console.log(move)
             this.startTime = new Date().getTime();
            
-            while ( new Date().getTime() < this.startTime +(parseInt(this.moveTime.value, 10)/movePool.length)){
+            while ( new Date().getTime() < this.startTime + (parseInt(this.moveTime.value, 10)/movePool.length)){
                 this.board.validate();
                 numberOfSimulations++;
                 let indices1 = {
@@ -253,7 +256,7 @@ class AI{
                 }
                     while ((this.board.getAvailabeSpots().length > 0))  {
                         this.board.matrix[indices1.x][indices1.y].setValue(this.board.side); 
-                        let rameiningMoves =this.board.getAvailabeSpots();
+                        let rameiningMoves = this.board.getAvailabeSpots();
                         random = this.board.getRandomInt(rameiningMoves.length);
                         if (rameiningMoves.length > 0) {
                             indices1.x = rameiningMoves[random].x;
@@ -261,123 +264,103 @@ class AI{
                         }
                         this.board.validate();
                         this.board.setSide();
-                        //console.log(this.board.winner, "winner")
                         if (this.board.winner  != null) {
                             break;
                         }
                     }
-                    //console.log(this.maximizingPlayer == this.board.winner)
                     if (this.maximizingPlayer == this.board.winner) {
-                        //console.log("hi")
                         r++
                     }
 
                     this.board.setValueMatrix(boardState);
                     this.board.side= side;
                 }
-                //console.log(r)
-                //console.log(numberOfSimulations)
                 let probability = r/numberOfSimulations;
-                //console.log(probability)
                 if (probability > bestProbability) {
                     bestChild =  {x:move.x, y:move.y};
                     bestProbability = probability;
                 
                 }
             }
-            //console.log(bestChild, "ruch")
         return bestChild;
-        
     }
 
     MCST () {
-        let movePool = this.board.getAvailabeSpots();
-        for(let move of movePool){
-            this.current = {
-                x: move.x,
-                y: move.y,
-                parent: null,
-                children: [],
-                actions: this.board.getAvailabeSpots(),
-                v: 0,
-                n: 0,
-            }
-
-            while (this.resourcesAvailable()) {
-                this.current = this.treePolicy(this.current);
-                reward = this.defaultPolicy(this.current);
-                this.backup(this.current, reward);
-            }
-        }
-    }
-
-    resourcesAvailable(){
-        if (this.board.getAvailabeSpots().length > 0){
-            return false;
-        }
-        return true;
-    }
-
-    treePolicy(node) {
-        while ((this.board.getAvailabeSpots().length > 0)) {
-            if (node.children > 0 && node.children == node.actions) {
-                return this.expand(node);
-            } else {
-                node=this.bestChild(node);
-            }
-        }
-        return node;
-    }
-
-    bestChild(node) {
-        let c = sqrt(2);
-        let value = -Infinity;
-        node.forEach(childe => {
-            let childValue = node.v / node.n + c * sqrt(ln(this.current.n) / node.n);
-            if (childValue > value) {
-                let best = childe;
-                value = childValue;
-            }
-        });
-        return node;
-    }
-
-    expand(node){
-        let child={};
-        for(let move of node.actions){
-            for(let children of node.children){
-                if (move.x == children.x && move.x == children.x ) {
-                    continue
+        //driverCode
+        let current = _.clone(this.board);
+        this.startTime = new Date().getTime();
+        while (new Data().getTime() < this.startTime + (parseInt(this.moveTime.value, 10))) {
+            current.validate();
+            while (current.winner == null && current.getAvailabeSpots().length > 0) {
+                if (current.getAvailabeSpots().length >= current.children.length) {   
+                    current = expandBoard(current);
                 }
-                child ={
-                    x: move.x,
-                    y: move.y,
-                    parent: node,
-                    children: [],
-                    actions: this.board.getAvailabeSpots(),
-                    v: 0,
-                    n: 0, 
+                else {
+                    current = bestBoard (current);
                 }
             }
+            let reward =  defaultScenario(current);
+            propagation(current, reward);
         }
-        node.children.add(child);
-        return child;
-    }
+        return current.bestMove;
 
-    defaultPolicy(node){
-        while ((this.board.getAvailabeSpots().length > 0)) {
-            let randomAction =node.actions[getRandomInt( node.actions.length)];
-        }
-        console.log(randomAction)
-        return 2;
-    }
+        /*
+            //bestBoard (current)
+            value = -Infinity
+            for (board of current.children) {
+                childValue = board.winrate / board.visits + 2 * sqrt(ln(board.parent != null ? board.parent.visits : 1) / board.visits);
+                if (childValue > value) {
+                    bestBoard = board;
+                    value = childValue;
+                }
+            }
+            return bestBoard;
 
-    backup(node, reward){
-        while (node != null) {
-            node.v+=1;
-            node.c+=reward;
-            node = node.parent;
-        }
+            //.move = object of X and Y coordinates stored in board. X and Y must be of entry point
+            //.v = wins stored in board
+            //.n = number of visits in this board stored in board
+            //.parent = reference to board before
+
+            //expandBoard (current) {
+                board = _.clone(current);
+                let i = 0;
+                while (current.usedMoves.includes(board.getAvailabeSpots()[i])) {
+                    i++;
+                }
+                board.matrix[board.getAvailabeSpots()[i].x][board.getAvailabeSpots()[i].y].setValue(board.side);
+                current.usedMoves.push({x:board.getAvailabeSpots()[i].x, y:board.getAvailabeSpots()[i].y});
+                if (current == this.board) {
+                    board.bestMove = {x:board.getAvailabeSpots()[i].x, y:board.getAvailabeSpots()[i].y};
+                }
+                board.setSide();
+                board.parent = _.clone(current);
+                current.children.push(board);
+                return board;
+            }
+
+            //defaultScenario (board) {
+                board.validate();
+                let moves = board.getAvailabeSpots();
+                while (board.winner == null && moves.length > 0) {
+                    moves = board.getAvailabeSpots();
+                    let move = moves[Math.floor(Math.random() * moves.length)];
+                    board.matrix[move.x][move.y].setValue(board.side);
+                    board.validate();
+                    board.setSide();
+                }
+                board.setSide();
+                return this.maximizingPlayer == board.side && board.winner != null ? 1 : 0;
+            }
+
+            //propagation (boards, reward) {
+                while (board != null) {
+                    board.visits += 1
+                    board.winrate += reward
+                    board = board.parent
+                }
+            }
+
+         */
     }
     
     PNS () {
