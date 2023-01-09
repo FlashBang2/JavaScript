@@ -300,6 +300,7 @@ class AI{
         }
         console.log(this.board);
         current = this.getBestChild(this.board);
+        this.board.drawnNode.text.name = this.board.winrate + "/" + this.board.visits;
         return current.move;
     }
 
@@ -365,7 +366,6 @@ class AI{
                 value = UCT;
                 bestChild = current.children[index];
             }
-            if (current.drawnNode == undefined) continue;
             current.drawnNode.children[index].text.name = current.children[index].winrate + "/" + current.children[index].visits;
         }
         return bestChild;
