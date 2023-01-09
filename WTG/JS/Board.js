@@ -9,7 +9,7 @@ class Board{
         this.value = 0,                             this.move = {},                                     this.zobristKeys = this.initZobristKey(); 
         this.currentPosition = 0,                   this.children  = [],                                this.parent = {};
         this.winrate = null,                        this.visits = 0,                                    this.unUsedMoves = [],
-        this.UCT = null,                            this.currentIndex = 0;
+        this.UCT = null,                            this.currentIndex = 0,                              this.drawnNode = null;
 
         this.tiles.style.maxWidth = `${50*this.boardSize}px`;
         for(let x = 0;x < this.boardSize;x++) {

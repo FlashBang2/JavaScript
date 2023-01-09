@@ -290,11 +290,12 @@ class AI{
         this.startTime = new Date().getTime();
         this.board.unUsedMoves = this.board.getAvailabeSpots();
         let current = null;
+        this.board.drawnNode = parentDrawnNode;
         this.board.children = [];
         while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)){
-            current = this.selection(this.board, parentDrawnNode);
-            current = this.explore(current, parentDrawnNode);
-            let reward = this.accquireReward(current, parentDrawnNode);
+            current = this.selection(this.board);
+            current = this.explore(current);
+            let reward = this.accquireReward(current);
             this.propagate(current, reward);
         }
         console.log(this.board);
@@ -302,7 +303,7 @@ class AI{
         return current.move;
     }
 
-    selection (current, parentDrawnNode) {
+    selection (current) {
         if (current.unUsedMoves.length > 0) {
             return current;
         }
@@ -310,26 +311,27 @@ class AI{
             if (current.children.length == 0) {
                 return current;
             }
-            return this.selection(this.getBestChild(current, parentDrawnNode));
+            return this.selection(this.getBestChild(current));
         }
     }
 
-    explore (current, parentDrawnNode) {
+    explore (current) {
         if (current.unUsedMoves.length == 0) return current;
         let move = current.unUsedMoves[Math.floor(Math.random() * current.unUsedMoves.length)];
         let index = current.unUsedMoves.findIndex((obj) => obj.x == move.x && obj.y == move.y);
         current.unUsedMoves.splice(index, 1);
         let childDrawnNode = {
-            parent: parentDrawnNode,
+            parent: current.drawnNode,
             text: {name: "MCST " + move.x + " " + move.y + " " + current.side},
             children: []
         }
-        parentDrawnNode.children.push(childDrawnNode);
+        current.drawnNode.children.push(childDrawnNode);
         let child = _.cloneDeep(current);
         child.matrix[move.x][move.y].setValue(child.side);
         child.move = {x:move.x, y:move.y};
         child.setSide();
         child.parent = current;
+        child.drawnNode = childDrawnNode;
         child.unUsedMoves = child.getAvailabeSpots();
         current.children.push(child);
         return child;
@@ -354,7 +356,7 @@ class AI{
         }
     }
 
-    getBestChild (current, parentDrawnNode) {
+    getBestChild (current) {
         let value = -Infinity;
         let bestChild = null;
         for (let index in current.children) {
@@ -363,8 +365,8 @@ class AI{
                 value = UCT;
                 bestChild = current.children[index];
             }
-            if (parentDrawnNode == undefined) continue;
-            parentDrawnNode.children[index].text.name = current.children[index].winrate +"/"+ current.children[index].visits;
+            if (current.drawnNode == undefined) continue;
+            current.drawnNode.children[index].text.name = current.children[index].winrate + "/" + current.children[index].visits;
         }
         return bestChild;
     }
