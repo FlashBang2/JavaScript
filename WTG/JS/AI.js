@@ -339,14 +339,13 @@ class AI{
     }
 
     accquireReward (current) {
-        let board = _.cloneDeep(current);
-        for (let move of board.getAvailabeSpots()) {
-            board.matrix[move.x][move.y].setValue(board.side);
-            board.validate();
-            if (board.winner != null || board.getAvailabeSpots().length == 0) break;
-            board.setSide();
+        for (let move of current.getAvailabeSpots()) {
+            current.matrix[move.x][move.y].setValue(current.side);
+            current.validate();
+            if (current.winner != null || current.getAvailabeSpots().length == 0) break;
+            current.setSide();
         }
-        return board.getAvailabeSpots().length == 0 ? 0 : board.winner == this.maximizingPlayer ? 1 : -1;       
+        return current.getAvailabeSpots().length == 0 ? 0 : current.winner == this.maximizingPlayer ? 1 : -1;       
     }
 
     propagate (current, reward) {
