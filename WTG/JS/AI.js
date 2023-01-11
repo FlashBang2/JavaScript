@@ -349,7 +349,7 @@ class AI{
             if (board.winner != null || board.getAvailabeSpots().length == 0) break;
             board.setSide();
         }
-        let reward = board.getAvailabeSpots().length == 0 ? 0 : board.winner == this.maximizingPlayer ? 1 : -1;
+        let reward = board.winner != null ? board.winner == this.maximizingPlayer ? 1 : -1 : 0;
         return reward;      
     }
 
