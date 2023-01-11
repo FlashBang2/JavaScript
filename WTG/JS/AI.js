@@ -296,12 +296,12 @@ class AI{
         this.board.winrate = 0;
         while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)){
             current = this.selection(this.board);
-            console.log(current);
             current = this.explore(current);
             let reward = this.accquireReward(current);
             this.propagate(current, reward);
         }
         current = this.getBestChild(this.board);
+        console.log(current.move, current.winrate + "/" + current.visits);
         return current.move;
     }
 
@@ -357,7 +357,6 @@ class AI{
         while (current != null) {
             current.visits  += 1;
             current.winrate += reward;
-            reward = -reward;
             current.drawnNode.text.name = current.winrate + "/" + current.visits;
             if (current.parent == null) break;
             current = current.parent;
