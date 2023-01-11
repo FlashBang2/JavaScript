@@ -291,14 +291,17 @@ class AI{
         let current = null;
         this.board.drawnNode = parentDrawnNode;
         this.board.children = [];
+        this.board.visits = 0;
+        this.board.parent = null;
+        this.board.winrate = 0;
         while (new Date().getTime() < this.startTime + parseInt(this.moveTime.value, 10)){
             current = this.selection(this.board);
+            console.log(current);
             current = this.explore(current);
             let reward = this.accquireReward(current);
             this.propagate(current, reward);
         }
         current = this.getBestChild(this.board);
-        this.board.drawnNode.text.name = this.board.winrate + "/" + this.board.visits;
         return current.move;
     }
 
@@ -321,7 +324,7 @@ class AI{
         current.unUsedMoves.splice(index, 1);
         let childDrawnNode = {
             parent: current.drawnNode,
-            text: {name: current.winrate  + "/" + current.visits},
+            text: {name: null  + "/" + null},
             children: []
         }
         current.drawnNode.children.push(childDrawnNode);
@@ -331,27 +334,32 @@ class AI{
         child.setSide();
         child.parent = current;
         child.drawnNode = childDrawnNode;
-        child.winrate = null;
-        child.visits = null;
+        child.winrate = 0;
+        child.visits = 0;
         child.unUsedMoves = child.getAvailabeSpots();
         current.children.push(child);
         return child;
     }
 
     accquireReward (current) {
-        for (let move of current.getAvailabeSpots()) {
-            current.matrix[move.x][move.y].setValue(current.side);
-            current.validate();
-            if (current.winner != null || current.getAvailabeSpots().length == 0) break;
-            current.setSide();
+        let board = _.cloneDeep(current);
+        for (let move of board.getAvailabeSpots()) {
+            board.matrix[move.x][move.y].setValue(board.side);
+            board.validate();
+            if (board.winner != null || board.getAvailabeSpots().length == 0) break;
+            board.setSide();
         }
-        return current.getAvailabeSpots().length == 0 ? 0 : current.winner == this.maximizingPlayer ? 1 : -1;       
+        let reward = board.getAvailabeSpots().length == 0 ? 0 : board.winner == this.maximizingPlayer ? 1 : -1;
+        return reward;      
     }
 
     propagate (current, reward) {
         while (current != null) {
             current.visits  += 1;
             current.winrate += reward;
+            reward = -reward;
+            current.drawnNode.text.name = current.winrate + "/" + current.visits;
+            if (current.parent == null) break;
             current = current.parent;
         }
     }
@@ -360,13 +368,11 @@ class AI{
         let value = -Infinity;
         let bestChild = null;
         for (let index in current.children) {
-            let UCT = current.children[index].winrate / current.children[index].visits + 2 * Math.sqrt(Math.log(current.children[index].parent.visits) / current.children[index].visits);
+            let UCT = current.children[index].winrate / current.children[index].visits + 0.5 * Math.sqrt(Math.log(current.children[index].parent.visits) / current.children[index].visits);
             if (UCT > value) {
                 value = UCT;
                 bestChild = current.children[index];
             }
-            if (current.drawnNode.children[index] == null) continue;
-            current.drawnNode.children[index].text.name = current.children[index].winrate + "/" + current.children[index].visits;
         }
         return bestChild;
     }
