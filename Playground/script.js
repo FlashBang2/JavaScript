@@ -10,10 +10,6 @@ function add(x) {
     return (v) => {return x + v}; 
 }
 
-function test(e) {
-    return e ? e("hello") : console.log(e);
-}
-
 function main() {
    console.log(three(add(two())));
 }
